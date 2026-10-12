@@ -6,8 +6,9 @@
 
 - Tkinter 图形界面和命令行下载引擎。
 - 简体、繁体、英文语言优先顺序；中文文件名和双面牌处理。
-- 查询与下载共用线程数：默认 4，支持 1–16。
-- 全局 API 请求间隔 0.6 秒、图片请求启动间隔 0.2 秒；遵守 Retry-After，并在受限时降并发和停止持续失败的请求。
+- GUI 自动使用 4 线程，无需配置并发；命令行保留 `--workers`（1–16）。
+- API 请求间隔仍为 0.6 秒；图片启动间隔默认 0.2 秒，可用 `--image-interval` 调整；遵守 Retry-After，并在受限时降并发和停止持续失败的请求。
+- 自动检查主卡与所选打印的关联 token / 徽记，按身份去重下载，默认每种身份在主卡之后追加一份到 PDF。
 - 所有任务共用 `卡图输出/pics`；已缓存的中英文牌名直接复用图片，跳过查询和下载。
 - 图片缺失或损坏时使用保存的 URL 补下载；PNG 分块 CRC 检查。
 - 自动迁移旧任务的图片，按内容去重，保留同名不同版本。
@@ -41,9 +42,20 @@ python scryfall_cards_gui.pyw
 python scryfall_cards_threaded.py deck.txt --out results --paper A4
 python scryfall_cards_threaded.py deck.txt --out results --no-pdf
 python scryfall_cards_threaded.py deck.txt --out results --pics ./卡图输出/pics --workers 4
+python scryfall_cards_threaded.py deck.txt --image-interval 0.1
 ```
 
 已有图片优先于新的语言偏好；需要换版本时，在 GUI 勾选“重新选图并下载（忽略图片缓存）”，或使用 `--force`。
+
+## 关联 token 与缓存兼容
+
+程序合并解析对象和实际所选打印的 `all_parts`，只收 `component=token`，通过具体卡牌 ID 查询，不按通用名称猜图，也不递归反向关联。可靠 oracle ID 用于寻找同一身份的语言打印，缺失时保持具体打印；实际语种写入清单。同名不同规格保留独立身份与文件。双面 token 下载所有有效面，PDF 按面顺序追加一份，不根据主卡数量推算生成数量。
+
+JSON 保留主卡 `cards` / `summary`，新增 `tokens` / `token_summary`；主卡记录 `token_check` 与 `token_refs`。查询或下载 token 失败时仍输出主卡与已成功的 token，返回码为 1，GUI 显示部分失败。规则可能创建 token 却没有关联对象时明确提示，不生成推测的名称或图片。
+
+旧索引继续复用主图：有保存的打印 ID，或可靠 Scryfall 图片 URL 中的 ID 时首次补查一次；成功的无关联结果也缓存。无可靠 ID 的自制图标记无法自动检查，不猜关系。失败检查下次重试；完整 token 缓存无额外 API/下载，缺失或损坏的图片按已知 URL 补下载。`--force` 同步刷新主卡版本和关系。`--dry-run` 记录选图及关系，不下载也不生成 PDF。
+
+`--image-interval` 接受非负有限秒数，0 表示取消固定图片启动间隔，但线程上限、共享冷却及 Retry-After 仍生效；负数、NaN、无穷大被拒绝。它不改变 API 的独立限速。首次图片请求与普通网络错误重试使用同一个时钟。缩短间隔不代表服务端长期吞吐已验证，GUI 默认不变。
 
 ## 文件与开发
 
@@ -61,7 +73,7 @@ python build_gui.py
 运行离线及本地 HTTP 测试（GUI 测试需要可用的桌面/Tk 环境）：
 
 ```powershell
-python -B -m unittest test_shared_picture_cache test_scryfall_threaded test_scryfall_gui test_parallel_queries test_network_policy -v
+python -B -m unittest test_tokens test_shared_picture_cache test_scryfall_threaded test_scryfall_gui test_parallel_queries test_network_policy -v
 ```
 
 Windows 启动器测试：

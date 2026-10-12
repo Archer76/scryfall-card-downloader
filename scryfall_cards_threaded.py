@@ -77,6 +77,7 @@ MAX_WORKERS = 16
 MIN_API_INTERVAL = 0.6
 # *.scryfall.io 无官方速率上限；这是本程序的保守启动间隔。
 MIN_IMAGE_INTERVAL = 0.2
+_image_interval = None  # None 使用默认值；命令行每次任务单独设置。
 API_CACHE_TTL = 24 * 60 * 60
 LANG_LABEL = {"zhs": "简体中文", "zht": "繁体中文", "en": "英文"}
 LANG_RANK = {"zhs": 0, "zht": 1, "en": 2}
@@ -126,6 +127,8 @@ def opener():
 
 
 def _reset_network_state():
+    global _image_interval
+    _image_interval = None
     with _api_lock:
         _last_call[0] = _api_cooldown_until[0] = _api_backoff_interval[0] = 0.0
         _api_abort_reason[0] = None
@@ -170,7 +173,7 @@ def _throttle_images():
             if _image_abort_reason[0]:
                 raise RuntimeError(_image_abort_reason[0])
             now = time.monotonic()
-            interval = max(MIN_IMAGE_INTERVAL, _image_backoff_interval[0])
+            interval = max(MIN_IMAGE_INTERVAL if _image_interval is None else _image_interval, _image_backoff_interval[0])
             delay = max(_last_image_call[0] + interval - now, _image_cooldown_until[0] - now, 0.0)
             if delay <= 0:
                 _last_image_call[0] = now
@@ -261,13 +264,16 @@ def _write_api_cache(url, data):
                 pass
 
 
-def api_get(path, params=None, retries=4):
-    """API 请求缓存 24h；限流全局退避，持续受限时停止排队网络请求。"""
+def api_get(path, params=None, retries=4, cache_missing=True):
+    """API 请求缓存 24h；限流全局退避，持续受限时停止排队网络请求。
+
+    cache_missing=False 用于关联 token 的按 ID 查询：404 不写负缓存，已有负缓存也不采信，
+    使失败的关联检查下次真正重试。"""
     url = API_BASE + path
     if params:
         url += "?" + urllib.parse.urlencode(params)
     hit, data = _read_api_cache(url)
-    if hit:
+    if hit and (data is not None or cache_missing):
         _query_log("  API 缓存命中: %s" % url)
         return data
     last_err = None
@@ -288,7 +294,8 @@ def api_get(path, params=None, retries=4):
             code = exc.code
             if code == 404:
                 exc.close()
-                _write_api_cache(url, None)
+                if cache_missing:
+                    _write_api_cache(url, None)
                 return None
             if code == 403:
                 retry_after = retry_after_seconds(exc.headers)
@@ -475,7 +482,7 @@ def search_prints(query, max_pages=3):
     while page <= max_pages:
         data = api_get("/cards/search", {
             "q": query, "unique": "prints", "order": "released",
-            "dir": "desc", "page": page,
+            "dir": "desc", "page": page, "include_extras": "true",
         })
         if data is None:
             break
@@ -518,6 +525,7 @@ def query_card(name, langs):
     oracle = resolved["oracle_id"]
     selected, used_lang = select_print(oracle, langs, is_basic_land(resolved))
     result.update(selected=selected, used_lang=used_lang)
+    result["token_check"] = inspect_token_parts(resolved, selected)
     if not selected:
         return result
     jobs = image_jobs(selected)
@@ -825,6 +833,8 @@ class PictureCache:
             pass
         except (OSError, ValueError, AttributeError):
             _query_log("图片索引无法读取，将从历史清单重建。")
+        self.data.setdefault("tokens", {})
+        self.data.setdefault("token_ids", {})
         self.preexisting_keys = set(self.data["cards"])
         self.pending_removals = {}
 
@@ -879,6 +889,12 @@ class PictureCache:
             filename = os.path.basename(record["file"])
             record["file"] = filename
             self.remember_image(filename, record.get("url"), record.get("bytes"))
+        if entry.get("kind") == "token":
+            key = entry["cache_identity"]
+            self.data["tokens"][key] = stored
+            for card_id in entry.get("related_ids", []):
+                self.data["token_ids"][card_id] = key
+            return
         key = self.key(stored)
         self.data["cards"][key] = stored
         names = [stored.get("input"), stored.get("english_name"), stored.get("display_name")]
@@ -907,9 +923,11 @@ class PictureCache:
         entry = self.data["cards"].get(key)
         if entry is None:
             # 用户直接放入 pics 的完整图片，也可按文件名使用。
+            token_files = {record["file"] for token in self.data["tokens"].values()
+                           for record in token.get("files", [])}
             names = {cache_name(os.path.splitext(filename)[0]): filename
                      for filename in os.listdir(self.directory)
-                     if filename.lower().endswith((".png", ".jpg", ".jpeg"))}
+                     if filename not in token_files and filename.lower().endswith((".png", ".jpg", ".jpeg"))}
             filename = names.get(cache_name(safe_name(name)))
             if not filename or not complete_image(self.image_path(filename)):
                 return None
@@ -920,6 +938,14 @@ class PictureCache:
             self.store(entry)
             key = self.key(entry)
             entry = self.data["cards"][key]
+        return self.restore(entry)
+
+    def lookup_token(self, card_id):
+        key = self.data["token_ids"].get(card_id)
+        entry = self.data["tokens"].get(key)
+        return self.restore(entry) if entry else None
+
+    def restore(self, entry):
         entry = copy.deepcopy(entry)
         if not entry.get("files"):
             return None
@@ -1098,6 +1124,188 @@ class PictureCache:
         return {"moved": moved, "imported": imported, "images": len(self.data["images"]), "cards": len(self.data["cards"])}
 
 
+# =========================================================================== 关联 token
+
+
+def inspect_token_parts(*cards):
+    """只检查主卡及选中打印，不沿 token 的反向关系递归。"""
+    ids, sources, texts = [], [], []
+    for card in cards:
+        if not card:
+            continue
+        if card.get("id") and card["id"] not in sources:
+            sources.append(card["id"])
+        texts.append(card.get("oracle_text") or "")
+        texts.extend(face.get("oracle_text") or "" for face in card.get("card_faces") or [])
+        for part in card.get("all_parts") or []:
+            if part.get("component") == "token" and part.get("id"):
+                if part["id"] not in ids:
+                    ids.append(part["id"])
+    possible = any(re.search(r"\b(?:create|creates|put)\b[^.]*\btokens?\b", text, re.I)
+                   for text in texts)
+    status = "related" if ids else ("rules_only" if possible else "none")
+    return {"checked": True, "status": status, "source_ids": sources,
+            "related_ids": ids, "possible_creation": possible}
+
+
+def cached_print_id(entry):
+    if entry.get("selected_id"):
+        return entry["selected_id"]
+    # 只信任 Scryfall 图片域名和 UUID 路径，不猜测自制图的关系。
+    for record in entry.get("files", []):
+        url = urllib.parse.urlparse(record.get("url") or "")
+        if url.hostname not in ("cards.scryfall.io", "c1.scryfall.com", "c2.scryfall.com"):
+            continue
+        match = re.search(r"/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\.(?:png|jpg)$", url.path, re.I)
+        if match:
+            return match.group(1)
+    return None
+
+
+def ensure_token_check(entry):
+    check = entry.get("token_check") or {}
+    if check.get("checked") or check.get("status") == "unavailable":
+        return
+    card_id = cached_print_id(entry)
+    if not card_id:
+        entry["token_check"] = {"checked": False, "status": "unavailable", "related_ids": [],
+                                "error": "无可靠打印 ID，无法自动检查关联 token"}
+        return
+    try:
+        card = api_get("/cards/" + urllib.parse.quote(card_id, safe=""), cache_missing=False)
+        if not card or card.get("id") != card_id:
+            raise RuntimeError("关联检查未取得指定打印对象")
+        entry["token_check"] = inspect_token_parts(card)
+    except Exception as exc:
+        entry["token_check"] = {"checked": False, "status": "error", "related_ids": [],
+                                "source_ids": [card_id], "error": str(exc)}
+
+
+def token_identity(card):
+    oracle = card.get("oracle_id")
+    return "token:oracle:" + oracle if oracle else "token:card:" + card["id"]
+
+
+def query_token(card_id, langs):
+    card = api_get("/cards/" + urllib.parse.quote(card_id, safe=""), cache_missing=False)
+    if not card or card.get("id") != card_id:
+        raise RuntimeError("未取得指定关联 token 对象：" + card_id)
+    identity = token_identity(card)
+    oracle = card.get("oracle_id")
+    selected = None
+    if oracle:
+        # 不使用名称搜索；所有候选再次核对 oracle 身份与实际图片。
+        for lang in langs:
+            candidates = [c for c in prints_for(oracle, "lang:%s" % lang)
+                          if c.get("oracle_id") == oracle and c.get("lang") == lang
+                          and is_usable_image(c) and image_jobs(c)]
+            if card.get("lang") == lang and is_usable_image(card) and image_jobs(card):
+                candidates.append(card)
+            if candidates:
+                selected = pick_print_in_normal_set(candidates, newest=(lang != "en"))
+                break
+    if selected is None and is_usable_image(card) and image_jobs(card):
+        selected = card
+    if selected is None:
+        raise RuntimeError("关联 token 没有可用图片：" + card_id)
+    return card, selected, identity
+
+
+def token_entry(card, selected, identity, cache, dry_run=False, force=False):
+    names = face_names(selected)
+    full_name = safe_name(full_display_name(names) or card.get("name"))
+    entry = {"kind": "token", "cache_identity": identity, "related_ids": [card["id"]],
+             "input": card.get("name") or card["id"], "qty": 1,
+             "english_name": card.get("name"), "display_name": full_name,
+             "oracle_id": card.get("oracle_id"), "selected_id": selected.get("id"),
+             "lang": LANG_LABEL.get(selected.get("lang"), selected.get("lang")),
+             "lang_code": selected.get("lang"), "set_code": selected.get("set"),
+             "set_name": selected.get("set_name"), "collector_number": selected.get("collector_number"),
+             "layout": selected.get("layout"), "chinese_name": all(has_cjk(n) for n in names if n),
+             "token_type": "emblem" if "emblem" in (card.get("type_line") or "").lower() else "token",
+             "status": "dry-run" if dry_run else "exists", "files": []}
+    for label, uris in image_jobs(selected):
+        url = uris.get("png") or uris.get("large") or uris.get("normal")
+        if not url:
+            raise RuntimeError("关联 token 牌面没有可用图片 URL")
+        fmt = "png" if uris.get("png") else "jpg"
+        base = full_name if not label else full_name + "_" + label
+        path = cache.image_path(cache.allocate(base, fmt, url))
+        record = {"label": label, "url": url, "format": fmt, "file": path}
+        if dry_run:
+            record["status"] = "dry-run"
+        elif not force and complete_image(path):
+            record.update(status="exists", bytes=os.path.getsize(path))
+        else:
+            record["status"] = "pending"
+        entry["files"].append(record)
+    return entry
+
+
+def collect_tokens(results, queried, cache, langs, dry_run=False, force=False):
+    tokens, by_id, by_identity, checks = [], {}, {}, {}
+    for entry in results:
+        query = queried.get(entry["input"], {})
+        if not entry.get("files") and "token_check" not in query:
+            continue
+        if "token_check" in query:
+            entry["token_check"] = copy.deepcopy(query["token_check"])
+        else:
+            key = cached_print_id(entry) or cache.key(entry)
+            if key in checks:
+                entry["token_check"] = copy.deepcopy(checks[key])
+            else:
+                ensure_token_check(entry)
+                checks[key] = copy.deepcopy(entry.get("token_check"))
+        check = entry.get("token_check") or {}
+        entry["token_refs"] = []
+        for card_id in check.get("related_ids", []):
+            if card_id not in by_id:
+                try:
+                    token = None if force else cache.lookup_token(card_id)
+                    if token is None:
+                        card, selected, identity = query_token(card_id, langs)
+                        token = by_identity.get(identity)
+                        if token is None:
+                            stored = cache.data["tokens"].get(identity)
+                            token = cache.restore(stored) if stored and not force else None
+                            if token is None:
+                                token = token_entry(card, selected, identity, cache, dry_run, force)
+                        if card_id not in token["related_ids"]:
+                            token["related_ids"].append(card_id)
+                    token["qty"] = 1
+                    identity = token["cache_identity"]
+                    if identity in by_identity:
+                        existing = by_identity[identity]
+                        existing["related_ids"] = list(dict.fromkeys(existing["related_ids"] + token["related_ids"]))
+                        token = existing
+                    else:
+                        if dry_run:
+                            token["status"] = "dry-run"
+                            for record in token["files"]:
+                                record["status"] = "dry-run"
+                        by_identity[identity] = token
+                        tokens.append(token)
+                    by_id[card_id] = token
+                except Exception as exc:
+                    token = {"kind": "token", "cache_identity": "token:card:" + card_id,
+                             "related_ids": [card_id], "input": card_id, "qty": 1,
+                             "status": "error", "error": str(exc), "files": []}
+                    by_id[card_id] = token
+                    tokens.append(token)
+            entry["token_refs"].append(by_id[card_id]["cache_identity"])
+        entry["token_refs"] = list(dict.fromkeys(entry["token_refs"]))
+        message = {"none": "已检查，无关联 token 或创建迹象", "rules_only": "规则可能创建 token，但没有可下载关联对象",
+                   "unavailable": "无可靠打印 ID，无法自动检查", "error": "关联查询失败"}.get(check.get("status"))
+        print("  [Token] %s：%s" % (entry["input"], message or ", ".join(entry["token_refs"])), flush=True)
+        if check.get("error"):
+            print("    " + check["error"], flush=True)
+    for token in tokens:
+        print("  [Token] %s | %s%s" % (token.get("display_name", token["input"]), token["status"],
+              " | 命中缓存" if token.get("cache_hit") else ""), flush=True)
+    return tokens
+
+
 # =========================================================================== PDF
 
 def decode_png_rgb(path):
@@ -1182,6 +1390,33 @@ def decode_png_rgb(path):
     return width, height, bytes(rgb)
 
 
+def jpeg_info(path):
+    """读取 JPEG 的 SOF 段，返回 (宽, 高, 原始字节, 颜色分量数)；不解码像素。"""
+    with open(path, "rb") as fh:
+        blob = fh.read()
+    if not blob.startswith(b"\xff\xd8"):
+        raise ValueError("不是 JPEG 文件")
+    pos = 2
+    while pos + 4 <= len(blob):
+        if blob[pos] != 0xFF:
+            raise ValueError("JPEG 标记损坏")
+        marker = blob[pos + 1]
+        if marker == 0xFF:
+            pos += 1
+            continue
+        if marker in (0xD8, 0x01) or 0xD0 <= marker <= 0xD7:
+            pos += 2
+            continue
+        length = struct.unpack(">H", blob[pos + 2:pos + 4])[0]
+        if 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
+            precision, height, width, components = struct.unpack(">BHHB", blob[pos + 4:pos + 10])
+            if precision != 8 or components not in (1, 3, 4) or not width or not height:
+                raise ValueError("暂只支持 8 位灰度/RGB/CMYK JPEG")
+            return width, height, blob, components
+        pos += 2 + length
+    raise ValueError("JPEG 缺少尺寸信息")
+
+
 def pack_rgb(width, height, rgb):
     """按 Up 差分重新打包并压缩，配合 PDF 的 Predictor 15。"""
     packed = bytearray()
@@ -1211,13 +1446,22 @@ def build_pdf(images, paper, out_path, cut_marks=True):
 
     for page_cards in pages:
         img_ids = []
-        for (w, h, flate) in page_cards:
-            objects.append(
-                ("<< /Type /XObject /Subtype /Image /Width %d /Height %d "
-                 "/ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode "
-                 "/DecodeParms << /Predictor 15 /Colors 3 /BitsPerComponent 8 /Columns %d >> "
-                 "/Length %d >>\nstream\n" % (w, h, w, len(flate))).encode("ascii")
-                + flate + b"\nendstream")
+        for image in page_cards:
+            w, h, data = image[:3]
+            components = image[3] if len(image) > 3 else None
+            if components:
+                # JPEG 原样嵌入，由 PDF 阅读器按 DCTDecode 解码。
+                space = {1: "/DeviceGray", 3: "/DeviceRGB", 4: "/DeviceCMYK"}[components]
+                decode = " /Decode [1 0 1 0 1 0 1 0]" if components == 4 else ""
+                header = ("<< /Type /XObject /Subtype /Image /Width %d /Height %d "
+                          "/ColorSpace %s /BitsPerComponent 8 /Filter /DCTDecode%s "
+                          "/Length %d >>\nstream\n" % (w, h, space, decode, len(data)))
+            else:
+                header = ("<< /Type /XObject /Subtype /Image /Width %d /Height %d "
+                          "/ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode "
+                          "/DecodeParms << /Predictor 15 /Colors 3 /BitsPerComponent 8 /Columns %d >> "
+                          "/Length %d >>\nstream\n" % (w, h, w, len(data)))
+            objects.append(header.encode("ascii") + data + b"\nendstream")
             img_ids.append(len(objects))
 
         ops = []
@@ -1277,8 +1521,11 @@ def make_pdf(paths, paper, out_path, cut_marks=True):
         sys.stdout.write("\r  排版卡册: %d/%d 已处理" % (index - 1, total))
         sys.stdout.flush()
         try:
-            w, h, rgb = decode_png_rgb(path)
-            entries.append((w, h, pack_rgb(w, h, rgb)))
+            if path.lower().endswith((".jpg", ".jpeg")):
+                entries.append(jpeg_info(path))
+            else:
+                w, h, rgb = decode_png_rgb(path)
+                entries.append((w, h, pack_rgb(w, h, rgb)))
         except Exception as exc:
             print("\n  跳过 %s：%s" % (os.path.basename(path), exc))
     sys.stdout.write("\r  排版卡册: %d/%d 完成\n" % (len(entries), total))
@@ -1367,15 +1614,22 @@ def _main(argv=None):
     parser.add_argument("--force", action="store_true", help="已存在的图片也重新下载")
     parser.add_argument("--workers", type=int, default=DEFAULT_WORKERS,
                         help="查询和下载共用的线程数（默认 4；API 间隔 0.6 秒，图片启动间隔 0.2 秒）")
+    parser.add_argument("--image-interval", type=float, default=MIN_IMAGE_INTERVAL,
+                        help="图片请求启动间隔秒数（默认 0.2；0 取消固定间隔，不取消服务端冷却）")
     args = parser.parse_args(argv)
+    if not math.isfinite(args.image_interval) or args.image_interval < 0:
+        parser.error("--image-interval 必须是非负有限数")
     if not 1 <= args.workers <= MAX_WORKERS:
         parser.error("--workers 必须在 1 到 %d 之间" % MAX_WORKERS)
     for stream in (sys.stdout, sys.stderr):
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(line_buffering=True, errors="replace")
 
-    global _api_disk_cache_dir
+    global _api_disk_cache_dir, _image_interval
     _reset_network_state()
+    _image_interval = args.image_interval
+    with _print_cache_lock:
+        _print_cache.clear()
     _api_disk_cache_dir = program_cache_directory()
     langs = [item.strip() for item in args.langs.split(",") if item.strip()]
     if args.decklist == "-":
@@ -1398,7 +1652,7 @@ def _main(argv=None):
 
     print("牌表 %d 行 | 语言链 %s | 输出 %s" % (len(rows), " > ".join(langs), os.path.abspath(args.out)))
     print("网络策略：共用 %d 线程 | API 请求间隔 %.2f 秒 | 图片启动间隔 %.2f 秒 | 查询缓存 24 小时" %
-          (args.workers, MIN_API_INTERVAL, MIN_IMAGE_INTERVAL), flush=True)
+          (args.workers, MIN_API_INTERVAL, args.image_interval), flush=True)
     cached = {}
     for name in dict.fromkeys(name for qty, name in rows):
         hit = None if args.force else picture_cache.lookup(name)
@@ -1522,12 +1776,14 @@ def _main(argv=None):
             print("[%d/%d] 出错：%s | %s" % (index, len(rows), name, exc))
         results.append(entry)
 
-    for entry in results:
+    tokens = collect_tokens(results, queried, picture_cache, langs, args.dry_run, args.force)
+    all_results = results + tokens
+    for entry in all_results:
         picture_cache.store(entry)
     picture_cache.save()
     if not args.dry_run:
-        download_all(results, args.workers)
-        for entry in results:
+        download_all(all_results, args.workers)
+        for entry in all_results:
             for record in entry.get("files", []):
                 if record["status"] in ("ok", "exists") and not complete_image(record["file"], record.get("bytes")):
                     record.update(status="error", error="图片不完整，保留选图记录以便下次补下载")
@@ -1535,7 +1791,7 @@ def _main(argv=None):
         picture_cache.save()
     # 按牌表顺序排版，不受线程完成顺序影响。
     pdf_paths = []
-    for entry in results:
+    for entry in all_results:
         files = entry.get("files", [])
         if entry.get("status") != "error" and files:
             errors = [f.get("error", "下载失败") for f in files if f["status"] == "error"]
@@ -1548,6 +1804,9 @@ def _main(argv=None):
                 pdf_paths.extend([record["file"]] * entry["qty"])
     ok = sum(entry.get("status") in ("ok", "exists", "dry-run") for entry in results)
     failed = len(results) - ok
+    token_ok = sum(entry.get("status") in ("ok", "exists", "dry-run") for entry in tokens)
+    token_failed = len(tokens) - token_ok
+    check_failed = sum(entry.get("token_check", {}).get("status") == "error" for entry in results)
 
     manifest = {
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -1557,6 +1816,9 @@ def _main(argv=None):
         "out_dir": os.path.abspath(cards_dir),
         "summary": {"processed": len(results), "ok": ok, "failed": failed},
         "cards": results,
+        "tokens": tokens,
+        "token_summary": {"processed": len(tokens), "ok": token_ok, "failed": token_failed,
+                          "check_failed": check_failed},
     }
     with open(os.path.join(args.out, "manifest.json"), "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, ensure_ascii=False, indent=2)
@@ -1574,6 +1836,18 @@ def _main(argv=None):
                 lines.append("    %s" % os.path.basename(record["file"]))
         else:
             lines.append("- %s | !! %s | %s" % (entry["input"], entry.get("status"), entry.get("error", "")))
+    lines.extend(["", "# 关联 token / 徽记", "成功: %d  失败: %d  关联检查失败: %d" % (token_ok, token_failed, check_failed)])
+    for entry in results:
+        check = entry.get("token_check") or {}
+        lines.append("- %s -> %s | %s%s" % (entry["input"], ", ".join(entry.get("token_refs", [])) or "无可下载关联对象",
+                     check.get("status", "未检查"), " | " + check["error"] if check.get("error") else ""))
+        if check.get("status") == "rules_only":
+            lines.append("    规则可能创建 token，但没有可下载关联对象；不推测名称或数量。")
+    for token in tokens:
+        lines.append("- %s | %s | %s | %s%s" % (token.get("display_name", token["input"]),
+                     token.get("token_type", "token"), token.get("lang", "未知语种"), token["status"],
+                     " | " + token["error"] if token.get("error") else ""))
+        lines.extend("    %s [%s]" % (os.path.basename(record["file"]), record["status"]) for record in token.get("files", []))
     with open(os.path.join(args.out, "manifest.txt"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(lines) + "\n")
 
@@ -1591,7 +1865,8 @@ def _main(argv=None):
             print("          %s 纸，每页 %d 张（%d 列 x %d 行），共 %d 页，%.1f MB，用时 %.0f 秒" % (
                 info["paper"], info["per_page"], info["cols"], info["rows"],
                 info["pages"], info["size_mb"], info["seconds"]))
-    return 0 if failed == 0 else 1
+    print("Token 完成：成功 %d / 失败 %d / 关联检查失败 %d" % (token_ok, token_failed, check_failed))
+    return 0 if failed + token_failed + check_failed == 0 else 1
 
 
 if __name__ == "__main__":
