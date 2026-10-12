@@ -1,0 +1,574 @@
+# GUI layer appended to the existing standalone download engine.
+import queue
+import subprocess
+from pathlib import Path
+import tkinter as tk
+from tkinter import ttk, filedialog, messagebox
+
+LANG_PRESETS = {
+    "简体 → 繁体 → 英文（默认）": "zhs,zht,en",
+    "繁体 → 简体 → 英文": "zht,zhs,en",
+    "英文 → 简体 → 繁体": "en,zhs,zht",
+    "简体 → 英文": "zhs,en",
+    "繁体 → 英文": "zht,en",
+}
+
+
+def program_directory():
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    return Path(__file__).resolve().parent
+
+
+def create_task_directory(output_root):
+    """按任务启动的本地时间创建目录，原子创建防止多窗口同秒冲突。"""
+    output_root = Path(output_root)
+    output_root.mkdir(parents=True, exist_ok=True)
+    stamp = time.strftime("%y%m%d-%H%M%S")
+    sequence = 0
+    while True:
+        name = stamp if sequence == 0 else "%s_%02d" % (stamp, sequence)
+        candidate = output_root / name
+        try:
+            candidate.mkdir()
+            return candidate
+        except FileExistsError:
+            sequence += 1
+
+
+def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, force):
+    if getattr(sys, "frozen", False):
+        command = [sys.executable, "--engine"]
+    else:
+        executable = Path(sys.executable)
+        if executable.name.lower() == "pythonw.exe" and executable.with_name("python.exe").exists():
+            executable = executable.with_name("python.exe")
+        command = [str(executable), "-u", str(Path(__file__).resolve()), "--engine"]
+    command += [str(deck), "--out", str(output), "--pics", str(Path(output).parent / "pics"),
+                "--workers", str(workers), "--paper", paper, "--langs", langs]
+    if not pdf:
+        command.append("--no-pdf")
+    if not marks:
+        command.append("--no-cut-marks")
+    if dry_run:
+        command.append("--dry-run")
+    if force:
+        command.append("--force")
+    return command
+
+
+class CardDownloaderGUI:
+    def __init__(self, root, base_dir=None):
+        self.root = root
+        self.base_dir = Path(base_dir) if base_dir else program_directory()
+        self.output_root = self.base_dir / "卡图输出"
+        self.output_dir = self.output_root
+        self.events = queue.Queue()
+        self.process = None
+        self.process_lock = threading.Lock()
+        self.running = False
+        self.closing = False
+        self.cancel_requested = threading.Event()
+        self.summary = None
+        self.download_total = 0
+        self.download_finished = 0
+        self.last_pdf_allowed = False
+        self.previous_pdf_stamp = None
+        self.poll_id = None
+        self.edit_controls = []
+
+        root.title("Scryfall 卡图下载器")
+        root.geometry("1080x820")
+        root.minsize(920, 740)
+        root.configure(bg="#f3f5f8")
+        root.protocol("WM_DELETE_WINDOW", self.close)
+        self._style()
+        self.paper = tk.StringVar(value="A4 · 竖向 · 每页 9 张")
+        self.workers = tk.StringVar(value=str(DEFAULT_WORKERS))
+        self.language = tk.StringVar(value=next(iter(LANG_PRESETS)))
+        self.pdf = tk.BooleanVar(value=True)
+        self.cut_marks = tk.BooleanVar(value=True)
+        self.dry_run = tk.BooleanVar(value=False)
+        self.force = tk.BooleanVar(value=False)
+        self.status = tk.StringVar(value="就绪：粘贴牌表，或导入 TXT 文件。")
+        self.count = tk.StringVar(value="0 种牌 · 0 张")
+        self.detail = tk.StringVar(value="默认 4 线程；API 间隔 0.6 秒，图片启动间隔 0.2 秒。")
+        self.output_label = tk.StringVar(value=str(self.output_root / "yymmdd-hhmmss"))
+        self.pics_label = tk.StringVar(value=str(self.output_root / "pics"))
+        self._build()
+        self.poll_id = root.after(80, self.poll_events)
+
+    def _style(self):
+        style = ttk.Style(self.root)
+        style.theme_use("clam")
+        style.configure("TFrame", background="#f3f5f8")
+        style.configure("Card.TFrame", background="white")
+        style.configure("TLabel", font=("Microsoft YaHei UI", 10), background="#f3f5f8", foreground="#243248")
+        style.configure("Title.TLabel", font=("Microsoft YaHei UI", 20, "bold"))
+        style.configure("Subtitle.TLabel", font=("Microsoft YaHei UI", 9), foreground="#65748a")
+        style.configure("Card.TLabel", background="white")
+        style.configure("Section.TLabel", font=("Microsoft YaHei UI", 11, "bold"), background="white")
+        style.configure("TButton", font=("Microsoft YaHei UI", 10), padding=(12, 7))
+        style.configure("Primary.TButton", background="#2563eb", foreground="white", font=("Microsoft YaHei UI", 11, "bold"))
+        style.map("Primary.TButton", background=[("active", "#1d4ed8"), ("disabled", "#b9c7df")], foreground=[("disabled", "#f3f5f8")])
+        style.configure("TCheckbutton", font=("Microsoft YaHei UI", 10), background="white")
+        style.configure("TCombobox", padding=5, font=("Microsoft YaHei UI", 10))
+        style.configure("TSpinbox", padding=5, font=("Microsoft YaHei UI", 10))
+        style.configure("Horizontal.TProgressbar", background="#2563eb", troughcolor="#e3e9f2", borderwidth=0)
+
+    def _editable(self, widget, normal="normal"):
+        self.edit_controls.append((widget, normal))
+        return widget
+
+    def _build(self):
+        outer = ttk.Frame(self.root, padding=20)
+        outer.pack(fill="both", expand=True)
+        ttk.Label(outer, text="Scryfall 卡图下载器", style="Title.TLabel").pack(anchor="w")
+        ttk.Label(outer, text="粘贴中英文牌表，下载高清卡图，生成可打印卡册。", style="Subtitle.TLabel").pack(anchor="w", pady=(3, 14))
+        content = ttk.Frame(outer)
+        content.pack(fill="both", expand=True)
+        content.columnconfigure(0, weight=3)
+        content.columnconfigure(1, weight=2, minsize=340)
+        content.rowconfigure(0, weight=1)
+        left = ttk.Frame(content, style="Card.TFrame", padding=16)
+        left.grid(row=0, column=0, sticky="nsew", padx=(0, 14))
+        right_shell = ttk.Frame(content, style="Card.TFrame")
+        right_shell.grid(row=0, column=1, sticky="nsew")
+        actions = ttk.Frame(right_shell, style="Card.TFrame", padding=(16, 8))
+        actions.pack(side="bottom", fill="x")
+        self.options_canvas = tk.Canvas(right_shell, bg="white", highlightthickness=0, width=340)
+        options_scroll = ttk.Scrollbar(right_shell, command=self.options_canvas.yview)
+        self.options_canvas.configure(yscrollcommand=options_scroll.set)
+        options_scroll.pack(side="right", fill="y")
+        self.options_canvas.pack(side="left", fill="both", expand=True)
+        right = ttk.Frame(self.options_canvas, style="Card.TFrame", padding=16)
+        options_window = self.options_canvas.create_window((0, 0), window=right, anchor="nw")
+        right.bind("<Configure>", lambda event: self.options_canvas.configure(scrollregion=self.options_canvas.bbox("all")))
+        self.options_canvas.bind("<Configure>", lambda event: self.options_canvas.itemconfigure(options_window, width=event.width))
+        def scroll_options(event):
+            widget = event.widget
+            if isinstance(widget, (ttk.Combobox, ttk.Spinbox)):
+                return
+            while widget is not None:
+                if widget is right or widget is self.options_canvas:
+                    self.options_canvas.yview_scroll(-int(event.delta / 120), "units")
+                    return "break"
+                widget = getattr(widget, "master", None)
+        self.root.bind_all("<MouseWheel>", scroll_options, add="+")
+        ttk.Label(left, text="牌表粘贴框", style="Section.TLabel").pack(anchor="w")
+        tools = ttk.Frame(left, style="Card.TFrame")
+        tools.pack(fill="x", pady=(10, 10))
+        for label, action in [("导入 TXT", self.import_deck), ("粘贴", self.paste_deck), ("示例", self.example), ("清空", self.clear_deck)]:
+            self._editable(ttk.Button(tools, text=label, command=action)).pack(side="left", padx=(0, 5))
+        text_frame = ttk.Frame(left, style="Card.TFrame")
+        text_frame.pack(fill="both", expand=True)
+        self.deck_text = tk.Text(text_frame, wrap="word", undo=True, font=("Microsoft YaHei UI", 11),
+                                 bg="#f7f9fc", fg="#243248", insertbackground="#2563eb", relief="flat", padx=12, pady=10, width=45, height=13)
+        self._editable(self.deck_text)
+        scrollbar = ttk.Scrollbar(text_frame, command=self.deck_text.yview)
+        self.deck_text.configure(yscrollcommand=scrollbar.set)
+        scrollbar.pack(side="right", fill="y")
+        self.deck_text.pack(side="left", fill="both", expand=True)
+        self.deck_text.bind("<<Modified>>", self._on_modified)
+        ttk.Label(left, textvariable=self.count, style="Card.TLabel").pack(anchor="w", pady=(8, 3))
+        ttk.Label(left, text="每行一种牌，例如 4 Lightning Bolt 或 4 闪电击。\n数量用于 PDF 排版，重复图片只下载一次。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
+
+        ttk.Label(right, text="下载与排版", style="Section.TLabel").pack(anchor="w", pady=(0, 10))
+        ttk.Label(right, text="PDF 纸张", style="Card.TLabel").pack(anchor="w")
+        self.paper_box = self._editable(ttk.Combobox(right, textvariable=self.paper, state="readonly",
+                              values=("A4 · 竖向 · 每页 9 张", "A3 · 横向 · 每页 18 张")), "readonly")
+        self.paper_box.pack(fill="x", pady=(4, 10))
+        ttk.Label(right, text="语言优先顺序", style="Card.TLabel").pack(anchor="w")
+        self.language_box = self._editable(ttk.Combobox(right, textvariable=self.language, values=tuple(LANG_PRESETS)))
+        self.language_box.pack(fill="x", pady=(4, 3))
+        ttk.Label(right, text="语言用于新牌名；已有缓存直接复用。\n要换版本时勾选“重新选图”。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
+        workers_row = ttk.Frame(right, style="Card.TFrame")
+        workers_row.pack(fill="x")
+        ttk.Label(workers_row, text="线程数（查询 / 下载共用）", style="Card.TLabel").pack(side="left")
+        self.worker_box = self._editable(ttk.Spinbox(workers_row, textvariable=self.workers, from_=1, to=MAX_WORKERS, width=7))
+        self.worker_box.pack(side="right")
+        ttk.Label(right, text="查询统一限速，下载受限自动降线程。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(5, 10))
+        self.pdf_check = self._editable(ttk.Checkbutton(right, text="生成可打印 PDF 卡册", variable=self.pdf, command=self.sync_options))
+        self.pdf_check.pack(anchor="w", pady=2)
+        self.mark_check = self._editable(ttk.Checkbutton(right, text="显示裁切框", variable=self.cut_marks))
+        self.mark_check.pack(anchor="w", pady=2)
+        self.dry_check = self._editable(ttk.Checkbutton(right, text="仅查询选图（不下载、不生成 PDF）", variable=self.dry_run, command=self.sync_options))
+        self.dry_check.pack(anchor="w", pady=2)
+        self.force_check = self._editable(ttk.Checkbutton(right, text="重新选图并下载（忽略图片缓存）", variable=self.force))
+        self.force_check.pack(anchor="w", pady=2)
+        ttk.Separator(right).pack(fill="x", pady=10)
+        ttk.Label(right, text="输出位置 · 按任务时间戳隔离", style="Card.TLabel", font=("Microsoft YaHei UI", 9, "bold")).pack(anchor="w")
+        self.path_display = ttk.Label(right, textvariable=self.output_label, style="Card.TLabel", wraplength=320, font=("Microsoft YaHei UI", 9), foreground="#65748a")
+        self.path_display.pack(fill="x", pady=(4, 8))
+        ttk.Label(right, text="图片缓存 · 重复牌名跳过查询和下载", style="Card.TLabel", font=("Microsoft YaHei UI", 9, "bold")).pack(anchor="w")
+        ttk.Label(right, textvariable=self.pics_label, style="Card.TLabel", wraplength=320, font=("Microsoft YaHei UI", 9), foreground="#65748a").pack(fill="x", pady=(4, 8))
+        self.start_button = ttk.Button(actions, text="开始下载", style="Primary.TButton", command=self.start)
+        self.start_button.pack(fill="x", pady=(0, 5))
+        action_row = ttk.Frame(actions, style="Card.TFrame")
+        action_row.pack(fill="x")
+        self.cancel_button = ttk.Button(action_row, text="停止任务", command=self.cancel, state="disabled")
+        self.cancel_button.pack(side="left", fill="x", expand=True, padx=(0, 5))
+        ttk.Button(action_row, text="打开输出文件夹", command=self.open_output).pack(side="left", fill="x", expand=True)
+        ttk.Button(actions, text="打开共享卡图（pics）", command=self.open_pics).pack(fill="x", pady=(5, 0))
+
+        progress_frame = ttk.Frame(outer)
+        progress_frame.pack(fill="x", pady=(14, 8))
+        ttk.Label(progress_frame, textvariable=self.status).pack(anchor="w")
+        self.progress = ttk.Progressbar(progress_frame, mode="determinate", maximum=100)
+        self.progress.pack(fill="x", pady=6)
+        ttk.Label(progress_frame, textvariable=self.detail, style="Subtitle.TLabel").pack(anchor="w")
+        log_bar = ttk.Frame(outer)
+        log_bar.pack(fill="x")
+        ttk.Label(log_bar, text="运行日志").pack(side="left")
+        self.pdf_button = ttk.Button(log_bar, text="打开 PDF", command=self.open_pdf, state="disabled")
+        self.pdf_button.pack(side="right", padx=(5, 0))
+        ttk.Button(log_bar, text="复制日志", command=self.copy_log).pack(side="right")
+        log_frame = ttk.Frame(outer)
+        log_frame.pack(fill="both", pady=(5, 0))
+        self.log_text = tk.Text(log_frame, state="disabled", height=8, wrap="word", font=("Consolas", 9),
+                                bg="#172338", fg="#d7e3f5", relief="flat", padx=10, pady=8)
+        log_scroll = ttk.Scrollbar(log_frame, command=self.log_text.yview)
+        self.log_text.configure(yscrollcommand=log_scroll.set)
+        log_scroll.pack(side="right", fill="y")
+        self.log_text.pack(fill="both", expand=True)
+        self.sync_options()
+
+    def _on_modified(self, event=None):
+        if self.deck_text.edit_modified():
+            rows = parse_decklist(self.deck_text.get("1.0", "end-1c"))
+            self.count.set("%d 种牌 · %d 张" % (len({name for qty, name in rows}), sum(qty for qty, name in rows)))
+            self.deck_text.edit_modified(False)
+
+    def set_deck(self, text):
+        self.deck_text.delete("1.0", "end")
+        self.deck_text.insert("1.0", text)
+        self._on_modified()
+
+    def import_deck(self):
+        path = filedialog.askopenfilename(parent=self.root, title="导入牌表", filetypes=[("牌表文本", "*.txt"), ("所有文件", "*.*")])
+        if not path:
+            return
+        try:
+            data = Path(path).read_bytes()
+            try:
+                text = data.decode("utf-8-sig")
+            except UnicodeDecodeError:
+                text = data.decode("gb18030")
+            self.set_deck(text)
+        except Exception as exc:
+            messagebox.showerror("无法导入牌表", str(exc), parent=self.root)
+
+    def paste_deck(self):
+        try:
+            text = self.root.clipboard_get()
+            self.deck_text.insert("insert", text)
+            self._on_modified()
+        except tk.TclError:
+            self.status.set("剪贴板中没有可粘贴的文字。")
+
+    def example(self):
+        self.set_deck("# 示例牌表，可替换为你的牌表\n4 Lightning Bolt\n4 Counterspell\n8 Forest\n1 碎骨巨人\n")
+
+    def clear_deck(self):
+        self.set_deck("")
+
+    def sync_options(self):
+        if self.running:
+            return
+        self.pdf_check.configure(state="disabled" if self.dry_run.get() else "normal")
+        enabled = self.pdf.get() and not self.dry_run.get()
+        self.paper_box.configure(state="readonly" if enabled else "disabled")
+        self.mark_check.configure(state="normal" if enabled else "disabled")
+        self.force_check.configure(state="disabled" if self.dry_run.get() else "normal")
+        self.start_button.configure(text="开始查询" if self.dry_run.get() else "开始下载")
+
+    def set_running(self, running):
+        self.running = running
+        for widget, normal in self.edit_controls:
+            widget.configure(state="disabled" if running else normal)
+        self.start_button.configure(state="disabled" if running else "normal")
+        self.cancel_button.configure(state="normal" if running else "disabled")
+        if not running:
+            self.sync_options()
+
+    def configuration(self):
+        text = self.deck_text.get("1.0", "end-1c").strip()
+        if not parse_decklist(text):
+            raise ValueError("请先粘贴或导入牌表，每行填写一种牌。")
+        if any(qty <= 0 for qty, name in parse_decklist(text)):
+            raise ValueError("牌表里的数量必须大于 0。")
+        try:
+            workers = int(self.workers.get())
+        except ValueError:
+            raise ValueError("线程数必须是整数。")
+        if not 1 <= workers <= MAX_WORKERS:
+            raise ValueError("线程数必须在 1 到 %d 之间。" % MAX_WORKERS)
+        lang_text = self.language.get().strip()
+        langs = LANG_PRESETS.get(lang_text, lang_text).replace("，", ",")
+        codes = [c.strip().lower() for c in langs.split(",") if c.strip()]
+        if not codes or any(not re.fullmatch(r"[a-z]{2,3}", c) for c in codes):
+            raise ValueError("请选择语言顺序，或输入语言代码，例如 zhs,zht,en。")
+        if not self.paper.get().startswith(("A3", "A4")):
+            raise ValueError("请选择 A3 或 A4 纸张。")
+        return text, workers, self.paper.get()[:2], ",".join(dict.fromkeys(codes))
+
+    def start(self):
+        if self.running:
+            return
+        try:
+            text, workers, paper, langs = self.configuration()
+            task_dir = create_task_directory(self.output_root)
+            deck_path = task_dir / "本次牌表.txt"
+            deck_path.write_text(text + "\n", encoding="utf-8")
+            command = engine_command(deck_path, task_dir, workers, paper, langs,
+                                     self.pdf.get(), self.cut_marks.get(), self.dry_run.get(), self.force.get())
+            self.output_dir = task_dir
+            self.output_label.set(str(task_dir))
+        except Exception as exc:
+            messagebox.showerror("无法开始", str(exc), parent=self.root)
+            return
+        self.cancel_requested.clear()
+        self.summary = None
+        self.download_total = self.download_finished = 0
+        self.last_pdf_allowed = self.pdf.get() and not self.dry_run.get()
+        pdf_path = self.output_dir / "cards.pdf"
+        self.previous_pdf_stamp = (pdf_path.stat().st_mtime_ns, pdf_path.stat().st_size) if pdf_path.exists() else None
+        self.pdf_button.configure(state="disabled")
+        self.log_text.configure(state="normal")
+        self.log_text.delete("1.0", "end")
+        self.log_text.configure(state="disabled")
+        self.progress.stop()
+        self.progress.configure(mode="indeterminate", value=0)
+        self.progress.start(12)
+        self.status.set("正在读取本地图片缓存并处理新牌名…")
+        self.detail.set("查询/下载 %d 线程；API ≥%.1f 秒，图片 ≥%.1f 秒。" % (workers, MIN_API_INTERVAL, MIN_IMAGE_INTERVAL))
+        self.set_running(True)
+        self.append_log("程序目录：%s\n输出目录：%s\n" % (self.base_dir, self.output_dir))
+        threading.Thread(target=self.run_process, args=(command,), daemon=True).start()
+
+    def run_process(self, command):
+        """只负责进程和队列，所有 Tk 操作都在主线程进行。"""
+        process = None
+        code = 1
+        try:
+            environment = os.environ.copy()
+            environment["PYTHONIOENCODING"] = "utf-8"
+            environment["PYTHONUTF8"] = "1"
+            flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+            with self.process_lock:
+                if self.cancel_requested.is_set() or self.closing:
+                    self.events.put(("finished", -1))
+                    return
+                process = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                           stderr=subprocess.STDOUT, cwd=str(self.base_dir), env=environment,
+                                           creationflags=flags, text=True, encoding="utf-8", errors="replace", bufsize=1)
+                self.process = process
+            for line in process.stdout:
+                self.events.put(("log", line))
+            code = process.wait()
+        except Exception as exc:
+            self.events.put(("log", "启动或运行失败：%s\n" % exc))
+        finally:
+            if process is not None:
+                if process.poll() is None:
+                    process.terminate()
+                    process.wait()
+                if process.stdout is not None:
+                    process.stdout.close()
+            with self.process_lock:
+                self.process = None
+        self.events.put(("finished", code))
+
+    def append_log(self, text):
+        # PDF 进度使用回车刷新；GUI 显示为普通日志行。
+        text = text.replace("\r", "\n")
+        self.log_text.configure(state="normal")
+        self.log_text.insert("end", text)
+        self.log_text.see("end")
+        self.log_text.configure(state="disabled")
+
+    def interpret_log(self, text):
+        cached = re.search(r"\[缓存 (\d+)/(\d+)\] (.*)", text)
+        if cached:
+            self.progress.stop()
+            self.progress.configure(mode="determinate", maximum=max(1, int(cached.group(2))), value=int(cached.group(1)))
+            self.status.set("本地缓存 %s/%s：%s" % cached.groups())
+        if "所有牌名已在本地图片缓存中" in text:
+            self.status.set("全部命中本地缓存，跳过 API 查询。")
+        query = re.search(r"\[查询 (\d+)/(\d+)\] (.*)", text)
+        query_begin = re.search(r"开始查询：(\d+) 种牌，查询并发 (\d+)", text)
+        query_progress = re.search(r"查询进度 (\d+)/(\d+) (.*)", text)
+        begin = re.search(r"开始下载：(\d+) 张图片，初始并发 (\d+)", text)
+        download = re.search(r"下载完成 \[(\d+)/(\d+)\]", text)
+        progress = re.search(r"下载进度 (\d+)/(\d+) (.*)", text)
+        reduced = re.search(r"自动降并发：(\d+) -> (\d+)", text)
+        summary = re.search(r"完成：成功 (\d+) / 失败 (\d+)", text)
+        if query_begin:
+            self.progress.stop()
+            self.progress.configure(mode="determinate", maximum=max(1, int(query_begin.group(1))), value=0)
+            self.status.set("正在并行查询牌表并选择卡图…")
+            self.detail.set("查询并发 %s · %s 种牌 · API 请求统一限速。" % (query_begin.group(2), query_begin.group(1)))
+        if query:
+            self.progress.stop()
+            self.progress.configure(mode="determinate", maximum=max(1, int(query.group(2))), value=int(query.group(1)))
+            self.status.set("查询 %s/%s：%s" % query.groups())
+        if query_progress:
+            self.progress.configure(value=int(query_progress.group(1)))
+            self.detail.set(text.strip())
+        if begin:
+            self.download_total = int(begin.group(1))
+            self.download_finished = 0
+            self.progress.stop()
+            self.progress.configure(mode="determinate", maximum=max(1, self.download_total), value=0)
+            self.status.set("正在并行下载卡图…")
+            self.detail.set("初始并发 %s · 图片 %s 张" % (begin.group(2), begin.group(1)))
+        if download:
+            self.download_finished = int(download.group(1))
+            self.progress.configure(value=self.download_finished)
+            self.status.set("下载 %s/%s" % download.groups())
+        elif "下载失败：" in text:
+            self.download_finished += 1
+            self.progress.configure(value=self.download_finished)
+        if progress:
+            self.download_finished = int(progress.group(1))
+            self.progress.configure(value=self.download_finished)
+            self.detail.set(text.strip())
+        if reduced:
+            self.detail.set("下载受限：并发 %s → %s，暂停新任务并自动重试。" % reduced.groups())
+        if "API 受限 HTTP" in text:
+            self.status.set("查询请求受限，所有查询等待后自动重试…")
+            self.detail.set(text.strip())
+        elif "受限 HTTP" in text:
+            self.status.set("服务器限制下载，正在等待后重试…")
+        if "排版卡册:" in text:
+            self.status.set("图片下载完成，正在生成 PDF 卡册…")
+            self.progress.stop()
+            self.progress.configure(mode="indeterminate")
+            self.progress.start(12)
+        if summary:
+            self.summary = tuple(map(int, summary.groups()))
+
+    def poll_events(self):
+        if self.closing:
+            return
+        for _ in range(300):
+            try:
+                kind, value = self.events.get_nowait()
+            except queue.Empty:
+                break
+            if kind == "log":
+                self.append_log(value)
+                self.interpret_log(value)
+            elif kind == "finished":
+                self.finish(value)
+        self.poll_id = self.root.after(80, self.poll_events)
+
+    def finish(self, code):
+        self.progress.stop()
+        self.progress.configure(mode="determinate", maximum=100)
+        if self.cancel_requested.is_set():
+            self.status.set("任务已停止，已下载的图片保留。")
+            self.detail.set("图片保留在 pics；记录保留在 %s；下次优先复用缓存。" % self.output_dir.name)
+        elif code == 0:
+            self.progress.configure(value=100)
+            self.status.set("查询完成。" if self.dry_run.get() else "任务完成。")
+            if self.summary:
+                self.detail.set("成功 %d · 失败 %d · 输出已保存到程序同目录。" % self.summary)
+        elif self.summary:
+            self.progress.configure(value=100)
+            self.status.set("任务完成，部分卡牌失败。")
+            self.detail.set("成功 %d · 失败 %d；请查看日志和清单。" % self.summary)
+        else:
+            self.status.set("运行失败，请查看下方日志。")
+            self.detail.set("输出目录：%s" % self.output_dir)
+        self.set_running(False)
+        pdf_path = self.output_dir / "cards.pdf"
+        pdf_stamp = (pdf_path.stat().st_mtime_ns, pdf_path.stat().st_size) if pdf_path.exists() else None
+        pdf_ready = self.last_pdf_allowed and not self.cancel_requested.is_set() and pdf_stamp is not None and pdf_stamp != self.previous_pdf_stamp and code in (0, 1) and self.summary is not None
+        self.pdf_button.configure(state="normal" if pdf_ready else "disabled")
+        try:
+            (self.output_dir / "运行日志.txt").write_text(self.log_text.get("1.0", "end-1c"), encoding="utf-8")
+        except OSError as exc:
+            self.append_log("无法保存日志：%s\n" % exc)
+
+    def cancel(self):
+        if not self.running:
+            return
+        self.cancel_requested.set()
+        self.cancel_button.configure(state="disabled")
+        self.status.set("正在停止任务…")
+        with self.process_lock:
+            if self.process is not None and self.process.poll() is None:
+                self.process.terminate()
+
+    def open_output(self):
+        try:
+            self.output_dir.mkdir(parents=True, exist_ok=True)
+            self._open_path(self.output_dir)
+        except Exception as exc:
+            messagebox.showerror("无法打开输出目录", str(exc), parent=self.root)
+
+    def open_pics(self):
+        try:
+            path = self.output_root / "pics"
+            path.mkdir(parents=True, exist_ok=True)
+            self._open_path(path)
+        except Exception as exc:
+            messagebox.showerror("无法打开图片缓存", str(exc), parent=self.root)
+
+    def open_pdf(self):
+        path = self.output_dir / "cards.pdf"
+        if path.exists():
+            try:
+                self._open_path(path)
+            except Exception as exc:
+                messagebox.showerror("无法打开 PDF", str(exc), parent=self.root)
+
+    def _open_path(self, path):
+        if os.name == "nt":
+            os.startfile(str(path))
+        elif sys.platform == "darwin":
+            subprocess.Popen(["open", str(path)])
+        else:
+            subprocess.Popen(["xdg-open", str(path)])
+
+    def copy_log(self):
+        self.root.clipboard_clear()
+        self.root.clipboard_append(self.log_text.get("1.0", "end-1c"))
+        self.status.set("日志已复制到剪贴板。")
+
+    def close(self):
+        self.closing = True
+        self.cancel_requested.set()
+        with self.process_lock:
+            if self.process is not None and self.process.poll() is None:
+                self.process.terminate()
+        if self.poll_id is not None:
+            self.root.after_cancel(self.poll_id)
+        self.root.destroy()
+
+
+def launch_gui():
+    if os.name == "nt":
+        try:
+            import ctypes
+            ctypes.windll.shcore.SetProcessDpiAwareness(1)
+        except Exception:
+            pass
+    root = tk.Tk()
+    CardDownloaderGUI(root)
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "--engine":
+        try:
+            sys.exit(main(sys.argv[2:]))
+        except KeyboardInterrupt:
+            print("\n任务已停止。", file=sys.stderr, flush=True)
+            sys.exit(130)
+        except Exception as exc:
+            print("运行失败：%s" % exc, file=sys.stderr, flush=True)
+            sys.exit(1)
+    else:
+        launch_gui()

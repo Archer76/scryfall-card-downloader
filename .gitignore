@@ -1,0 +1,42 @@
+# Python runtime / tooling
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Downloaded assets, submitted decks, task records and API/image caches
+卡图输出/
+.scryfall-api-cache/
+scryfall-cards/
+pics/
+results/
+manifest.json
+manifest.txt
+本次牌表.txt
+*.pdf
+*.log
+*.part
+
+# Credentials and private environment settings
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local builds and archives
+*.zip
+build/
+dist/
+*.spec
+
+# Temporary tests and operating-system files
+tmp*/
+GUI 启动测试 */
+.DS_Store
+Thumbs.db
+desktop.ini
