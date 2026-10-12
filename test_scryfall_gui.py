@@ -77,6 +77,7 @@ class GUITests(unittest.TestCase):
         for flag in ['--engine', '--no-pdf', '--no-cut-marks', '--dry-run', '--force']:
             self.assertIn(flag, command)
         self.assertEqual(command[command.index('--workers') + 1], '32')
+        self.assertEqual(command[command.index('--download-workers') + 1], '8')
         self.assertEqual(command[command.index('--paper') + 1], 'A3')
         self.assertEqual(command[command.index('--out') + 1], str(self.gui.output_dir))
 

@@ -273,6 +273,26 @@ class TokenTests(unittest.TestCase):
         finally:
             app._api_disk_cache_dir = None
 
+    def test_query_and_download_workers_are_independent(self):
+        self.assertEqual(app.DEFAULT_WORKERS, 4)
+        self.assertEqual(app.DEFAULT_DOWNLOAD_WORKERS, 8)
+        self.assertEqual(app.MIN_API_INTERVAL, 0.6)
+        self.assertEqual(app.MIN_IMAGE_INTERVAL, 0)
+        self.setup_maker(ids=())
+        with patch.object(app, 'query_all', wraps=app.query_all) as query, patch.object(app, 'download_all', wraps=app.download_all) as download:
+            code, _, _ = self.run_task()
+            self.assertEqual(code, 0)
+            self.assertEqual(query.call_args.args[2], 4)
+            self.assertEqual(download.call_args.args[1], 8)
+        with patch.object(app, 'query_all', wraps=app.query_all) as query, patch.object(app, 'download_all', wraps=app.download_all) as download:
+            code, _, _ = self.run_task(extra=['--force', '--workers', '2', '--download-workers', '32'])
+            self.assertEqual(code, 0)
+            self.assertEqual(query.call_args.args[2], 2)
+            self.assertEqual(download.call_args.args[1], 32)
+        for invalid in ('0', '33'):
+            with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+                app._main(['--download-workers', invalid])
+
     def test_cli_image_interval_validation_and_separate_clocks(self):
         for invalid in ('-1', 'nan', 'inf', '-inf'):
             with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):

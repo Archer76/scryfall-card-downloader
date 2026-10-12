@@ -97,7 +97,8 @@ class NetworkPolicyTests(unittest.TestCase):
             app.download('https://example.test/a.png', str(Path(temp) / 'a.png'))
             app.download('https://example.test/b.png', str(Path(temp) / 'b.png'))
         self.assertGreaterEqual(attempts[1] - attempts[0], 10)
-        self.assertGreaterEqual(attempts[2] - attempts[1], 0.199)
+        self.assertEqual(app.MIN_IMAGE_INTERVAL, 0)
+        self.assertEqual(attempts[2] - attempts[1], 0)
 
     def test_403_circuit_breaker_finishes_queued_queries_without_retries(self):
         with patch.object(app, 'MIN_API_INTERVAL', 0.01), patch.object(app, '_query_log'), patch.object(app, 'opener') as opener, patch.object(app, 'resolve_card', side_effect=lambda name: app.api_get('/cards/named', {'fuzzy': name})):

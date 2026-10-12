@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Scryfall 卡图获取器 —— 提交中英文牌表，自动取回中文卡图与可打印卡册。
 
-零第三方依赖，只用 Python 标准库。默认查询和下载共用 4 线程设置，遇到 HTTP 403/429/503 自动减半并发并退避。
+零第三方依赖，只用 Python 标准库。默认查询 4 线程、图片下载 8 线程，遇到 HTTP 403/429/503 自动减半下载并发并退避。
 
 用法:
     python scryfall_cards_threaded.py 牌表.txt
@@ -73,10 +73,12 @@ API_BASE = "https://api.scryfall.com"
 UA = "ScryfallCards/1.0 (personal card image fetcher)"
 DEFAULT_WORKERS = 4
 MAX_WORKERS = 16
+DEFAULT_DOWNLOAD_WORKERS = 8  # 48 张/档的小样实测吞吐最高；非服务端保证
+MAX_DOWNLOAD_WORKERS = 32
 # /cards/named、/cards/search 当前上限 2 次/秒；留 100ms 余量。
 MIN_API_INTERVAL = 0.6
-# *.scryfall.io 无官方速率上限；这是本程序的保守启动间隔。
-MIN_IMAGE_INTERVAL = 0.2
+# 图片不设固定启动间隔；线程上限、服务端冷却与 Retry-After 仍有效。
+MIN_IMAGE_INTERVAL = 0.0
 _image_interval = None  # None 使用默认值；命令行每次任务单独设置。
 API_CACHE_TTL = 24 * 60 * 60
 LANG_LABEL = {"zhs": "简体中文", "zht": "繁体中文", "en": "英文"}
@@ -536,11 +538,11 @@ def query_card(name, langs):
 
 
 def query_all(rows, langs, workers):
-    """按输入牌名去重，并行查询；workers 同时也是下载阶段的线程设置。"""
+    """按输入牌名去重，并行查询；下载阶段另有独立的线程设置。"""
     names = list(dict.fromkeys(name for qty, name in rows))
     results = {}
     total = len(names)
-    _query_log("开始查询：%d 种牌，查询并发 %d（与下载共用线程设置）。" % (total, workers))
+    _query_log("开始查询：%d 种牌，查询并发 %d。" % (total, workers))
     with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="card-query") as pool:
         pending = {pool.submit(query_card, name, langs): name for name in names}
         last_report = time.monotonic()
@@ -1613,14 +1615,18 @@ def _main(argv=None):
     parser.add_argument("--dry-run", action="store_true", help="只解析与选图，不下载")
     parser.add_argument("--force", action="store_true", help="已存在的图片也重新下载")
     parser.add_argument("--workers", type=int, default=DEFAULT_WORKERS,
-                        help="查询和下载共用的线程数（默认 4；API 间隔 0.6 秒，图片启动间隔 0.2 秒）")
+                        help="查询线程数（默认 %d，1–%d；API 请求间隔 0.6 秒）" % (DEFAULT_WORKERS, MAX_WORKERS))
+    parser.add_argument("--download-workers", type=int, default=DEFAULT_DOWNLOAD_WORKERS,
+                        help="图片下载线程数（默认 %d，1–%d；受限时自动减半）" % (DEFAULT_DOWNLOAD_WORKERS, MAX_DOWNLOAD_WORKERS))
     parser.add_argument("--image-interval", type=float, default=MIN_IMAGE_INTERVAL,
-                        help="图片请求启动间隔秒数（默认 0.2；0 取消固定间隔，不取消服务端冷却）")
+                        help="图片请求启动间隔秒数（默认 %g；0 取消固定间隔，不取消服务端冷却）" % MIN_IMAGE_INTERVAL)
     args = parser.parse_args(argv)
     if not math.isfinite(args.image_interval) or args.image_interval < 0:
         parser.error("--image-interval 必须是非负有限数")
     if not 1 <= args.workers <= MAX_WORKERS:
         parser.error("--workers 必须在 1 到 %d 之间" % MAX_WORKERS)
+    if not 1 <= args.download_workers <= MAX_DOWNLOAD_WORKERS:
+        parser.error("--download-workers 必须在 1 到 %d 之间" % MAX_DOWNLOAD_WORKERS)
     for stream in (sys.stdout, sys.stderr):
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(line_buffering=True, errors="replace")
@@ -1651,8 +1657,8 @@ def _main(argv=None):
     picture_cache.migrate_legacy()
 
     print("牌表 %d 行 | 语言链 %s | 输出 %s" % (len(rows), " > ".join(langs), os.path.abspath(args.out)))
-    print("网络策略：共用 %d 线程 | API 请求间隔 %.2f 秒 | 图片启动间隔 %.2f 秒 | 查询缓存 24 小时" %
-          (args.workers, MIN_API_INTERVAL, args.image_interval), flush=True)
+    print("网络策略：查询 %d 线程 | 下载 %d 线程 | API 请求间隔 %.2f 秒 | 图片启动间隔 %.2f 秒 | 查询缓存 24 小时" %
+          (args.workers, args.download_workers, MIN_API_INTERVAL, args.image_interval), flush=True)
     cached = {}
     for name in dict.fromkeys(name for qty, name in rows):
         hit = None if args.force else picture_cache.lookup(name)
@@ -1782,7 +1788,7 @@ def _main(argv=None):
         picture_cache.store(entry)
     picture_cache.save()
     if not args.dry_run:
-        download_all(all_results, args.workers)
+        download_all(all_results, args.download_workers)
         for entry in all_results:
             for record in entry.get("files", []):
                 if record["status"] in ("ok", "exists") and not complete_image(record["file"], record.get("bytes")):

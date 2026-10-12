@@ -45,7 +45,8 @@ def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, for
             executable = executable.with_name("python.exe")
         command = [str(executable), "-u", str(Path(__file__).resolve()), "--engine"]
     command += [str(deck), "--out", str(output), "--pics", str(Path(output).parent / "pics"),
-                "--workers", str(workers), "--paper", paper, "--langs", langs]
+                "--workers", str(workers), "--download-workers", str(DEFAULT_DOWNLOAD_WORKERS),
+                "--paper", paper, "--langs", langs]
     if not pdf:
         command.append("--no-pdf")
     if not marks:
