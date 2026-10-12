@@ -70,6 +70,7 @@ class CardDownloaderGUI:
         self.closing = False
         self.cancel_requested = threading.Event()
         self.summary = None
+        self.token_summary = None
         self.download_total = 0
         self.download_finished = 0
         self.last_pdf_allowed = False
@@ -84,7 +85,6 @@ class CardDownloaderGUI:
         root.protocol("WM_DELETE_WINDOW", self.close)
         self._style()
         self.paper = tk.StringVar(value="A4 · 竖向 · 每页 9 张")
-        self.workers = tk.StringVar(value=str(DEFAULT_WORKERS))
         self.language = tk.StringVar(value=next(iter(LANG_PRESETS)))
         self.pdf = tk.BooleanVar(value=True)
         self.cut_marks = tk.BooleanVar(value=True)
@@ -92,7 +92,7 @@ class CardDownloaderGUI:
         self.force = tk.BooleanVar(value=False)
         self.status = tk.StringVar(value="就绪：粘贴牌表，或导入 TXT 文件。")
         self.count = tk.StringVar(value="0 种牌 · 0 张")
-        self.detail = tk.StringVar(value="默认 4 线程；API 间隔 0.6 秒，图片启动间隔 0.2 秒。")
+        self.detail = tk.StringVar(value="自动处理网络请求，受限时等待并重试。")
         self.output_label = tk.StringVar(value=str(self.output_root / "yymmdd-hhmmss"))
         self.pics_label = tk.StringVar(value=str(self.output_root / "pics"))
         self._build()
@@ -113,7 +113,6 @@ class CardDownloaderGUI:
         style.map("Primary.TButton", background=[("active", "#1d4ed8"), ("disabled", "#b9c7df")], foreground=[("disabled", "#f3f5f8")])
         style.configure("TCheckbutton", font=("Microsoft YaHei UI", 10), background="white")
         style.configure("TCombobox", padding=5, font=("Microsoft YaHei UI", 10))
-        style.configure("TSpinbox", padding=5, font=("Microsoft YaHei UI", 10))
         style.configure("Horizontal.TProgressbar", background="#2563eb", troughcolor="#e3e9f2", borderwidth=0)
 
     def _editable(self, widget, normal="normal"):
@@ -182,12 +181,7 @@ class CardDownloaderGUI:
         self.language_box = self._editable(ttk.Combobox(right, textvariable=self.language, values=tuple(LANG_PRESETS)))
         self.language_box.pack(fill="x", pady=(4, 3))
         ttk.Label(right, text="语言用于新牌名；已有缓存直接复用。\n要换版本时勾选“重新选图”。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
-        workers_row = ttk.Frame(right, style="Card.TFrame")
-        workers_row.pack(fill="x")
-        ttk.Label(workers_row, text="线程数（查询 / 下载共用）", style="Card.TLabel").pack(side="left")
-        self.worker_box = self._editable(ttk.Spinbox(workers_row, textvariable=self.workers, from_=1, to=MAX_WORKERS, width=7))
-        self.worker_box.pack(side="right")
-        ttk.Label(right, text="查询统一限速，下载受限自动降线程。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(5, 10))
+        ttk.Label(right, text="自动处理网络请求，受限时等待并重试。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
         self.pdf_check = self._editable(ttk.Checkbutton(right, text="生成可打印 PDF 卡册", variable=self.pdf, command=self.sync_options))
         self.pdf_check.pack(anchor="w", pady=2)
         self.mark_check = self._editable(ttk.Checkbutton(right, text="显示裁切框", variable=self.cut_marks))
@@ -297,12 +291,7 @@ class CardDownloaderGUI:
             raise ValueError("请先粘贴或导入牌表，每行填写一种牌。")
         if any(qty <= 0 for qty, name in parse_decklist(text)):
             raise ValueError("牌表里的数量必须大于 0。")
-        try:
-            workers = int(self.workers.get())
-        except ValueError:
-            raise ValueError("线程数必须是整数。")
-        if not 1 <= workers <= MAX_WORKERS:
-            raise ValueError("线程数必须在 1 到 %d 之间。" % MAX_WORKERS)
+        workers = DEFAULT_WORKERS
         lang_text = self.language.get().strip()
         langs = LANG_PRESETS.get(lang_text, lang_text).replace("，", ",")
         codes = [c.strip().lower() for c in langs.split(",") if c.strip()]
@@ -329,6 +318,7 @@ class CardDownloaderGUI:
             return
         self.cancel_requested.clear()
         self.summary = None
+        self.token_summary = None
         self.download_total = self.download_finished = 0
         self.last_pdf_allowed = self.pdf.get() and not self.dry_run.get()
         pdf_path = self.output_dir / "cards.pdf"
@@ -341,7 +331,7 @@ class CardDownloaderGUI:
         self.progress.configure(mode="indeterminate", value=0)
         self.progress.start(12)
         self.status.set("正在读取本地图片缓存并处理新牌名…")
-        self.detail.set("查询/下载 %d 线程；API ≥%.1f 秒，图片 ≥%.1f 秒。" % (workers, MIN_API_INTERVAL, MIN_IMAGE_INTERVAL))
+        self.detail.set("自动处理网络请求，受限时等待并重试。")
         self.set_running(True)
         self.append_log("程序目录：%s\n输出目录：%s\n" % (self.base_dir, self.output_dir))
         threading.Thread(target=self.run_process, args=(command,), daemon=True).start()
@@ -388,6 +378,16 @@ class CardDownloaderGUI:
         self.log_text.configure(state="disabled")
 
     def interpret_log(self, text):
+        token_summary = re.search(r"^Token 完成：成功 (\d+) / 失败 (\d+) / 关联检查失败 (\d+)\s*$", text.strip())
+        if token_summary:
+            self.token_summary = tuple(map(int, token_summary.groups()))
+            self.status.set("Token 处理完成。")
+            self.detail.set("Token 成功 %d · 失败 %d · 关联检查失败 %d" % self.token_summary)
+            return
+        if text.lstrip().startswith("[Token]"):
+            self.status.set(text.strip())
+            self.detail.set("正在自动处理关联 Token，网络请求受限时等待并重试。")
+            return
         cached = re.search(r"\[缓存 (\d+)/(\d+)\] (.*)", text)
         if cached:
             self.progress.stop()
@@ -402,12 +402,12 @@ class CardDownloaderGUI:
         download = re.search(r"下载完成 \[(\d+)/(\d+)\]", text)
         progress = re.search(r"下载进度 (\d+)/(\d+) (.*)", text)
         reduced = re.search(r"自动降并发：(\d+) -> (\d+)", text)
-        summary = re.search(r"完成：成功 (\d+) / 失败 (\d+)", text)
+        summary = re.search(r"^完成：成功 (\d+) / 失败 (\d+)\s*$", text.strip())
         if query_begin:
             self.progress.stop()
             self.progress.configure(mode="determinate", maximum=max(1, int(query_begin.group(1))), value=0)
             self.status.set("正在并行查询牌表并选择卡图…")
-            self.detail.set("查询并发 %s · %s 种牌 · API 请求统一限速。" % (query_begin.group(2), query_begin.group(1)))
+            self.detail.set("%s 种牌 · 自动处理网络请求，受限时等待并重试。" % query_begin.group(1))
         if query:
             self.progress.stop()
             self.progress.configure(mode="determinate", maximum=max(1, int(query.group(2))), value=int(query.group(1)))
@@ -421,7 +421,7 @@ class CardDownloaderGUI:
             self.progress.stop()
             self.progress.configure(mode="determinate", maximum=max(1, self.download_total), value=0)
             self.status.set("正在并行下载卡图…")
-            self.detail.set("初始并发 %s · 图片 %s 张" % (begin.group(2), begin.group(1)))
+            self.detail.set("图片 %s 张 · 自动处理网络请求，受限时等待并重试。" % begin.group(1))
         if download:
             self.download_finished = int(download.group(1))
             self.progress.configure(value=self.download_finished)
@@ -434,7 +434,7 @@ class CardDownloaderGUI:
             self.progress.configure(value=self.download_finished)
             self.detail.set(text.strip())
         if reduced:
-            self.detail.set("下载受限：并发 %s → %s，暂停新任务并自动重试。" % reduced.groups())
+            self.detail.set("下载请求受限，等待后自动重试。")
         if "API 受限 HTTP" in text:
             self.status.set("查询请求受限，所有查询等待后自动重试…")
             self.detail.set(text.strip())
@@ -469,15 +469,17 @@ class CardDownloaderGUI:
         if self.cancel_requested.is_set():
             self.status.set("任务已停止，已下载的图片保留。")
             self.detail.set("图片保留在 pics；记录保留在 %s；下次优先复用缓存。" % self.output_dir.name)
-        elif code == 0:
+        elif code == 0 or self.summary is not None or self.token_summary is not None:
             self.progress.configure(value=100)
-            self.status.set("查询完成。" if self.dry_run.get() else "任务完成。")
-            if self.summary:
-                self.detail.set("成功 %d · 失败 %d · 输出已保存到程序同目录。" % self.summary)
-        elif self.summary:
-            self.progress.configure(value=100)
-            self.status.set("任务完成，部分卡牌失败。")
-            self.detail.set("成功 %d · 失败 %d；请查看日志和清单。" % self.summary)
+            partial = code != 0 or (self.summary is not None and self.summary[1] > 0) or (self.token_summary is not None and any(self.token_summary[1:]))
+            self.status.set("任务完成，部分卡牌失败。" if partial else ("查询完成。" if self.dry_run.get() else "任务完成。"))
+            statistics = []
+            if self.summary is not None:
+                statistics.append("主卡成功 %d · 失败 %d" % self.summary)
+            if self.token_summary is not None:
+                statistics.append("Token 成功 %d · 失败 %d · 关联检查失败 %d" % self.token_summary)
+            statistics.append("请查看日志和清单。" if partial else "输出已保存到程序同目录。")
+            self.detail.set("；".join(statistics))
         else:
             self.status.set("运行失败，请查看下方日志。")
             self.detail.set("输出目录：%s" % self.output_dir)

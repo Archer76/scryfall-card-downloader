@@ -41,7 +41,19 @@ class GUITests(unittest.TestCase):
         self.assertFalse(self.gui.running, 'GUI worker did not finish')
 
     def test_defaults_options_and_program_directory(self):
-        self.assertEqual(self.gui.workers.get(), '4')
+        self.assertFalse(hasattr(self.gui, 'workers'))
+        self.assertFalse(hasattr(self.gui, 'worker_box'))
+        widgets = list(self.root.winfo_children())
+        labels = []
+        while widgets:
+            widget = widgets.pop()
+            widgets.extend(widget.winfo_children())
+            self.assertNotIsInstance(widget, app.ttk.Spinbox)
+            if isinstance(widget, app.ttk.Label):
+                labels.append(str(widget.cget('text')))
+        self.assertFalse(any('线程' in label or '并发' in label for label in labels))
+        self.assertIn('自动处理网络请求，受限时等待并重试。', labels)
+        self.assertEqual(app.DEFAULT_WORKERS, 4)
         self.assertTrue(self.gui.pdf.get())
         self.assertTrue(self.gui.cut_marks.get())
         self.assertEqual(self.gui.output_dir, Path(self.temp.name) / '卡图输出')
@@ -57,9 +69,6 @@ class GUITests(unittest.TestCase):
         self.gui.pdf.set(False)
         self.gui.sync_options()
         self.assertEqual(str(self.gui.mark_check['state']), 'disabled')
-        self.gui.workers.set('0')
-        with self.assertRaises(ValueError): self.gui.configuration()
-        self.gui.workers.set('4')
         self.gui.language.set('英文 nonsense')
         with self.assertRaises(ValueError): self.gui.configuration()
 
@@ -177,6 +186,54 @@ class GUITests(unittest.TestCase):
             self.gui.open_pics()
         opened.assert_called_once_with(self.gui.output_root / 'pics')
         self.assertTrue((self.gui.output_root / 'pics').is_dir())
+
+    def test_token_progress_and_separate_summary(self):
+        self.gui.interpret_log('完成：成功 4 / 失败 0\n')
+        self.gui.interpret_log('[Token] Forest -> Saproling：命中缓存\n')
+        self.assertIn('[Token]', self.gui.status.get())
+        self.assertEqual(self.gui.summary, (4, 0))
+        self.gui.interpret_log('Token 完成：成功 2 / 失败 1 / 关联检查失败 3\n')
+        self.assertEqual(self.gui.token_summary, (2, 1, 3))
+        self.assertEqual(self.gui.summary, (4, 0), 'Token summary must not overwrite main cards')
+        self.assertIn('Token 成功 2', self.gui.detail.get())
+        self.assertIn('关联检查失败 3', self.gui.detail.get())
+
+    def test_token_only_summary_is_not_main_summary(self):
+        self.gui.interpret_log('Token 完成：成功 2 / 失败 0 / 关联检查失败 0\n')
+        self.assertIsNone(self.gui.summary)
+        self.assertEqual(self.gui.token_summary, (2, 0, 0))
+
+    def test_token_failure_is_partial_even_with_zero_exit(self):
+        for token_counts in [(2, 1, 0), (2, 0, 1), (2, 0, 0)]:
+            with self.subTest(token_counts=token_counts):
+                self.gui.summary = (4, 0)
+                self.gui.token_summary = token_counts
+                self.gui.output_dir.mkdir(exist_ok=True)
+                self.gui.finish(0)
+                self.assertEqual('部分卡牌失败' in self.gui.status.get(), any(token_counts[1:]))
+                self.assertIn('主卡成功 4', self.gui.detail.get())
+                self.assertIn('Token 成功 2', self.gui.detail.get())
+                self.assertIn('关联检查失败 %d' % token_counts[2], self.gui.detail.get())
+
+    def test_token_subprocess_and_next_task_reset(self):
+        self.gui.set_deck('1 Forest')
+        worker = Path(self.temp.name) / 'tokens.py'
+        worker.write_text("print('完成：成功 1 / 失败 0', flush=True)\nprint('[Token] 正在下载 Saproling', flush=True)\nprint('Token 完成：成功 2 / 失败 0 / 关联检查失败 1', flush=True)\n", encoding='utf-8')
+        with patch.object(app, 'engine_command', return_value=[sys.executable, '-u', str(worker)]) as command:
+            self.gui.start()
+            self.assertEqual(command.call_args.args[2], 4)
+            self.assertNotIn('线程', self.gui.detail.get())
+            self.pump()
+        self.assertEqual(self.gui.summary, (1, 0))
+        self.assertEqual(self.gui.token_summary, (2, 0, 1))
+        self.assertIn('部分卡牌失败', self.gui.status.get())
+        worker.write_text("print('完成：成功 1 / 失败 0', flush=True)\n", encoding='utf-8')
+        with patch.object(app, 'engine_command', return_value=[sys.executable, '-u', str(worker)]):
+            self.gui.start()
+            self.assertIsNone(self.gui.token_summary)
+            self.pump()
+        self.assertEqual(self.gui.status.get(), '任务完成。')
+        self.assertNotIn('Token', self.gui.detail.get())
 
     def test_engine_help(self):
         completed = subprocess.run([sys.executable, str(Path(app.__file__)), '--engine', '--help'], capture_output=True, encoding='utf-8', errors='replace', env={**app.os.environ, 'PYTHONIOENCODING': 'utf-8'}, timeout=10)
