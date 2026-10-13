@@ -1426,85 +1426,14 @@ def collect_tokens(results, queried, cache, langs, dry_run=False, force=False):
 # =========================================================================== PDF
 
 def decode_png_rgb(path):
-    """把 PNG 解码为 RGB 字节流（丢弃 alpha），返回 (宽, 高, bytes)。"""
-    with open(path, "rb") as fh:
-        blob = fh.read()
-    pos = 8
-    idat = bytearray()
-    width = height = depth = ctype = None
-    while pos + 8 <= len(blob):
-        (length,) = struct.unpack(">I", blob[pos:pos + 4])
-        tag = blob[pos + 4:pos + 8]
-        body = blob[pos + 8:pos + 8 + length]
-        if tag == b"IHDR":
-            width, height, depth, ctype = struct.unpack(">IIBB", body[:10])
-        elif tag == b"IDAT":
-            idat += body
-        elif tag == b"IEND":
-            break
-        pos += 12 + length
-    if depth != 8 or ctype not in (2, 6):
-        raise ValueError("暂只支持 8 位 RGB/RGBA 的 PNG：depth=%s ctype=%s" % (depth, ctype))
-
-    channels = 3 if ctype == 2 else 4
-    stride = width * channels
-    raw = zlib.decompress(bytes(idat))
-    rgb = bytearray(width * height * 3)
-    prev = bytearray(stride)
-    src = 0
-    dst = 0
-
-    for _y in range(height):
-        ftype = raw[src]
-        src += 1
-        line = bytearray(raw[src:src + stride])
-        src += stride
-        if ftype == 1:            # Sub
-            for x in range(channels, stride):
-                line[x] = (line[x] + line[x - channels]) & 0xFF
-        elif ftype == 2:          # Up
-            for x in range(stride):
-                line[x] = (line[x] + prev[x]) & 0xFF
-        elif ftype == 3:          # Average
-            for x in range(stride):
-                left = line[x - channels] if x >= channels else 0
-                line[x] = (line[x] + ((left + prev[x]) >> 1)) & 0xFF
-        elif ftype == 4:          # Paeth
-            for x in range(stride):
-                if x >= channels:
-                    a = line[x - channels]
-                    c = prev[x - channels]
-                else:
-                    a = c = 0
-                b = prev[x]
-                p = a + b - c
-                pa = p - a
-                if pa < 0:
-                    pa = -pa
-                pb = p - b
-                if pb < 0:
-                    pb = -pb
-                pc = p - c
-                if pc < 0:
-                    pc = -pc
-                if pa <= pb and pa <= pc:
-                    pr = a
-                elif pb <= pc:
-                    pr = b
-                else:
-                    pr = c
-                line[x] = (line[x] + pr) & 0xFF
-        if channels == 4:
-            row = bytearray(width * 3)
-            row[0::3] = line[0::4]
-            row[1::3] = line[1::4]
-            row[2::3] = line[2::4]
-            rgb[dst:dst + width * 3] = row
-        else:
-            rgb[dst:dst + width * 3] = line
-        dst += width * 3
-        prev = line
-    return width, height, bytes(rgb)
+    """Decode PNG (including palette/grayscale/interlaced) to RGB bytes."""
+    from PIL import Image
+    with Image.open(path) as image:
+        if image.format != "PNG":
+            raise ValueError("不是 PNG 文件")
+        image.load()
+        rgb = image.convert("RGB")
+        return rgb.width, rgb.height, rgb.tobytes()
 
 
 def jpeg_info(path):

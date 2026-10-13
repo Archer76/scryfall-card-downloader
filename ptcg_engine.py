@@ -20,6 +20,7 @@ PTCG_EN_SETS = {
     'ASC': 'me02.5', 'TWM': 'sv06', 'PAR': 'sv04', 'RCL': 'swsh2',
     'PAL': 'sv02', 'OBF': 'sv03', 'SUM': 'sm1', '30C': '30th',
     'CIN': 'sm4', 'SSH': 'swsh1', 'PBL': 'me05', 'PRE': 'sv08.5',
+    'MEE': 'mee',
 }
 PTCG_ROW = re.compile(r'^([0-9]+)\s+(.+?)\s+([A-Za-z0-9][A-Za-z0-9.\-]*)\s+([A-Za-z]*[0-9]+[A-Za-z]?(?:/[A-Za-z]*[0-9]+)?)$')
 
