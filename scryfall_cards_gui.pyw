@@ -1559,6 +1559,11 @@ def build_pdf(images, paper, out_path, cut_marks=True, card_size_mm=(63, 88)):
     return len(pages), per_page, cols, rows
 
 
+def report_pdf_skipped(missing):
+    """Missing images make the book incomplete: keep downloads, skip the PDF."""
+    print("有 %d 项卡图缺失，已跳过生成 PDF；已下载的图片与清单已保留。" % missing, flush=True)
+
+
 def make_pdf(paths, paper, out_path, cut_marks=True, card_size_mm=(63, 88)):
     """按指定卡牌尺寸排成卡册；默认万智牌/宝可梦 63×88 mm。"""
     entries = []
@@ -1935,7 +1940,9 @@ def _main(argv=None):
     if not args.dry_run and pdf_paths:
         print("卡册张数: %d 张（已按牌表数量复制）" % len(pdf_paths))
 
-    if not args.no_pdf and not args.dry_run and pdf_paths:
+    if not args.no_pdf and not args.dry_run and pdf_paths and failed + token_failed:
+        report_pdf_skipped(failed + token_failed)
+    elif not args.no_pdf and not args.dry_run and pdf_paths:
         pdf_path = os.path.join(args.out, "cards.pdf")
         info = make_pdf(pdf_paths, args.paper, pdf_path, cut_marks=not args.no_cut_marks)
         if info:
@@ -2434,7 +2441,9 @@ def run_ptcg(args, text, core):
     with open(os.path.join(args.out, 'manifest.txt'), 'w', encoding='utf-8') as fh:
         fh.write('\n'.join(lines) + '\n')
     print('完成：成功 %d / 失败 %d' % (ok, failed), flush=True)
-    if pdf_paths and not args.no_pdf and not args.dry_run:
+    if failed and pdf_paths and not args.no_pdf and not args.dry_run:
+        core.report_pdf_skipped(failed)
+    elif pdf_paths and not args.no_pdf and not args.dry_run:
         info = core.make_pdf(pdf_paths, args.paper, os.path.join(args.out, 'cards.pdf'), cut_marks=not args.no_cut_marks)
         if not info or info['cards'] != len(pdf_paths):
             print('部分图片未能进入 PDF', flush=True)
@@ -2810,7 +2819,9 @@ def run_ygo(args, text, core):
             for attempt in entry.get('attempts', []):
                 stream.write('    %s\n' % json.dumps(attempt, ensure_ascii=False))
     print('完成：成功 %d / 失败 %d' % (ok, failed), flush=True)
-    if pdf_paths and not args.no_pdf and not args.dry_run:
+    if failed and pdf_paths and not args.no_pdf and not args.dry_run:
+        core.report_pdf_skipped(failed)
+    elif pdf_paths and not args.no_pdf and not args.dry_run:
         info = core.make_pdf(pdf_paths, args.paper, os.path.join(args.out, 'cards.pdf'),
                              cut_marks=not args.no_cut_marks, card_size_mm=(59, 86))
         if not info or info['cards'] != len(pdf_paths):
@@ -3264,6 +3275,7 @@ class CardDownloaderGUI:
         self.cancel_requested.clear()
         self.summary = None
         self.token_summary = None
+        self.pdf_skipped = False
         self.download_total = self.download_finished = 0
         self.last_pdf_allowed = self.pdf.get() and not self.dry_run.get()
         pdf_path = self.output_dir / "cards.pdf"
@@ -3323,6 +3335,8 @@ class CardDownloaderGUI:
         self.log_text.configure(state="disabled")
 
     def interpret_log(self, text):
+        if "已跳过生成 PDF" in text:
+            self.pdf_skipped = True
         ygo_progress = re.search(r"\[游戏王 (\d+)/(\d+)\] (.*)", text)
         if ygo_progress:
             self.progress.stop()
@@ -3423,7 +3437,7 @@ class CardDownloaderGUI:
         elif code == 0 or self.summary is not None or self.token_summary is not None:
             self.progress.configure(value=100)
             partial = code != 0 or (self.summary is not None and self.summary[1] > 0) or (self.token_summary is not None and any(self.token_summary[1:]))
-            self.status.set("任务完成，部分卡牌失败。" if partial else ("查询完成。" if self.dry_run.get() else "任务完成。"))
+            self.status.set("任务结束：有卡图缺失，未生成 PDF。" if getattr(self, "pdf_skipped", False) else ("任务完成，部分卡牌失败。" if partial else ("查询完成。" if self.dry_run.get() else "任务完成。")))
             statistics = []
             if self.summary is not None:
                 statistics.append("主卡成功 %d · 失败 %d" % self.summary)

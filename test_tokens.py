@@ -180,7 +180,7 @@ class TokenTests(unittest.TestCase):
         self.assertEqual(manifest['token_summary']['failed'], 1)
         self.assertTrue(manifest['cards'][0]['token_check']['checked'])
         self.assertEqual(len(manifest['cards'][0]['token_refs']), 2)
-        self.assertEqual(len(pdf.call_args.args[0]), 3)
+        pdf.assert_not_called()
         self.objects['bad'] = card('bad', oracle='other')
         self.api_calls.clear()
         code, _, _ = self.run_task()
@@ -213,7 +213,7 @@ class TokenTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertEqual(manifest['tokens'][0]['status'], 'error')
         self.assertTrue(manifest['cards'][0]['token_check']['checked'])
-        self.assertEqual(len(pdf.call_args.args[0]), 2)
+        pdf.assert_not_called()
         self.download = real
         self.api_calls.clear()
         code, _, _ = self.run_task()

@@ -443,6 +443,7 @@ class CardDownloaderGUI:
         self.cancel_requested.clear()
         self.summary = None
         self.token_summary = None
+        self.pdf_skipped = False
         self.download_total = self.download_finished = 0
         self.last_pdf_allowed = self.pdf.get() and not self.dry_run.get()
         pdf_path = self.output_dir / "cards.pdf"
@@ -502,6 +503,8 @@ class CardDownloaderGUI:
         self.log_text.configure(state="disabled")
 
     def interpret_log(self, text):
+        if "已跳过生成 PDF" in text:
+            self.pdf_skipped = True
         ygo_progress = re.search(r"\[游戏王 (\d+)/(\d+)\] (.*)", text)
         if ygo_progress:
             self.progress.stop()
@@ -602,7 +605,7 @@ class CardDownloaderGUI:
         elif code == 0 or self.summary is not None or self.token_summary is not None:
             self.progress.configure(value=100)
             partial = code != 0 or (self.summary is not None and self.summary[1] > 0) or (self.token_summary is not None and any(self.token_summary[1:]))
-            self.status.set("任务完成，部分卡牌失败。" if partial else ("查询完成。" if self.dry_run.get() else "任务完成。"))
+            self.status.set("任务结束：有卡图缺失，未生成 PDF。" if getattr(self, "pdf_skipped", False) else ("任务完成，部分卡牌失败。" if partial else ("查询完成。" if self.dry_run.get() else "任务完成。")))
             statistics = []
             if self.summary is not None:
                 statistics.append("主卡成功 %d · 失败 %d" % self.summary)

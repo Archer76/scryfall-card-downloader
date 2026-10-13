@@ -129,15 +129,21 @@ class Tests(unittest.TestCase):
             deck = base / 'deck.txt'
             deck.write_text('2 Slow\n1 Fast\n3 Slow\n1 Double\n1 Bad\n', encoding='utf-8')
             args = [str(deck), '--out', str(base / 'out'), '--pics', str(base / 'pics'), '--workers', '4', '--paper', 'A3', '--no-cut-marks']
-            with patch.object(app, 'resolve_card', resolved), patch.object(app, 'select_print', selected), patch.object(app, 'resolve_display_names', lambda o, s: (app.face_names(s), 'tst')), patch.object(app, 'download', download), patch.object(app, 'make_pdf', return_value=None) as pdf, contextlib.redirect_stdout(io.StringIO()):
+            with patch.object(app, 'resolve_card', resolved), patch.object(app, 'select_print', selected), patch.object(app, 'resolve_display_names', lambda o, s: (app.face_names(s), 'tst')), patch.object(app, 'download', download), patch.object(app, 'make_pdf', return_value=None) as pdf, contextlib.redirect_stdout(io.StringIO()) as output:
                 self.assertEqual(app.main(args), 1)
+                # A missing image makes the book incomplete: no PDF at all.
+                pdf.assert_not_called()
+                self.assertIn('已跳过生成 PDF', output.getvalue())
+                self.assertEqual(requests.count('Slow'), 1)
+                manifest = json.loads((base / 'out' / 'manifest.json').read_text(encoding='utf-8'))
+                self.assertEqual(manifest['summary'], {'processed': 5, 'ok': 4, 'failed': 1})
+                deck.write_text('2 Slow\n1 Fast\n3 Slow\n1 Double\n', encoding='utf-8')
+                self.assertEqual(app.main(args), 0)
                 paths = [Path(p).name for p in pdf.call_args.args[0]]
                 self.assertEqual(paths, ['Slow.png'] * 2 + ['Fast.png'] + ['Slow.png'] * 3 + ['Front-Back_正面.png', 'Front-Back_背面.png'])
                 self.assertFalse(pdf.call_args.kwargs['cut_marks'])
                 self.assertNotIn('card_size_mm', pdf.call_args.kwargs)
-                self.assertEqual(requests.count('Slow'), 1)
-                manifest = json.loads((base / 'out' / 'manifest.json').read_text(encoding='utf-8'))
-                self.assertEqual(manifest['summary'], {'processed': 5, 'ok': 4, 'failed': 1})
+                deck.write_text('2 Slow\n1 Fast\n3 Slow\n1 Double\n1 Bad\n', encoding='utf-8')
                 requests.clear()
                 self.assertEqual(app.main(args + ['--no-pdf']), 1)
                 self.assertEqual(requests, ['Bad'])

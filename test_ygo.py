@@ -331,11 +331,11 @@ class YGOTests(unittest.TestCase):
         self.assertEqual(self.image_urls(), [baige_url(), baige_url(lang='jp')])
         self.assertTrue(all(method == 'HEAD' for _, source, method in self.calls if source.endswith('image')))
 
-    def test_partial_output_pdf_quantity_and_failure_manifest(self):
+    def test_partial_output_skips_pdf_and_keeps_failure_manifest(self):
         code, manifest, pdf = self.run_task('123\n00000123\n456\n123\n')
         self.assertEqual(code, 1)
         self.assertEqual(manifest['summary'], {'processed': 2, 'ok': 1, 'failed': 1})
-        self.assertEqual(len(pdf.call_args.args[0]), 3)
+        pdf.assert_not_called()
         self.assertEqual(manifest['cards'][1]['status'], 'error')
         self.assertEqual(set(self.success_cache()), {'123'})
         self.assertIn('456', (self.out / 'manifest.txt').read_text(encoding='utf-8'))

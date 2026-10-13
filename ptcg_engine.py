@@ -484,7 +484,9 @@ def run_ptcg(args, text, core):
     with open(os.path.join(args.out, 'manifest.txt'), 'w', encoding='utf-8') as fh:
         fh.write('\n'.join(lines) + '\n')
     print('完成：成功 %d / 失败 %d' % (ok, failed), flush=True)
-    if pdf_paths and not args.no_pdf and not args.dry_run:
+    if failed and pdf_paths and not args.no_pdf and not args.dry_run:
+        core.report_pdf_skipped(failed)
+    elif pdf_paths and not args.no_pdf and not args.dry_run:
         info = core.make_pdf(pdf_paths, args.paper, os.path.join(args.out, 'cards.pdf'), cut_marks=not args.no_cut_marks)
         if not info or info['cards'] != len(pdf_paths):
             print('部分图片未能进入 PDF', flush=True)

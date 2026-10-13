@@ -108,6 +108,16 @@ class PTCGTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertEqual(manifest['summary'], {'processed': 2, 'ok': 1, 'failed': 1})
         self.assertEqual(manifest['cards'][1]['status'], 'name_mismatch')
+        pdf.assert_not_called()
+        # Existing PDF from an earlier task is left untouched.
+        old_pdf = self.out / 'cards.pdf'
+        old_pdf.write_bytes(b'old PDF')
+        code, _, pdf = self.run_task('2 Shaymin DRI 10\n1 Wrong Name DRI 10')
+        self.assertEqual(code, 1)
+        pdf.assert_not_called()
+        self.assertEqual(old_pdf.read_bytes(), b'old PDF')
+        code, _, pdf = self.run_task('2 Shaymin DRI 10')
+        self.assertEqual(code, 0)
         self.assertEqual(len(pdf.call_args.args[0]), 2)
 
     def test_dry_run_force_and_failed_download_retry(self):

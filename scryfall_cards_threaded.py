@@ -1559,6 +1559,11 @@ def build_pdf(images, paper, out_path, cut_marks=True, card_size_mm=(63, 88)):
     return len(pages), per_page, cols, rows
 
 
+def report_pdf_skipped(missing):
+    """Missing images make the book incomplete: keep downloads, skip the PDF."""
+    print("有 %d 项卡图缺失，已跳过生成 PDF；已下载的图片与清单已保留。" % missing, flush=True)
+
+
 def make_pdf(paths, paper, out_path, cut_marks=True, card_size_mm=(63, 88)):
     """按指定卡牌尺寸排成卡册；默认万智牌/宝可梦 63×88 mm。"""
     entries = []
@@ -1935,7 +1940,9 @@ def _main(argv=None):
     if not args.dry_run and pdf_paths:
         print("卡册张数: %d 张（已按牌表数量复制）" % len(pdf_paths))
 
-    if not args.no_pdf and not args.dry_run and pdf_paths:
+    if not args.no_pdf and not args.dry_run and pdf_paths and failed + token_failed:
+        report_pdf_skipped(failed + token_failed)
+    elif not args.no_pdf and not args.dry_run and pdf_paths:
         pdf_path = os.path.join(args.out, "cards.pdf")
         info = make_pdf(pdf_paths, args.paper, pdf_path, cut_marks=not args.no_cut_marks)
         if info:
