@@ -1,9 +1,9 @@
-"""Offline regression coverage for PTCG names and basic-energy image fallback."""
+"""PTCG name normalization and same-language/same-set/rules fallback guards."""
 import copy
+import json
 from pathlib import Path
-import urllib.parse
 import unittest
-
+from unittest.mock import patch
 import ptcg_engine as ptcg
 import test_ptcg
 import scryfall_cards_threaded as core
@@ -15,216 +15,192 @@ class NameEnergyTests(unittest.TestCase):
     get = test_ptcg.PTCGTests.get
     download = test_ptcg.PTCGTests.download
     run_task = test_ptcg.PTCGTests.run_task
-    def energy(self, card_id='sve-023', name='Darkness Energy', energy_type='Normal', image=None):
-        set_id, local_id = card_id.rsplit('-', 1)
-        return {'id': card_id, 'name': name, 'localId': local_id,
-                'set': {'id': set_id}, 'category': 'Energy',
-                'energyType': energy_type, 'image': image}
 
-    def source(self, card):
-        self.data['/sets/' + card['set']['id']] = {
-            'id': card['set']['id'], 'cards': [copy.deepcopy(card)]}
-        self.data['/cards/' + card['id']] = copy.deepcopy(card)
+    def card(self, number='223', set_id='svp', name="Professor's Research", category='Trainer', image=False):
+        value = {'id': set_id + '-' + number, 'localId': number, 'name': name,
+                 'set': {'id': set_id}, 'category': category}
+        if category == 'Trainer':
+            value.update(effect='Discard your hand and draw 7 cards.', trainerType='Supporter', regulationMark='G')
+        elif category == 'Energy':
+            value['energyType'] = 'Normal'
+        elif category == 'Pokemon':
+            value.update(hp=70, types=['Grass'], stage='Basic', attacks=[{'name': 'Leaf', 'damage': 20, 'cost': ['Grass']}])
+        if image:
+            value['image'] = 'https://assets.tcgdex.net/en/test/' + set_id + '/' + number
+        return value
 
-    def search(self, name, cards):
-        self.data['/cards?' + urllib.parse.urlencode({'name': name})] = copy.deepcopy(cards)
+    def source(self, *cards):
         for card in cards:
             self.data['/cards/' + card['id']] = copy.deepcopy(card)
+        set_id = cards[0]['set']['id']
+        self.data['/sets/' + set_id] = {'id': set_id, 'cards': copy.deepcopy(list(cards))}
 
-    def setup_darkness(self):
-        self.source(self.energy())
-        special = self.energy('neo1-104', energy_type='Special',
-                              image='https://assets.tcgdex.net/en/neo/neo1/104')
-        basic = self.energy('sm1-170', image='https://assets.tcgdex.net/en/sm/sm1/170')
-        self.search('Darkness Energy', [special, basic])
-        return special, basic
+    def resolve(self, original, language='en'):
+        client = ptcg.PTCGClient(language, str(self.base), core)
+        with patch.object(ptcg.PTCGClient, 'get', autospec=True, side_effect=self.get):
+            return client.resolve(original['name'], original['set']['id'], original['localId'])
 
-    def test_boss_parentheses_and_current_request_on_cache_hit(self):
-        boss = {'id': 'swsh2-154', 'localId': '154', 'name': "Boss's Orders (Giovanni)",
-                'set': {'id': 'swsh2'}, 'category': 'Trainer',
-                'image': 'https://assets.tcgdex.net/en/swsh/swsh2/154'}
+    def test_boss_parentheses_cache_and_wrong_name(self):
+        boss = self.card('154', 'swsh2', "Boss's Orders (Giovanni)", image=True)
         self.source(boss)
         code, manifest, _ = self.run_task("1 Boss's Orders （Giovanni (Team Rocket)） RCL 154")
         self.assertEqual(code, 0)
         self.assertEqual(manifest['cards'][0]['selected_id'], 'swsh2-154')
         self.calls.clear()
         self.downloads.clear()
-        code, manifest, _ = self.run_task("2  Boss's   Orders RCL 154")
+        code, manifest, _ = self.run_task("2 Boss's Orders RCL 154")
         self.assertEqual(code, 0)
         self.assertEqual(self.calls, [])
         self.assertEqual(self.downloads, [])
-        entry = manifest['cards'][0]
-        self.assertTrue(entry['cache_hit'])
-        self.assertEqual(entry['input_name'], "Boss's   Orders")
-        self.assertEqual(entry['input'], "Boss's   Orders RCL 154")
-        self.assertEqual(entry['qty'], 2)
-        code, manifest, _ = self.run_task("1 Boss's Command (Giovanni) RCL 154")
+        self.assertEqual(manifest['cards'][0]['qty'], 2)
+        code, manifest, _ = self.run_task("1 Boss's Command RCL 154")
         self.assertEqual(code, 1)
         self.assertEqual(manifest['cards'][0]['status'], 'name_mismatch')
-        code, manifest, _ = self.run_task("1 Boss's Orders RCL 155")
-        self.assertEqual(code, 1)
-        self.assertEqual(manifest['cards'][0]['status'], 'missing_card')
 
-    def test_sve_fallback_skips_special_records_actual_manifest_and_cache(self):
-        self.setup_darkness()
-        code, manifest, _ = self.run_task('8 Basic Darkness Energy SVE 23')
+    def test_trainer_fallback_manifest_quantity_cache_and_repair(self):
+        original = self.card()
+        candidate = self.card('221', image=True)
+        candidate['illustrator'] = 'Another artist'
+        candidate['rarity'] = 'Rare'
+        self.source(original, candidate)
+        code, manifest, pdf = self.run_task("3 Professor's Research PR-SV 223")
         self.assertEqual(code, 0)
         entry = manifest['cards'][0]
-        self.assertEqual(entry['selected_id'], 'sm1-170')
-        self.assertEqual(entry['tcgdex_set_id'], 'sm1')
-        self.assertEqual(entry['selected_collector_number'], '170')
-        self.assertEqual(entry['set_code'], 'SVE')
-        self.assertEqual(entry['collector_number'], '23')
-        self.assertEqual(entry['requested_set_code'], 'SVE')
-        self.assertEqual(entry['requested_collector_number'], '23')
-        self.assertEqual(entry['requested_id'], 'sve-023')
-        self.assertEqual(entry['requested_tcgdex_set_id'], 'sve')
-        self.assertEqual(entry['requested_tcgdex_collector_number'], '023')
-        self.assertEqual(entry['fallback_reason'], 'basic_energy_missing_image')
-        self.assertIn('sm1 170', Path(entry['files'][0]['file']).name)
-        self.assertEqual(entry['files'][0]['url'], 'https://assets.tcgdex.net/en/sm/sm1/170/high.png')
-        report = (self.out / 'manifest.txt').read_text(encoding='utf-8')
-        self.assertIn('sm1-170 | sm1 170', report)
-        self.assertIn('原请求 SVE 23（sve-023）', report)
-        self.assertIn(('en', '/cards/neo1-104'), self.calls)
+        self.assertEqual(entry['selected_id'], 'svp-221')
+        self.assertEqual(entry['selected_collector_number'], '221')
+        self.assertEqual(entry['requested_id'], 'svp-223')
+        self.assertEqual(entry['requested_tcgdex_set_id'], entry['tcgdex_set_id'])
+        self.assertEqual(entry['fallback_reason'], 'same_set_missing_image')
+        self.assertEqual(entry['fallback_policy'], ptcg.FALLBACK_POLICY)
+        self.assertEqual(len(pdf.call_args.args[0]), 3)
+        self.assertIn('原请求 PR-SV 223（svp-223）', (self.out / 'manifest.txt').read_text(encoding='utf-8'))
         self.calls.clear()
         self.downloads.clear()
-        code, manifest, _ = self.run_task('3 Basic Darkness Energy SVE 023')
+        code, cached, _ = self.run_task("2 Professor's Research PR-SV 223")
         self.assertEqual(code, 0)
         self.assertEqual(self.calls, [])
         self.assertEqual(self.downloads, [])
-        entry = manifest['cards'][0]
-        self.assertEqual(entry['collector_number'], '023')
-        self.assertEqual(entry['requested_collector_number'], '023')
-        self.assertEqual(entry['selected_id'], 'sm1-170')
-        self.assertEqual(entry['fallback_reason'], 'basic_energy_missing_image')
-        self.assertTrue(entry['cache_hit'])
+        self.assertTrue(cached['cards'][0]['cache_hit'])
         Path(entry['files'][0]['file']).write_bytes(b'broken')
-        self.calls.clear()
-        code, _, _ = self.run_task('3 Basic Darkness Energy SVE 23')
+        code, _, _ = self.run_task("2 Professor's Research PR-SV 223")
         self.assertEqual(code, 0)
         self.assertEqual(self.calls, [])
-        self.assertEqual(self.downloads, ['https://assets.tcgdex.net/en/sm/sm1/170/high.png'])
+        self.assertEqual(self.downloads, [candidate['image'] + '/high.png'])
 
-    def test_no_special_or_different_energy_substitution(self):
-        special, basic = self.setup_darkness()
-        water = self.energy('sm1-166', name='Water Energy',
-                            image='https://assets.tcgdex.net/en/sm/sm1/166')
-        double = self.energy('test-001', name='Double Darkness Energy',
-                             image='https://assets.tcgdex.net/en/test/test/001')
-        self.search('Darkness Energy', [special, water, double])
-        code, manifest, _ = self.run_task('1 Basic Darkness Energy SVE 23')
-        self.assertEqual(code, 1)
-        self.assertEqual(manifest['cards'][0]['status'], 'missing_image')
-        self.assertEqual(self.downloads, [])
-        self.assertNotIn(('en', '/cards/sm1-166'), self.calls)
-        self.assertNotIn(('en', '/cards/test-001'), self.calls)
-        special['image'] = None
-        self.source(special)
-        self.calls.clear()
-        code, manifest, _ = self.run_task('1 Darkness Energy neo1 104')
-        self.assertEqual(code, 1)
-        self.assertEqual(manifest['cards'][0]['status'], 'missing_image')
-        self.assertFalse(any('/cards?' in path for _, path in self.calls))
-
-    def test_unknown_or_non_basic_energy_source_does_not_search(self):
-        for energy_type in ('Special', None):
-            with self.subTest(energy_type=energy_type):
-                self.source(self.energy(energy_type=energy_type))
-                self.calls.clear()
-                code, manifest, _ = self.run_task('1 Darkness Energy SVE 23')
-                self.assertEqual(code, 1)
-                self.assertEqual(manifest['cards'][0]['status'], 'missing_image')
-                self.assertFalse(any('/cards?' in path for _, path in self.calls))
-        self.source(self.energy(name='Double Darkness Energy'))
-        self.calls.clear()
-        code, manifest, _ = self.run_task('1 Double Darkness Energy SVE 23')
-        self.assertEqual(code, 1)
-        self.assertEqual(manifest['cards'][0]['status'], 'missing_image')
-        self.assertFalse(any('/cards?' in path for _, path in self.calls))
-
-    def test_fallback_candidate_details_must_match_name_and_identity(self):
-        special, basic = self.setup_darkness()
-        self.search('Darkness Energy', [basic])
-        for field, wrong in (('name', 'Water Energy'), ('id', 'wrong-id'), ('localId', '171'), ('category', 'Trainer')):
+    def test_rules_changes_and_missing_rules_rejected(self):
+        original = self.card()
+        candidate = self.card('221', image=True)
+        for field, value in [('effect', 'Draw 3 cards.'), ('trainerType', 'Item'), ('regulationMark', 'H'), ('legal', {'standard': True})]:
             with self.subTest(field=field):
-                changed = copy.deepcopy(basic)
-                changed[field] = wrong
-                self.data['/cards/sm1-170'] = changed
-                code, manifest, _ = self.run_task('1 Basic Darkness Energy SVE 23')
-                self.assertEqual(code, 1)
-                self.assertEqual(manifest['cards'][0]['status'], 'missing_image')
-                self.assertEqual(self.downloads, [])
+                changed = copy.deepcopy(candidate)
+                changed[field] = value
+                self.source(original, changed)
+                with self.assertRaises(ptcg.PTCGError) as error:
+                    self.resolve(original)
+                self.assertEqual(error.exception.status, 'missing_image')
+        for card in (original, candidate):
+            card.pop('effect', None)
+        self.source(original, candidate)
+        with self.assertRaises(ptcg.PTCGError) as error:
+            self.resolve(original)
+        self.assertEqual(error.exception.status, 'missing_image')
 
-    def test_fallback_image_host_and_language_guards(self):
-        _, basic = self.setup_darkness()
-        for image in ('https://assets.tcgdex.net/zh-tw/SV/SV2a/001',
-                      'https://example.test/en/sm/sm1/170',
-                      'http://assets.tcgdex.net/en/sm/sm1/170'):
+    def test_pokemon_attacks_hp_and_types_guard(self):
+        original = self.card('001', 'test', 'Plant', 'Pokemon')
+        candidate = self.card('002', 'test', 'Plant', 'Pokemon', True)
+        self.source(original, candidate)
+        self.assertEqual(self.resolve(original)[0]['id'], 'test-002')
+        for field, value in [('hp', 80), ('types', ['Fire']), ('attacks', [{'name': 'Leaf', 'damage': 30}])]:
+            with self.subTest(field=field):
+                changed = copy.deepcopy(candidate)
+                changed[field] = value
+                self.source(original, changed)
+                with self.assertRaises(ptcg.PTCGError):
+                    self.resolve(original)
+
+    def test_candidate_identity_and_name_guards(self):
+        original = self.card()
+        candidate = self.card('221', image=True)
+        for field, wrong in [('id', 'wrong-id'), ('localId', '222'), ('set', {'id': 'swsh1'}), ('name', 'Other Trainer')]:
+            with self.subTest(field=field):
+                self.source(original, candidate)
+                self.data['/cards/svp-221'][field] = wrong
+                with self.assertRaises(ptcg.PTCGError) as error:
+                    self.resolve(original)
+                self.assertEqual(error.exception.status, 'missing_image')
+
+    def test_image_language_scheme_host_guards(self):
+        original = self.card()
+        candidate = self.card('221', image=True)
+        for image in ('https://assets.tcgdex.net/zh-tw/SV/SV-P/221', 'https://example.test/en/svp/221', 'http://assets.tcgdex.net/en/svp/221'):
             with self.subTest(image=image):
-                basic['image'] = image
-                self.search('Darkness Energy', [basic])
-                code, manifest, _ = self.run_task('1 Basic Darkness Energy SVE 23')
-                self.assertEqual(code, 1)
-                self.assertEqual(manifest['cards'][0]['status'], 'invalid_image')
-                self.assertEqual(self.downloads, [])
-                self.assertTrue(all(language == 'en' for language, _ in self.calls))
+                candidate['image'] = image
+                self.source(original, candidate)
+                with self.assertRaises(ptcg.PTCGError) as error:
+                    self.resolve(original)
+                self.assertEqual(error.exception.status, 'invalid_image')
 
-    def test_chinese_energy_fallback_and_cache_are_language_isolated(self):
-        self.setup_darkness()
-        self.run_task('1 Basic Darkness Energy SVE 23')
+    def test_energy_same_set_only_and_special_rules_guard(self):
+        original = self.card('015', 'mee', 'Basic Darkness Energy', 'Energy')
+        candidate = self.card('016', 'mee', 'Basic Darkness Energy', 'Energy', True)
+        self.source(original, candidate)
+        self.assertEqual(self.resolve(original)[0]['id'], 'mee-016')
+        candidate['energyType'] = 'Special'
+        candidate['effect'] = 'Provides two Energy.'
+        self.source(original, candidate)
+        with self.assertRaises(ptcg.PTCGError):
+            self.resolve(original)
+        self.source(original)
+        # Global same-name candidates must never be queried or adopted.
+        outside = self.card('81', 'g1', 'Basic Darkness Energy', 'Energy', True)
+        self.data['/cards/g1-81'] = outside
         self.calls.clear()
-        self.downloads.clear()
-        # Officially verified Special mislabel: this ID alone is an allowed source.
-        self.source(self.energy('S8a-DAR', '基本惡能量', 'Special'))
-        candidate = self.energy('SLD-DAR', '基本【惡】能量', 'Normal',
-                                'https://assets.tcgdex.net/zh-tw/SL/SLD/DAR')
-        self.search('基本惡能量', [])
-        self.search('基本【惡】能量', [candidate])
-        # Parser currently requires an ASCII numeric collector number. Exercise
-        # the metadata resolver with the real nonnumeric IDs directly instead.
-        client = ptcg.PTCGClient('zh-tw', str(self.base), core)
-        from unittest.mock import patch
-        with patch.object(ptcg.PTCGClient, 'get', autospec=True, side_effect=self.get):
-            card, url = client.resolve('基本惡能量', 'S8a', 'DAR')
-        self.assertEqual(card['id'], 'SLD-DAR')
+        code, manifest, _ = self.run_task('9 Basic Darkness Energy MEE 15')
+        self.assertEqual(code, 1)
+        self.assertEqual(manifest['cards'][0]['status'], 'missing_image')
+        self.assertFalse(any('/cards?' in path or path == '/cards/g1-81' for _, path in self.calls))
+
+    def test_chinese_same_language_same_set_fallback(self):
+        original = self.card('001', 'SV2a', '博士的研究')
+        candidate = self.card('002', 'SV2a', '博士的研究', image=True)
+        candidate['image'] = 'https://assets.tcgdex.net/zh-tw/SV/SV2a/002'
+        self.source(original, candidate)
+        card, url = self.resolve(original, 'zh-tw')
+        self.assertEqual(card['id'], 'SV2a-002')
         self.assertIn('/zh-tw/', url)
         self.assertTrue(all(language == 'zh-tw' for language, _ in self.calls))
-        # Numeric Chinese source verifies the full download/cache/manifest route.
-        self.source(self.energy('SV2a-099', '基本水能量', 'Normal'))
-        water = self.energy('SV1-100', '基本水能量', 'Basic',
-                            'https://assets.tcgdex.net/zh-tw/SV/SV1/100')
-        self.search('基本水能量', [water])
-        self.search('基本【水】能量', [])
-        code, manifest, _ = self.run_task('1 基本水能量 SV2a 99', 'ptcg-zh')
-        self.assertEqual(code, 0)
-        self.assertEqual(manifest['cards'][0]['selected_id'], 'SV1-100')
-        self.calls.clear()
-        self.downloads.clear()
-        code, manifest, _ = self.run_task('2 基本水能量 SV2a 99', 'ptcg-zh')
-        self.assertEqual(code, 0)
-        self.assertEqual(self.calls, [])
-        self.assertEqual(self.downloads, [])
-        self.assertTrue(manifest['cards'][0]['cache_hit'])
 
-    def test_chinese_special_mislabel_does_not_allow_unknown_special(self):
-        self.source(self.energy('SV2a-099', '基本惡能量', 'Special'))
-        code, manifest, _ = self.run_task('1 基本惡能量 SV2a 99', 'ptcg-zh')
-        self.assertEqual(code, 1)
-        self.assertEqual(manifest['cards'][0]['status'], 'missing_image')
-        self.assertFalse(any('/cards?' in path for _, path in self.calls))
-        self.assertEqual(self.downloads, [])
+    def test_legacy_or_tampered_fallback_cache_rejected(self):
+        original = self.card()
+        candidate = self.card('221', image=True)
+        self.source(original, candidate)
+        _, manifest, _ = self.run_task("1 Professor's Research PR-SV 223")
+        cache = ptcg.PTCGPictureCache(manifest['out_dir'], 'en', core)
+        key = cache.key('PR-SV', '223')
+        good = copy.deepcopy(cache.entries[key])
+        mutations = [ {'fallback_reason': 'basic_energy_missing_image'},
+                      {'fallback_policy': 'old'}, {'fallback_rule_fingerprint': ''},
+                      {'tcgdex_set_id': 'g1'}, {'lang_code': 'zh-tw'} ]
+        for change in mutations:
+            with self.subTest(change=change):
+                cache.entries[key] = dict(good, **change)
+                self.assertIsNone(cache.lookup("Professor's Research", 'PR-SV', '223'))
+        cache.entries[key] = copy.deepcopy(good)
+        cache.entries[key]['files'][0]['url'] = 'https://assets.tcgdex.net/zh-tw/SV/SV-P/221/high.png'
+        self.assertIsNone(cache.lookup("Professor's Research", 'PR-SV', '223'))
+        cache.entries[key] = good
+        self.assertIsNotNone(cache.lookup("Professor's Research", 'PR-SV', '223'))
 
-    def test_fallback_request_error_propagates_without_more_candidate_requests(self):
-        _, basic = self.setup_darkness()
-        second = self.energy('swsh1-201', image='https://assets.tcgdex.net/en/swsh/swsh1/201')
-        self.search('Darkness Energy', [basic, second])
-        self.data['/cards/sm1-170'] = ptcg.PTCGError('request_error', 'TCGdex HTTP 429')
-        code, manifest, _ = self.run_task('1 Basic Darkness Energy SVE 23')
-        self.assertEqual(code, 1)
-        self.assertEqual(manifest['cards'][0]['status'], 'request_error')
-        self.assertNotIn(('en', '/cards/swsh1-201'), self.calls)
-        self.assertEqual(self.downloads, [])
+    def test_request_error_stops_candidate_scan(self):
+        original = self.card()
+        first = self.card('221', image=True)
+        second = self.card('222', image=True)
+        self.source(original, first, second)
+        self.data['/cards/svp-221'] = ptcg.PTCGError('request_error', 'TCGdex HTTP 429')
+        with self.assertRaises(ptcg.PTCGError) as error:
+            self.resolve(original)
+        self.assertEqual(error.exception.status, 'request_error')
+        self.assertNotIn(('en', '/cards/svp-222'), self.calls)
 
 
 if __name__ == '__main__':

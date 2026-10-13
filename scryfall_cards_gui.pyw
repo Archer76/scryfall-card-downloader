@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Scryfall 卡图获取器 —— 提交中英文牌表，自动取回中文卡图与可打印卡册。
 
-零第三方依赖，只用 Python 标准库。默认查询 4 线程、图片下载 8 线程，遇到 HTTP 403/429/503 自动减半下载并发并退避。
+网络访问使用 Python 标准库，PNG 排版读取及游戏王卡图转换使用 Pillow。万智牌默认查询 4 线程、图片下载 8 线程，遇到 HTTP 403/429/503 自动减半下载并发并退避。
 
 用法:
     python scryfall_cards_threaded.py 牌表.txt
@@ -2043,6 +2043,36 @@ def _ptcg_basic_energy(card, language, allow_known_mislabel=False):
             and name == '基本惡能量')
 
 
+FALLBACK_POLICY = 'same-set-rules-v1'
+PTCG_RULE_FIELDS = (
+    'category', 'hp', 'types', 'stage', 'evolveFrom', 'suffix',
+    'abilities', 'attacks', 'weaknesses', 'resistances', 'retreat',
+    'trainerType', 'effect', 'energyType', 'regulationMark', 'legal',
+    'rules', 'ancientTrait', 'level', 'specialRule',
+)
+
+
+def _ptcg_rules_fingerprint(card):
+    category = card.get('category')
+    # Missing rule text must not accidentally prove two records equivalent.
+    if category == 'Trainer':
+        if not card.get('effect') or not card.get('trainerType'):
+            return None
+    elif category == 'Pokemon':
+        if not card.get('hp') or not card.get('types') or not (card.get('attacks') or card.get('abilities')):
+            return None
+    elif category == 'Energy':
+        if card.get('energyType') not in ('Normal', 'Basic') and not card.get('effect'):
+            return None
+        if not card.get('energyType'):
+            return None
+    else:
+        return None
+    rules = {field: card[field] for field in PTCG_RULE_FIELDS if field in card}
+    payload = json.dumps(rules, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+    return hashlib.sha256(payload.encode('utf-8')).hexdigest()
+
+
 class PTCGError(RuntimeError):
     def __init__(self, status, message):
         super().__init__(message)
@@ -2165,41 +2195,30 @@ class PTCGClient:
             raise PTCGError('invalid_image', 'TCGdex 图片地址无效或语言不一致')
         return image.rstrip('/') + '/high.png'
 
-    def basic_energy_fallback(self, original):
-        # TCGdex's default name filter is case-insensitive containment. This
-        # includes Basic prefixes and parenthetical annotations; details below
-        # must still match the full normalized name and Energy/Normal category.
-        search_name = _ptcg_name_text(original['name'], self.language, True)
-        search_names = [search_name]
-        if self.language == 'zh-tw':
-            decorated = re.sub(r'^基本(.+)能量$', r'基本【\1】能量', search_name)
-            if decorated != search_name:
-                search_names.append(decorated)
-        briefs = []
-        for search in search_names:
-            found = self.get('/cards?' + urllib.parse.urlencode({'name': search}))
-            if isinstance(found, list):
-                briefs.extend(found)
-        expected = _ptcg_name(original['name'], self.language, True)
+    def same_set_fallback(self, original, data):
+        fingerprint = _ptcg_rules_fingerprint(original)
+        if not fingerprint:
+            raise PTCGError('missing_image', '卡牌 %s 缺图，规则资料不足以核验同系列替代印刷' % original['id'])
+        expected = _ptcg_name(original['name'])
         seen = {original['id']}
         invalid_image = None
-        for brief in briefs:
+        for brief in data['cards']:
             if not isinstance(brief, dict):
                 continue
             card_id = brief.get('id')
             if not isinstance(card_id, str) or not card_id or card_id in seen:
                 continue
             seen.add(card_id)
-            if _ptcg_name(brief.get('name'), self.language, True) != expected:
+            if _ptcg_name(brief.get('name')) != expected:
                 continue
             candidate = self.get('/cards/' + urllib.parse.quote(card_id, safe=''))
             if (not isinstance(candidate, dict) or candidate.get('id') != card_id
                     or not isinstance(candidate.get('set'), dict)
-                    or not isinstance(candidate['set'].get('id'), str) or not candidate['set']['id']
+                    or candidate['set'].get('id') != data['id']
                     or not isinstance(candidate.get('localId'), str) or not candidate['localId']
-                    or ('localId' in brief and _ptcg_number(candidate['localId']) != _ptcg_number(brief['localId']))
-                    or not _ptcg_basic_energy(candidate, self.language)
-                    or _ptcg_name(candidate.get('name'), self.language, True) != expected):
+                    or _ptcg_number(candidate['localId']) != _ptcg_number(brief.get('localId', ''))
+                    or _ptcg_name(candidate.get('name')) != expected
+                    or _ptcg_rules_fingerprint(candidate) != fingerprint):
                 continue
             try:
                 url = self.image_url(candidate)
@@ -2209,7 +2228,9 @@ class PTCGClient:
             if url:
                 candidate = copy.deepcopy(candidate)
                 candidate['_ptcg_fallback'] = {
-                    'reason': 'basic_energy_missing_image',
+                    'reason': 'same_set_missing_image',
+                    'policy': FALLBACK_POLICY,
+                    'rule_fingerprint': fingerprint,
                     'requested_id': original['id'],
                     'requested_tcgdex_set_id': original['set']['id'],
                     'requested_tcgdex_collector_number': original['localId'],
@@ -2217,7 +2238,7 @@ class PTCGClient:
                 return candidate, url
         if invalid_image:
             raise invalid_image
-        raise PTCGError('missing_image', '基础能量 %s 缺图，未找到同语言同名基础能量图片' % original['id'])
+        raise PTCGError('missing_image', '卡牌 %s 缺图，未找到同语言、同系列、同名同规则的有图印刷' % original['id'])
 
     def resolve(self, name, code, number):
         data = self.set_for(code)
@@ -2242,9 +2263,7 @@ class PTCGClient:
         url = self.image_url(card)
         if url:
             return card, url
-        if basic_energy:
-            return self.basic_energy_fallback(card)
-        raise PTCGError('missing_image', '卡牌 %s 有资料但尚无图片；不会替换成其他版本' % card_id)
+        return self.same_set_fallback(card, data)
 
 
 class PTCGPictureCache:
@@ -2270,8 +2289,20 @@ class PTCGPictureCache:
 
     def lookup(self, name, code, number):
         stored = self.entries.get(self.key(code, number))
-        if not stored or _ptcg_name(stored.get('input_name')) != _ptcg_name(name):
+        if not stored or stored.get('lang_code') != self.language or _ptcg_name(stored.get('input_name')) != _ptcg_name(name):
             return None
+        if stored.get('fallback_reason'):
+            if (stored.get('fallback_reason') != 'same_set_missing_image'
+                    or stored.get('fallback_policy') != FALLBACK_POLICY
+                    or not re.fullmatch(r'[0-9a-f]{64}', str(stored.get('fallback_rule_fingerprint', '')))
+                    or not stored.get('requested_tcgdex_set_id')
+                    or stored.get('requested_tcgdex_set_id') != stored.get('tcgdex_set_id')
+                    or _ptcg_name(stored.get('display_name')) != _ptcg_name(name)):
+                return None
+        for record in stored.get('files', []):
+            parsed = urllib.parse.urlparse(str(record.get('url') or ''))
+            if parsed.scheme != 'https' or parsed.hostname != 'assets.tcgdex.net' or parsed.path.split('/')[1:2] != [self.language]:
+                return None
         return self.paths.restore(stored)
 
     def store(self, entry):
@@ -2348,6 +2379,8 @@ def run_ptcg(args, text, core):
             fallback = card.get('_ptcg_fallback')
             if fallback:
                 entry.update(fallback_reason=fallback['reason'],
+                             fallback_policy=fallback['policy'],
+                             fallback_rule_fingerprint=fallback['rule_fingerprint'],
                              requested_id=fallback['requested_id'],
                              requested_tcgdex_set_id=fallback['requested_tcgdex_set_id'],
                              requested_tcgdex_collector_number=fallback['requested_tcgdex_collector_number'])
