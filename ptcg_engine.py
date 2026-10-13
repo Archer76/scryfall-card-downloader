@@ -49,6 +49,49 @@ def _ptcg_number(value):
     return str(int(value)) if value.isascii() and value.isdigit() else value
 
 
+def _ptcg_name_text(value, language=None, basic_energy=False):
+    value = str(value or '')
+    # Remove both kinds of parenthetical annotations, including nested pairs.
+    while True:
+        stripped = re.sub(r'\([^()]*\)|（[^（）]*）', ' ', value)
+        if stripped == value:
+            break
+        value = stripped
+    value = re.sub(r'\s+', ' ', value).strip().replace('’', "'")
+    if language == 'en' and basic_energy:
+        value = re.sub(r'^Basic\s+', '', value, flags=re.IGNORECASE)
+    if language == 'zh-tw' and basic_energy:
+        value = re.sub(r'^基本【([^】]+)】能量$', r'基本\1能量', value)
+    return value
+
+
+def _ptcg_name(value, language=None, basic_energy=False):
+    return _ptcg_name_text(value, language, basic_energy).casefold()
+
+
+def _ptcg_basic_energy(card, language, allow_known_mislabel=False):
+    # Names alone cannot distinguish older special Darkness/Metal Energy.
+    if card.get('category') != 'Energy':
+        return False
+    name = _ptcg_name(card.get('name'), language, True)
+    if language == 'en':
+        basic_names = {kind.casefold() + ' energy' for kind in (
+            'Grass', 'Fire', 'Water', 'Lightning', 'Psychic', 'Fighting',
+            'Darkness', 'Metal', 'Fairy')}
+    else:
+        basic_names = {name} if re.fullmatch(r'基本[^\s【】]+能量', name) else set()
+    if name not in basic_names:
+        return False
+    if card.get('energyType') in ('Normal', 'Basic'):
+        return True
+    # These two official zh-tw records are known mislabels. This exception is
+    # for missing-image source records only, never arbitrary Special candidates.
+    return (allow_known_mislabel and language == 'zh-tw'
+            and card.get('energyType') == 'Special'
+            and card.get('id') in ('S8a-DAR', 'SV-P-DAR')
+            and name == '基本惡能量')
+
+
 class PTCGError(RuntimeError):
     def __init__(self, status, message):
         super().__init__(message)
@@ -162,6 +205,69 @@ class PTCGClient:
             self.sets[code] = data
             return data
 
+    def image_url(self, card):
+        image = card.get('image')
+        if not isinstance(image, str) or not image:
+            return None
+        parsed = urllib.parse.urlparse(image)
+        if parsed.scheme != 'https' or parsed.hostname != 'assets.tcgdex.net' or parsed.path.split('/')[1:2] != [self.language]:
+            raise PTCGError('invalid_image', 'TCGdex 图片地址无效或语言不一致')
+        return image.rstrip('/') + '/high.png'
+
+    def basic_energy_fallback(self, original):
+        # TCGdex's default name filter is case-insensitive containment. This
+        # includes Basic prefixes and parenthetical annotations; details below
+        # must still match the full normalized name and Energy/Normal category.
+        search_name = _ptcg_name_text(original['name'], self.language, True)
+        search_names = [search_name]
+        if self.language == 'zh-tw':
+            decorated = re.sub(r'^基本(.+)能量$', r'基本【\1】能量', search_name)
+            if decorated != search_name:
+                search_names.append(decorated)
+        briefs = []
+        for search in search_names:
+            found = self.get('/cards?' + urllib.parse.urlencode({'name': search}))
+            if isinstance(found, list):
+                briefs.extend(found)
+        expected = _ptcg_name(original['name'], self.language, True)
+        seen = {original['id']}
+        invalid_image = None
+        for brief in briefs:
+            if not isinstance(brief, dict):
+                continue
+            card_id = brief.get('id')
+            if not isinstance(card_id, str) or not card_id or card_id in seen:
+                continue
+            seen.add(card_id)
+            if _ptcg_name(brief.get('name'), self.language, True) != expected:
+                continue
+            candidate = self.get('/cards/' + urllib.parse.quote(card_id, safe=''))
+            if (not isinstance(candidate, dict) or candidate.get('id') != card_id
+                    or not isinstance(candidate.get('set'), dict)
+                    or not isinstance(candidate['set'].get('id'), str) or not candidate['set']['id']
+                    or not isinstance(candidate.get('localId'), str) or not candidate['localId']
+                    or ('localId' in brief and _ptcg_number(candidate['localId']) != _ptcg_number(brief['localId']))
+                    or not _ptcg_basic_energy(candidate, self.language)
+                    or _ptcg_name(candidate.get('name'), self.language, True) != expected):
+                continue
+            try:
+                url = self.image_url(candidate)
+            except PTCGError as exc:
+                invalid_image = exc
+                continue
+            if url:
+                candidate = copy.deepcopy(candidate)
+                candidate['_ptcg_fallback'] = {
+                    'reason': 'basic_energy_missing_image',
+                    'requested_id': original['id'],
+                    'requested_tcgdex_set_id': original['set']['id'],
+                    'requested_tcgdex_collector_number': original['localId'],
+                }
+                return candidate, url
+        if invalid_image:
+            raise invalid_image
+        raise PTCGError('missing_image', '基础能量 %s 缺图，未找到同语言同名基础能量图片' % original['id'])
+
     def resolve(self, name, code, number):
         data = self.set_for(code)
         matches = [c for c in data['cards'] if _ptcg_number(c.get('localId', '')) == _ptcg_number(number)]
@@ -179,19 +285,15 @@ class PTCGClient:
         if not isinstance(card, dict) or card.get('id') != card_id or card.get('set', {}).get('id') != data['id'] or _ptcg_number(card.get('localId', '')) != _ptcg_number(number):
             raise PTCGError('identity_mismatch', '卡牌详情身份与指定系列、编号不一致：%s' % card_id)
         actual_name = str(card.get('name') or '')
-        norm = lambda s: re.sub(r'\s+', ' ', s).strip().replace('’', "'").casefold()
-        allowed = {norm(actual_name)}
-        if self.language == 'en' and card.get('category') == 'Energy' and card.get('set', {}).get('id') == 'sve':
-            allowed.add(norm('Basic ' + actual_name))
-        if norm(name) not in allowed:
+        basic_energy = _ptcg_basic_energy(card, self.language, allow_known_mislabel=True)
+        if _ptcg_name(name, self.language, basic_energy) != _ptcg_name(actual_name, self.language, basic_energy):
             raise PTCGError('name_mismatch', '指定 %s %s 的名称为“%s”，不是“%s”' % (code, number, actual_name, name))
-        image = card.get('image')
-        if not isinstance(image, str) or not image:
-            raise PTCGError('missing_image', '卡牌 %s 有资料但尚无图片；不会替换成其他版本' % card_id)
-        parsed = urllib.parse.urlparse(image)
-        if parsed.scheme != 'https' or parsed.hostname != 'assets.tcgdex.net' or parsed.path.split('/')[1:2] != [self.language]:
-            raise PTCGError('invalid_image', 'TCGdex 图片地址无效或语言不一致')
-        return card, image.rstrip('/') + '/high.png'
+        url = self.image_url(card)
+        if url:
+            return card, url
+        if basic_energy:
+            return self.basic_energy_fallback(card)
+        raise PTCGError('missing_image', '卡牌 %s 有资料但尚无图片；不会替换成其他版本' % card_id)
 
 
 class PTCGPictureCache:
@@ -217,7 +319,7 @@ class PTCGPictureCache:
 
     def lookup(self, name, code, number):
         stored = self.entries.get(self.key(code, number))
-        if not stored or stored.get('input_name') != name:
+        if not stored or _ptcg_name(stored.get('input_name')) != _ptcg_name(name):
             return None
         return self.paths.restore(stored)
 
@@ -274,7 +376,9 @@ def run_ptcg(args, text, core):
                  'game': args.game, 'lang_code': language, 'set_code': code, 'collector_number': number}
         if hits.get(row):
             entry = copy.deepcopy(hits[row])
-            entry.update(qty=qty, cache_hit=True)
+            entry.update(qty=qty, cache_hit=True, input='%s %s %s' % row,
+                         input_name=name, set_code=code, collector_number=number,
+                         requested_set_code=code, requested_collector_number=number)
             print('[缓存 %d/%d] %s -> %s' % (index, len(rows), entry['input'], entry['display_name']), flush=True)
         else:
             value = resolved[row]
@@ -287,7 +391,15 @@ def run_ptcg(args, text, core):
             entry.update(selected_id=card['id'], tcgdex_set_id=card['set']['id'],
                          display_name=card['name'], english_name=card['name'] if language == 'en' else '',
                          lang='繁体中文' if language == 'zh-tw' else '英文', set_name=card['set'].get('name', ''),
-                         chinese_name=language == 'zh-tw', status='pending')
+                         chinese_name=language == 'zh-tw', status='pending',
+                         selected_collector_number=card['localId'],
+                         requested_set_code=code, requested_collector_number=number)
+            fallback = card.get('_ptcg_fallback')
+            if fallback:
+                entry.update(fallback_reason=fallback['reason'],
+                             requested_id=fallback['requested_id'],
+                             requested_tcgdex_set_id=fallback['requested_tcgdex_set_id'],
+                             requested_tcgdex_collector_number=fallback['requested_tcgdex_collector_number'])
             base = core.safe_name('%s_%s_%s' % (card['name'], card['set']['id'], card['localId']))
             filename = cache.paths.allocate(base, 'png', url)
             path = cache.paths.image_path(filename)
@@ -330,6 +442,10 @@ def run_ptcg(args, text, core):
     lines = ['宝可梦TCG %s | 成功 %d / 失败 %d' % (language, ok, failed)]
     for entry in results:
         lines.append('%d %s | %s | %s%s' % (entry['qty'], entry['input'], entry.get('lang', language), entry['status'], ' | ' + entry['error'] if entry.get('error') else ''))
+        if entry.get('selected_id'):
+            lines.append('    实际图片：%s | %s %s' % (entry['selected_id'], entry['tcgdex_set_id'], entry.get('selected_collector_number', '')))
+        if entry.get('fallback_reason'):
+            lines.append('    回退：%s | 原请求 %s %s（%s）' % (entry['fallback_reason'], entry['set_code'], entry['collector_number'], entry['requested_id']))
         lines.extend('    %s [%s]' % (os.path.basename(r['file']), r['status']) for r in entry.get('files', []))
     with open(os.path.join(args.out, 'manifest.txt'), 'w', encoding='utf-8') as fh:
         fh.write('\n'.join(lines) + '\n')
