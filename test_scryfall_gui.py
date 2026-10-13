@@ -118,7 +118,7 @@ class GUITests(unittest.TestCase):
 
     def test_game_command_routes_paths_and_language(self):
         task = self.gui.output_root / 'task'
-        for code, folder in [('mtg', 'mtg-pics'), ('ptcg-zh', 'ptcg-pics/zh-tw'), ('ptcg-en', 'ptcg-pics/en'), ('ygo', 'ygo-pics')]:
+        for code, folder in [('mtg', 'mtg-pics'), ('ptcg-zh', 'ptcg-pics/zh-tw'), ('ptcg-en', 'ptcg-pics/en'), ('ygo', 'yugioh-pics')]:
             command = app.engine_command('deck.txt', task, 64, 'A4', 'zhs,zht,en',
                                          True, True, False, False, 64, code)
             self.assertEqual(command[command.index('--game') + 1], code)
@@ -351,7 +351,7 @@ class GUITests(unittest.TestCase):
 
     def test_game_picture_directories_labels_and_open_are_isolated(self):
         root = self.gui.output_root
-        for game, folder in [('万智牌', 'mtg-pics'), ('宝可梦TCG（中文）', 'ptcg-pics/zh-tw'), ('宝可梦TCG（英文）', 'ptcg-pics/en'), ('游戏王', 'ygo-pics')]:
+        for game, folder in [('万智牌', 'mtg-pics'), ('宝可梦TCG（中文）', 'ptcg-pics/zh-tw'), ('宝可梦TCG（英文）', 'ptcg-pics/en'), ('游戏王', 'yugioh-pics')]:
             self.gui.game.set(game)
             target = root / folder
             self.assertEqual(self.gui.picture_directory(), target)
@@ -360,7 +360,7 @@ class GUITests(unittest.TestCase):
                 self.gui.open_pics()
             opened.assert_called_once_with(target)
             (target / 'same-name.png').write_bytes(folder.encode())
-        for folder in ('mtg-pics', 'ptcg-pics/zh-tw', 'ptcg-pics/en', 'ygo-pics'):
+        for folder in ('mtg-pics', 'ptcg-pics/zh-tw', 'ptcg-pics/en', 'yugioh-pics'):
             self.assertEqual((root / folder / 'same-name.png').read_bytes(), folder.encode())
         self.assertFalse((root / 'pics').exists())
 

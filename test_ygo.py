@@ -105,6 +105,27 @@ class YGOTests(unittest.TestCase):
         self.routes[(deck_image(card_id), 'GET')] = self.jpeg
         self.routes[(deck_image(card_id), 'HEAD')] = 'image/jpeg'
 
+    def test_default_picture_directory_and_unchanged_game_index(self):
+        deck = self.base / 'default.ydk'
+        deck.write_text('123\n', encoding='utf-8')
+        with contextlib.redirect_stdout(io.StringIO()):
+            code = core.main([str(deck), '--game', 'ygo', '--out', str(self.out), '--no-pdf'])
+        target = self.base / '卡图输出' / 'yugioh-pics'
+        self.assertEqual(code, 0)
+        manifest = json.loads((self.out / 'manifest.json').read_text(encoding='utf-8'))
+        self.assertEqual(Path(manifest['out_dir']), target)
+        self.assertEqual(manifest['game'], 'ygo')
+        self.assertTrue((target / '123.png').is_file())
+        self.assertTrue((target / 'ygo-index.json').is_file())
+        self.assertFalse(self.pics.exists())
+
+    def test_help_names_default_yugioh_picture_directory(self):
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output), self.assertRaises(SystemExit) as result:
+            core.main(['--help'])
+        self.assertEqual(result.exception.code, 0)
+        self.assertIn('yugioh-pics', output.getvalue())
+
     def test_ydk_ascii_positive_one_to_eight_digits_and_duplicates(self):
         text = '\ufeff#created\n#main\n1\n00000001\n123\n00123\n99999999\n#extra\n!side\n42\n'
         self.assertEqual(ygo.parse_ygo_decklist(text), [(2, '1'), (2, '123'), (1, '99999999'), (1, '42')])

@@ -20,7 +20,7 @@ GAME_PICTURE_DIRECTORIES = {
     "万智牌": "mtg-pics",
     "宝可梦TCG（中文）": "ptcg-pics/zh-tw",
     "宝可梦TCG（英文）": "ptcg-pics/en",
-    "游戏王": "ygo-pics",
+    "游戏王": "yugioh-pics",
 }
 PTCG_LANGUAGES = {"ptcg-zh": "zh-tw", "ptcg-en": "en"}
 FIXED_LANGUAGE_LABELS = {
@@ -71,7 +71,7 @@ def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, for
         if executable.name.lower() == "pythonw.exe" and executable.with_name("python.exe").exists():
             executable = executable.with_name("python.exe")
         command = [str(executable), "-u", str(Path(__file__).resolve()), "--engine"]
-    pics = Path(output).parent / ('mtg-pics' if game == 'mtg' else 'ygo-pics' if game == 'ygo' else 'ptcg-pics')
+    pics = Path(output).parent / ('mtg-pics' if game == 'mtg' else 'yugioh-pics' if game == 'ygo' else 'ptcg-pics')
     if game in PTCG_LANGUAGES:
         pics /= PTCG_LANGUAGES[game]
     command += [str(deck), "--out", str(output), "--pics", str(pics),

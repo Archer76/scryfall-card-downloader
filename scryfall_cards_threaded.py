@@ -1627,7 +1627,7 @@ def _main(argv=None):
     parser.add_argument("--game", choices=("mtg", "ptcg-zh", "ptcg-en", "ygo"), default="mtg",
                         help="游戏：万智牌/宝可梦繁体中文/宝可梦英文/游戏王（YDK密码）")
     parser.add_argument("--pics", default=None,
-                        help="图片目录；默认万智牌 mtg-pics，宝可梦 ptcg-pics/zh-tw 或 en")
+                        help="图片目录；默认万智牌 mtg-pics，宝可梦 ptcg-pics/zh-tw 或 en，游戏王 yugioh-pics")
     parser.add_argument("--langs", default="zhs,zht,en",
                         help="语言优先级，逗号分隔（默认 zhs,zht,en）")
     parser.add_argument("--paper", default="A4", choices=sorted(PAPERS),

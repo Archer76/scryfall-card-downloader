@@ -35,7 +35,7 @@ Scryfall 卡图下载器 GUI 使用说明
   卡图输出\mtg-pics\index.json          牌名、中英文别名、版本及图片地址索引
   卡图输出\ptcg-pics\zh-tw\         宝可梦繁体卡图与 ptcg-index.json
   卡图输出\ptcg-pics\en\            宝可梦英文卡图与 ptcg-index.json
-  卡图输出\ygo-pics\               游戏王卡图与独立索引
+  卡图输出\yugioh-pics\               游戏王卡图与独立索引
 旧 pics 已弃用，不自动读取、迁移或从历史清单回流，也不导入另一游戏目录。
 每次点击开始，PDF、牌表、清单和日志仍按本地启动时间创建独立任务目录：
   卡图输出\yymmdd-hhmmss\cards.pdf    本次生成的 PDF（启用时）
@@ -47,7 +47,7 @@ Scryfall 卡图下载器 GUI 使用说明
 同一秒内启动多个任务时，会自动添加 _01、_02 等序号，保证不覆盖已有任务。
 下载任务和仅查询任务都会创建各自的记录目录；图片缓存跨任务永久复用，不按 24 小时过期。
 已有时间戳任务的 cards 图片会自动迁入 mtg-pics，并更新 JSON 清单路径；相同内容去重，同名不同版本保留独立文件。原有 PDF 保留。
-“打开输出文件夹”和“打开 PDF”指向当前或最近一次任务；“打开当前游戏卡图”按选择打开 mtg-pics、ptcg-pics/zh-tw、ptcg-pics/en 或 ygo-pics。
+“打开输出文件夹”和“打开 PDF”指向当前或最近一次任务；“打开当前游戏卡图”按选择打开 mtg-pics、ptcg-pics/zh-tw、ptcg-pics/en 或 yugioh-pics。
 “打开 PDF”仅在本次任务生成新的卡册后启用。
 
 下载策略
@@ -99,14 +99,14 @@ Scryfall 当前对 /cards/named 和 /cards/search 的上限是每秒 2 次（500
   83764718
   89631139
 - 固定简中→日文→英文：先尝试百鸽的对应语言卡图，百鸽全部失败后才使用YGOPRODeck英文卡图回退。
-- 图片缓存独立保存到卡图输出/ygo-pics，不与万智牌或宝可梦混用；数量影响PDF排版，同一密码的图片只下载一份。
+- 图片缓存独立保存到卡图输出/yugioh-pics，不与万智牌或宝可梦混用；数量影响PDF排版，同一密码的图片只下载一份。
 - 百鸽WebP及回退JPEG经Pillow完整解码转为RGB PNG，保存为密码.png，无语种文件名后缀。坏图继续回退，失败与仅查询探测不进入成功图片缓存。
 - 百鸽与YGOPRODeck按来源独立限速和冷却；API启动间隔0.1秒，图片至少0.15秒（保守客户端设置，不是站方上限）。403/429停止该来源，不阻断另一来源。游戏王实际并发取查询和下载配置较小值。
 - 仅查询对候选图发HEAD请求，不下载图片和生成PDF；完整缓存零网络请求。损坏图片优先按保存URL修复，失败重新执行回退链；强制刷新从百鸽简中重选。
 
 高级命令行
   --game mtg / ptcg-zh / ptcg-en / ygo：默认 mtg；宝可梦中文/英文不回退；游戏王使用固定语言回退顺序。
-  --pics 目录：默认随游戏使用mtg-pics、ptcg-pics/zh-tw、ptcg-pics/en或ygo-pics；不自动删除此目录。
+  --pics 目录：默认随游戏使用mtg-pics、ptcg-pics/zh-tw、ptcg-pics/en或yugioh-pics；不自动删除此目录。
   --workers：万智牌默认4（1–16）；宝可梦默认64（1–64）。
   --download-workers：万智牌默认8（1–32）；宝可梦默认64（1–64）。
   --image-interval 秒数：默认 0，可显式设置 0.1 或 0.2；拒绝负数、NaN、无穷大。

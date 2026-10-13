@@ -309,7 +309,7 @@ def run_ygo(args, text, core):
     if not features.check('webp'):
         raise YGOError('Pillow 缺少 WebP 解码支持，请重新安装官方 Pillow 或使用完整 EXE。')
     if not args.pics:
-        args.pics = os.path.join(os.path.dirname(core.program_cache_directory()), '卡图输出', 'ygo-pics')
+        args.pics = os.path.join(os.path.dirname(core.program_cache_directory()), '卡图输出', 'yugioh-pics')
     os.makedirs(args.out, exist_ok=True)
     cache = YGOPictureCache(args.pics, core)
     client = YGOClient(core.program_cache_directory(), core, force=args.force, image_interval=args.image_interval)

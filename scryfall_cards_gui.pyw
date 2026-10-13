@@ -1627,7 +1627,7 @@ def _main(argv=None):
     parser.add_argument("--game", choices=("mtg", "ptcg-zh", "ptcg-en", "ygo"), default="mtg",
                         help="游戏：万智牌/宝可梦繁体中文/宝可梦英文/游戏王（YDK密码）")
     parser.add_argument("--pics", default=None,
-                        help="图片目录；默认万智牌 mtg-pics，宝可梦 ptcg-pics/zh-tw 或 en")
+                        help="图片目录；默认万智牌 mtg-pics，宝可梦 ptcg-pics/zh-tw 或 en，游戏王 yugioh-pics")
     parser.add_argument("--langs", default="zhs,zht,en",
                         help="语言优先级，逗号分隔（默认 zhs,zht,en）")
     parser.add_argument("--paper", default="A4", choices=sorted(PAPERS),
@@ -2572,7 +2572,7 @@ def run_ygo(args, text, core):
     if not features.check('webp'):
         raise YGOError('Pillow 缺少 WebP 解码支持，请重新安装官方 Pillow 或使用完整 EXE。')
     if not args.pics:
-        args.pics = os.path.join(os.path.dirname(core.program_cache_directory()), '卡图输出', 'ygo-pics')
+        args.pics = os.path.join(os.path.dirname(core.program_cache_directory()), '卡图输出', 'yugioh-pics')
     os.makedirs(args.out, exist_ok=True)
     cache = YGOPictureCache(args.pics, core)
     client = YGOClient(core.program_cache_directory(), core, force=args.force, image_interval=args.image_interval)
@@ -2659,7 +2659,7 @@ GAME_PICTURE_DIRECTORIES = {
     "万智牌": "mtg-pics",
     "宝可梦TCG（中文）": "ptcg-pics/zh-tw",
     "宝可梦TCG（英文）": "ptcg-pics/en",
-    "游戏王": "ygo-pics",
+    "游戏王": "yugioh-pics",
 }
 PTCG_LANGUAGES = {"ptcg-zh": "zh-tw", "ptcg-en": "en"}
 FIXED_LANGUAGE_LABELS = {
@@ -2710,7 +2710,7 @@ def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, for
         if executable.name.lower() == "pythonw.exe" and executable.with_name("python.exe").exists():
             executable = executable.with_name("python.exe")
         command = [str(executable), "-u", str(Path(__file__).resolve()), "--engine"]
-    pics = Path(output).parent / ('mtg-pics' if game == 'mtg' else 'ygo-pics' if game == 'ygo' else 'ptcg-pics')
+    pics = Path(output).parent / ('mtg-pics' if game == 'mtg' else 'yugioh-pics' if game == 'ygo' else 'ptcg-pics')
     if game in PTCG_LANGUAGES:
         pics /= PTCG_LANGUAGES[game]
     command += [str(deck), "--out", str(output), "--pics", str(pics),
