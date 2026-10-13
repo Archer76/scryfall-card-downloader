@@ -69,7 +69,7 @@ class GUITests(unittest.TestCase):
         self.assertEqual(self.gui.output_dir, Path(self.temp.name) / '卡图输出')
         self.assertEqual(app.program_directory(), Path(app.__file__).resolve().parent)
         self.gui.example()
-        self.assertIn('17 张', self.gui.count.get())
+        self.assertIn('19 张', self.gui.count.get())
         text, workers, paper, langs = self.gui.configuration()
         self.assertEqual((workers, paper, langs), (4, 'A4', 'zhs,zht,en'))
         self.gui.dry_run.set(True)
