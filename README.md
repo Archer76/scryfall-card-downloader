@@ -17,7 +17,7 @@
 - 图片缺失或损坏时使用保存的 URL 补下载；PNG 分块 CRC 检查。
 - 自动迁移真正旧任务的 `cards` 图片，按内容去重，保留同名不同版本；旧 `pics` 已弃用，不自动读取、迁移或回流其清单 URL，也不导入另一游戏图片目录。
 - 任务 PDF、牌表、清单和日志按 `yymmdd-hhmmss` 分目录保存。
-- A4 竖向每页 9 张，A3 横向每页 18 张；卡牌尺寸 63×88 mm，可选择裁切框。
+- A4 竖向每页 9 张，A3 横向每页 18 张；万智牌与宝可梦卡牌尺寸 63×88 mm，游戏王 59×86 mm；图片与可选裁切框均按对应尺寸排版。打印请选择“实际大小 / 100%”。
 
 ## 运行
 
@@ -112,7 +112,7 @@ python scryfall_cards_threaded.py deck.ydk --game ygo --out results
 
 游戏王 API 缓存与来源限速独立；API 请求启动间隔0.1秒（YGOPRODeck低于官方20次/秒上限），图片启动间隔至少0.15秒（保守客户端策略，非站方公布上限）。403/429停止对应来源本次后续请求，不让百鸽受限阻断 YGOPRODeck。`Retry-After` 与服务错误冷却按来源共享。查询与下载在同一卡片任务内执行，并发取两个线程参数较小值；不改变MTG/PTCG网络策略。`--dry-run` 用 HEAD 验证图片类型，不下载图片、不生成PDF、不把探测结果写入成功图片缓存。
 
-来源：[百鸽 API](https://ygocdb.com/api)、[YGOPRODeck API](https://ygoprodeck.com/api-guide/)。站方要求合理使用与缓存；简中图并非覆盖所有游戏王卡牌。当前 PDF 沿用本工具63×88mm排版，未改动卡片尺寸。
+来源：[百鸽 API](https://ygocdb.com/api)、[YGOPRODeck API](https://ygoprodeck.com/api-guide/)。站方要求合理使用与缓存；简中图并非覆盖所有游戏王卡牌。游戏王 PDF 使用标准59×86mm卡牌尺寸，A4每页9张、A3每页18张；万智牌与宝可梦保持63×88mm。
 
 ## EXE 打包
 

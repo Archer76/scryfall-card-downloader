@@ -134,6 +134,7 @@ class Tests(unittest.TestCase):
                 paths = [Path(p).name for p in pdf.call_args.args[0]]
                 self.assertEqual(paths, ['Slow.png'] * 2 + ['Fast.png'] + ['Slow.png'] * 3 + ['Front-Back_正面.png', 'Front-Back_背面.png'])
                 self.assertFalse(pdf.call_args.kwargs['cut_marks'])
+                self.assertNotIn('card_size_mm', pdf.call_args.kwargs)
                 self.assertEqual(requests.count('Slow'), 1)
                 manifest = json.loads((base / 'out' / 'manifest.json').read_text(encoding='utf-8'))
                 self.assertEqual(manifest['summary'], {'processed': 5, 'ok': 4, 'failed': 1})

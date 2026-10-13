@@ -65,6 +65,7 @@ class PTCGTests(unittest.TestCase):
         self.assertEqual(self.calls, [('en', '/sets/sv10'), ('en', '/cards/sv10-010')])
         self.assertEqual(manifest['cards'][0]['selected_id'], 'sv10-010')
         self.assertEqual(len(pdf.call_args.args[0]), 2)
+        self.assertNotIn('card_size_mm', pdf.call_args.kwargs)
         self.assertEqual(Path(manifest['out_dir']), self.base / '卡图输出' / 'ptcg-pics' / 'en')
         self.calls.clear()
         self.downloads.clear()

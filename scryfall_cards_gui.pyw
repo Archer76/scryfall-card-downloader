@@ -1546,11 +1546,12 @@ def pack_rgb(width, height, rgb):
     return zlib.compress(bytes(packed), 6)
 
 
-def build_pdf(images, paper, out_path, cut_marks=True):
-    """images: [(宽, 高, flate)]，返回 (页数, 每页张数, 列, 行)。"""
+def build_pdf(images, paper, out_path, cut_marks=True, card_size_mm=(63, 88)):
+    """images: [(宽, 高, flate)]，按指定毫米尺寸排版，返回 (页数, 每页张数, 列, 行)。"""
     pw_mm, ph_mm = PAPERS[paper]
     pw, ph = pw_mm * MM, ph_mm * MM
-    cw, ch = CARD_W_MM * MM, CARD_H_MM * MM
+    cw, ch = (dimension * MM for dimension in card_size_mm)
+    # 保持既有 A4 9 张 / A3 18 张网格；较小的游戏王卡图仍居中排版。
     cols = max(1, int(pw_mm // CARD_W_MM))
     rows = max(1, int(ph_mm // CARD_H_MM))
     per_page = cols * rows
@@ -1629,8 +1630,8 @@ def build_pdf(images, paper, out_path, cut_marks=True):
     return len(pages), per_page, cols, rows
 
 
-def make_pdf(paths, paper, out_path, cut_marks=True):
-    """把卡图按万智牌标准尺寸排成卡册。"""
+def make_pdf(paths, paper, out_path, cut_marks=True, card_size_mm=(63, 88)):
+    """按指定卡牌尺寸排成卡册；默认万智牌/宝可梦 63×88 mm。"""
     entries = []
     total = len(paths)
     started = time.time()
@@ -1649,7 +1650,8 @@ def make_pdf(paths, paper, out_path, cut_marks=True):
     sys.stdout.flush()
     if not entries:
         return None
-    pages, per_page, cols, rows = build_pdf(entries, paper, out_path, cut_marks=cut_marks)
+    pages, per_page, cols, rows = build_pdf(entries, paper, out_path, cut_marks=cut_marks,
+                                          card_size_mm=card_size_mm)
     return {
         "pages": pages, "per_page": per_page, "cols": cols, "rows": rows,
         "cards": len(entries), "paper": paper,
@@ -2846,7 +2848,8 @@ def run_ygo(args, text, core):
                 stream.write('    %s\n' % json.dumps(attempt, ensure_ascii=False))
     print('完成：成功 %d / 失败 %d' % (ok, failed), flush=True)
     if pdf_paths and not args.no_pdf and not args.dry_run:
-        info = core.make_pdf(pdf_paths, args.paper, os.path.join(args.out, 'cards.pdf'), cut_marks=not args.no_cut_marks)
+        info = core.make_pdf(pdf_paths, args.paper, os.path.join(args.out, 'cards.pdf'),
+                             cut_marks=not args.no_cut_marks, card_size_mm=(59, 86))
         if not info or info['cards'] != len(pdf_paths):
             print('部分图片未能进入 PDF', flush=True)
             return 1

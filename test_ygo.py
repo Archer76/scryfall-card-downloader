@@ -149,11 +149,27 @@ class YGOTests(unittest.TestCase):
         card = manifest['cards'][0]
         self.assertEqual((card['lang_code'], card['source'], card['qty']), ('sc', 'baige', 2))
         self.assertEqual(len(pdf.call_args.args[0]), 2)
+        self.assertEqual(pdf.call_args.kwargs, {'cut_marks': True, 'card_size_mm': (59, 86)})
         path = card['files'][0]['file']
         self.assertTrue(core.complete_image(path, card['files'][0]['bytes']))
         with Image.open(path) as im:
             self.assertEqual((im.format, im.mode, im.size), ('PNG', 'RGB', (8, 12)))
             im.load()
+
+    def test_real_ygo_pdf_has_standard_size(self):
+        from test_pdf_card_size import page_geometry
+        deck = self.base / 'real.ydk'
+        deck.write_text('123\n123\n', encoding='utf-8')
+        with contextlib.redirect_stdout(io.StringIO()):
+            code = core.main([str(deck), '--game', 'ygo', '--out', str(self.out),
+                              '--pics', str(self.pics), '--workers', '1', '--download-workers', '1'])
+        self.assertEqual(code, 0)
+        matrices, frames = page_geometry(self.out / 'cards.pdf')[0]
+        self.assertEqual((len(matrices), len(frames)), (2, 2))
+        for matrix, frame in zip(matrices, frames):
+            for actual, expected in zip(matrix[:2], (59 * 72 / 25.4, 86 * 72 / 25.4)):
+                self.assertAlmostEqual(actual, expected, delta=0.0051)
+            self.assertEqual(frame, (matrix[2], matrix[3], matrix[0], matrix[1]))
 
     def test_sc_failure_jp_precedes_en_and_deck(self):
         self.routes.pop((baige_url(), 'GET'))

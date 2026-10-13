@@ -367,7 +367,8 @@ def run_ygo(args, text, core):
                 stream.write('    %s\n' % json.dumps(attempt, ensure_ascii=False))
     print('完成：成功 %d / 失败 %d' % (ok, failed), flush=True)
     if pdf_paths and not args.no_pdf and not args.dry_run:
-        info = core.make_pdf(pdf_paths, args.paper, os.path.join(args.out, 'cards.pdf'), cut_marks=not args.no_cut_marks)
+        info = core.make_pdf(pdf_paths, args.paper, os.path.join(args.out, 'cards.pdf'),
+                             cut_marks=not args.no_cut_marks, card_size_mm=(59, 86))
         if not info or info['cards'] != len(pdf_paths):
             print('部分图片未能进入 PDF', flush=True)
             return 1
