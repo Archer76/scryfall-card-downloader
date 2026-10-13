@@ -86,6 +86,43 @@ class GUITests(unittest.TestCase):
         self.gui.language.set('英文 nonsense')
         with self.assertRaises(ValueError): self.gui.configuration()
 
+    def test_download_option_title_and_import_labels(self):
+        self.assertEqual(self.gui.download_options_label.cget('text'), '下载选项')
+        self.assertEqual(self.gui.import_button.cget('text'), '导入TXT')
+        games = ('游戏王', '万智牌', '宝可梦TCG（中文）', '宝可梦TCG（英文）')
+        for running in (False, True):
+            self.gui.set_running(running)
+            for game in games:
+                with self.subTest(game=game, running=running):
+                    self.gui.game.set(game)
+                    self.assertEqual(self.gui.import_button.cget('text'),
+                                     '导入YDK' if game == '游戏王' else '导入TXT')
+                    self.assertEqual(str(self.gui.import_button['state']),
+                                     'disabled' if running else 'normal')
+        self.gui.set_running(False)
+        self.assertEqual(str(self.gui.import_button['state']), 'normal')
+
+    def test_import_label_matches_game_on_initial_build(self):
+        original_build = app.CardDownloaderGUI._build
+        for game in app.GAME_PRESETS:
+            with self.subTest(game=game):
+                root = tk.Tk()
+                root.withdraw()
+                def build(gui):
+                    gui.game.set(game)
+                    original_build(gui)
+                try:
+                    with patch.object(app.CardDownloaderGUI, '_build', build):
+                        gui = app.CardDownloaderGUI(root, self.temp.name)
+                    self.assertEqual(gui.import_button.cget('text'),
+                                     '导入YDK' if game == '游戏王' else '导入TXT')
+                    gui.close()
+                finally:
+                    try:
+                        root.destroy()
+                    except tk.TclError:
+                        pass
+
     def test_four_games_concurrency_language_and_examples(self):
         games = ('万智牌', '宝可梦TCG（中文）', '宝可梦TCG（英文）',
                  '游戏王')

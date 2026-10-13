@@ -194,7 +194,10 @@ class CardDownloaderGUI:
         ttk.Label(left, text="牌表粘贴框", style="Section.TLabel").pack(anchor="w")
         tools = ttk.Frame(left, style="Card.TFrame")
         tools.pack(fill="x", pady=(10, 10))
-        for label, action in [("导入 TXT / YDK", self.import_deck), ("粘贴", self.paste_deck), ("示例", self.example), ("清空", self.clear_deck)]:
+        self.import_button = self._editable(ttk.Button(
+            tools, text="导入YDK" if self.game_code() == 'ygo' else "导入TXT", command=self.import_deck))
+        self.import_button.pack(side="left", padx=(0, 5))
+        for label, action in [("粘贴", self.paste_deck), ("示例", self.example), ("清空", self.clear_deck)]:
             self._editable(ttk.Button(tools, text=label, command=action)).pack(side="left", padx=(0, 5))
         text_frame = ttk.Frame(left, style="Card.TFrame")
         text_frame.pack(fill="both", expand=True)
@@ -209,7 +212,8 @@ class CardDownloaderGUI:
         ttk.Label(left, textvariable=self.count, style="Card.TLabel").pack(anchor="w", pady=(8, 3))
         ttk.Label(left, text="MTG：数量 卡名，可加系列代码 编号锁定版本。\nPTCG：数量 卡名 系列代码 编号（必填）。\n游戏王：YDK 每行一个密码，重复密码累计数量。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
 
-        ttk.Label(right, text="卡牌游戏", style="Section.TLabel").pack(anchor="w")
+        self.download_options_label = ttk.Label(right, text="下载选项", style="Section.TLabel")
+        self.download_options_label.pack(anchor="w")
         self.game_box = self._editable(ttk.Combobox(
             right, textvariable=self.game, values=tuple(GAME_PRESETS), state="readonly"), "readonly")
         self.game_box.pack(fill="x", pady=(4, 6))
@@ -380,6 +384,8 @@ class CardDownloaderGUI:
             self.network_policy.set("请选择列表中的卡牌游戏。")
             return
         game = self.game_code()
+        if hasattr(self, "import_button"):
+            self.import_button.configure(text="导入YDK" if game == 'ygo' else "导入TXT")
         if hasattr(self, "pics_label"):
             self.pics_label.set(str(self.picture_directory()))
         query_workers, download_workers = self.concurrency()
