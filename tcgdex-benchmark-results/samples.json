@@ -1,0 +1,8808 @@
+{
+  "date": "2026-10-13T11:38:18.374986+08:00",
+  "sets": [
+    {
+      "id": "SV2a",
+      "cards": 207,
+      "with_image": 20
+    },
+    {
+      "id": "SV4a",
+      "cards": 314,
+      "with_image": 20
+    },
+    {
+      "id": "S12a",
+      "cards": 250,
+      "with_image": 20
+    },
+    {
+      "id": "SV8a",
+      "cards": 237,
+      "with_image": 237
+    },
+    {
+      "id": "SC1a",
+      "cards": 172,
+      "with_image": 0
+    },
+    {
+      "id": "SV6",
+      "cards": 130,
+      "with_image": 20
+    }
+  ],
+  "cards": [
+    {
+      "id": "SV8a-133",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/133",
+      "localId": "133",
+      "name": "爆炸頭水牛"
+    },
+    {
+      "id": "SC1a-171",
+      "localId": "171",
+      "name": "赫普"
+    },
+    {
+      "id": "SV6-073",
+      "localId": "073",
+      "name": "可可多拉"
+    },
+    {
+      "id": "SV2a-007",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/007",
+      "localId": "007",
+      "name": "傑尼龜"
+    },
+    {
+      "id": "SV2a-091",
+      "localId": "091",
+      "name": "刺甲貝"
+    },
+    {
+      "id": "SV4a-075",
+      "localId": "075",
+      "name": "胡地ex"
+    },
+    {
+      "id": "SC1a-026",
+      "localId": "026",
+      "name": "啪嚓海膽V"
+    },
+    {
+      "id": "SC1a-082",
+      "localId": "082",
+      "name": "龜足巨鎧"
+    },
+    {
+      "id": "S12a-171",
+      "localId": "171",
+      "name": "雙重渦輪能量"
+    },
+    {
+      "id": "SC1a-145",
+      "localId": "145",
+      "name": "詛咒之鏟"
+    },
+    {
+      "id": "SV2a-075",
+      "localId": "075",
+      "name": "隆隆石"
+    },
+    {
+      "id": "SV2a-117",
+      "localId": "117",
+      "name": "海刺龍"
+    },
+    {
+      "id": "SV8a-160",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/160",
+      "localId": "160",
+      "name": "招式學習器 演進"
+    },
+    {
+      "id": "S12a-054",
+      "localId": "054",
+      "name": "夢幻VMAX"
+    },
+    {
+      "id": "SV8a-224",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/224",
+      "localId": "224",
+      "name": "伊布ex"
+    },
+    {
+      "id": "SV2a-160",
+      "localId": "160",
+      "name": "吃剩的東西"
+    },
+    {
+      "id": "SV4a-047",
+      "localId": "047",
+      "name": "海豚俠"
+    },
+    {
+      "id": "SV2a-034",
+      "localId": "034",
+      "name": "尼多王"
+    },
+    {
+      "id": "S12a-145",
+      "localId": "145",
+      "name": "講究腰帶"
+    },
+    {
+      "id": "SV8a-015",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/015",
+      "localId": "015",
+      "name": "古簡蝸"
+    },
+    {
+      "id": "SV8a-072",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/072",
+      "localId": "072",
+      "name": "振翼髮"
+    },
+    {
+      "id": "SV2a-121",
+      "localId": "121",
+      "name": "寶石海星"
+    },
+    {
+      "id": "SV8a-019",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/019",
+      "localId": "019",
+      "name": "來悲粗茶ex"
+    },
+    {
+      "id": "SV4a-186",
+      "localId": "186",
+      "name": "寶可夢聯盟總部"
+    },
+    {
+      "id": "SC1a-154",
+      "localId": "154",
+      "name": "極光能量"
+    },
+    {
+      "id": "SV4a-204",
+      "localId": "204",
+      "name": "奧利紐"
+    },
+    {
+      "id": "SV8a-157",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/157",
+      "localId": "157",
+      "name": "驅勁能量 古代"
+    },
+    {
+      "id": "SV8a-129",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/129",
+      "localId": "129",
+      "name": "土龍弟弟"
+    },
+    {
+      "id": "SV8a-024",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/024",
+      "localId": "024",
+      "name": "鐵毒蛾"
+    },
+    {
+      "id": "SC1a-016",
+      "localId": "016",
+      "name": "卡璞・鳴鳴V"
+    },
+    {
+      "id": "SV8a-033",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/033",
+      "localId": "033",
+      "name": "藍鱷"
+    },
+    {
+      "id": "SV4a-311",
+      "localId": "311",
+      "name": "長翅鷗"
+    },
+    {
+      "id": "S12a-177",
+      "localId": "177",
+      "name": "拉普拉斯"
+    },
+    {
+      "id": "SV4a-343",
+      "localId": "343",
+      "name": "妮莫"
+    },
+    {
+      "id": "SV8a-148",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/148",
+      "localId": "148",
+      "name": "頂尖捕捉器"
+    },
+    {
+      "id": "SV4a-061",
+      "localId": "061",
+      "name": "倫琴貓"
+    },
+    {
+      "id": "SV6-025",
+      "localId": "025",
+      "name": "蚊香泳士"
+    },
+    {
+      "id": "SV8a-014",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/014",
+      "localId": "014",
+      "name": "蟲甲聖"
+    },
+    {
+      "id": "SV4a-323",
+      "localId": "323",
+      "name": "超能豔鴕ex"
+    },
+    {
+      "id": "S12a-182",
+      "localId": "182",
+      "name": "伽勒爾 急凍鳥"
+    },
+    {
+      "id": "S12a-045",
+      "localId": "045",
+      "name": "雷吉艾勒奇"
+    },
+    {
+      "id": "SV6-098",
+      "localId": "098",
+      "name": "八朔"
+    },
+    {
+      "id": "S12a-080",
+      "localId": "080",
+      "name": "伽勒爾 火焰鳥V"
+    },
+    {
+      "id": "SV6-055",
+      "localId": "055",
+      "name": "願增猿"
+    },
+    {
+      "id": "SV4a-210",
+      "localId": "210",
+      "name": "小火龍"
+    },
+    {
+      "id": "SC1a-156",
+      "localId": "156",
+      "name": "顫弦蠑螈V"
+    },
+    {
+      "id": "SV2a-052",
+      "localId": "052",
+      "name": "喵喵"
+    },
+    {
+      "id": "S12a-248",
+      "localId": "248",
+      "name": "博士的研究（山梨博士）"
+    },
+    {
+      "id": "SV6-058",
+      "localId": "058",
+      "name": "穿山王"
+    },
+    {
+      "id": "SV4a-280",
+      "localId": "280",
+      "name": "利歐路"
+    },
+    {
+      "id": "SC1a-121",
+      "localId": "121",
+      "name": "蒼響"
+    },
+    {
+      "id": "SV4a-044",
+      "localId": "044",
+      "name": "海地鼠"
+    },
+    {
+      "id": "SV6-061",
+      "localId": "061",
+      "name": "修建老匠"
+    },
+    {
+      "id": "SV6-116",
+      "localId": "116",
+      "name": "海豚俠ex"
+    },
+    {
+      "id": "SV6-124",
+      "localId": "124",
+      "name": "八朔"
+    },
+    {
+      "id": "SV8a-108",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/108",
+      "localId": "108",
+      "name": "基拉祈"
+    },
+    {
+      "id": "SC1a-042",
+      "localId": "042",
+      "name": "伽勒爾 魔靈珊瑚"
+    },
+    {
+      "id": "S12a-032",
+      "localId": "032",
+      "name": "凱路迪歐"
+    },
+    {
+      "id": "S12a-144",
+      "localId": "144",
+      "name": "放逐吸塵器"
+    },
+    {
+      "id": "SV8a-169",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/169",
+      "localId": "169",
+      "name": "烏栗"
+    },
+    {
+      "id": "SC1a-003",
+      "localId": "003",
+      "name": "霹靂電球"
+    },
+    {
+      "id": "SC1a-143",
+      "localId": "143",
+      "name": "活力頭帶"
+    },
+    {
+      "id": "S12a-166",
+      "localId": "166",
+      "name": "大嘴沼澤"
+    },
+    {
+      "id": "SV8a-034",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/034",
+      "localId": "034",
+      "name": "大力鱷"
+    },
+    {
+      "id": "SV4a-168",
+      "localId": "168",
+      "name": "不服輸頭帶"
+    },
+    {
+      "id": "SV8a-087",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/087",
+      "localId": "087",
+      "name": "爬地翅"
+    },
+    {
+      "id": "SV6-078",
+      "localId": "078",
+      "name": "普隆隆姆"
+    },
+    {
+      "id": "SV6-012",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/012",
+      "localId": "012",
+      "name": "裹蜜蟲"
+    },
+    {
+      "id": "SV8a-010",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/010",
+      "localId": "010",
+      "name": "蜜集大蛇ex"
+    },
+    {
+      "id": "SV4a-253",
+      "localId": "253",
+      "name": "凱西"
+    },
+    {
+      "id": "S12a-157",
+      "localId": "157",
+      "name": "杜娟"
+    },
+    {
+      "id": "SC1a-089",
+      "localId": "089",
+      "name": "拳拳蛸"
+    },
+    {
+      "id": "SC1a-102",
+      "localId": "102",
+      "name": "銅鏡怪"
+    },
+    {
+      "id": "SC1a-023",
+      "localId": "023",
+      "name": "顫弦蠑螈V"
+    },
+    {
+      "id": "SV4a-184",
+      "localId": "184",
+      "name": "海灘場地"
+    },
+    {
+      "id": "SV8a-082",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/082",
+      "localId": "082",
+      "name": "尖牙陸鯊"
+    },
+    {
+      "id": "SC1a-164",
+      "localId": "164",
+      "name": "大王銅象V"
+    },
+    {
+      "id": "SV8a-205",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/205",
+      "localId": "205",
+      "name": "水伊布ex"
+    },
+    {
+      "id": "SC1a-169",
+      "localId": "169",
+      "name": "彼特"
+    },
+    {
+      "id": "S12a-136",
+      "localId": "136",
+      "name": "傷害水泵"
+    },
+    {
+      "id": "S12a-006",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/006",
+      "localId": "006",
+      "name": "草苗龜"
+    },
+    {
+      "id": "SV4a-085",
+      "localId": "085",
+      "name": "魔尼尼"
+    },
+    {
+      "id": "SV4a-315",
+      "localId": "315",
+      "name": "愛吃豚"
+    },
+    {
+      "id": "SC1a-040",
+      "localId": "040",
+      "name": "果然翁V"
+    },
+    {
+      "id": "S12a-019",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/019",
+      "localId": "019",
+      "name": "炎帝V"
+    },
+    {
+      "id": "SV4a-114",
+      "localId": "114",
+      "name": "故勒頓ex"
+    },
+    {
+      "id": "SC1a-122",
+      "localId": "122",
+      "name": "蒼響V"
+    },
+    {
+      "id": "SV6-057",
+      "localId": "057",
+      "name": "穿山鼠"
+    },
+    {
+      "id": "SV8a-070",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/070",
+      "localId": "070",
+      "name": "蒼炎刃鬼"
+    },
+    {
+      "id": "SV2a-003",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/003",
+      "localId": "003",
+      "name": "妙蛙花ex"
+    },
+    {
+      "id": "SV4a-020",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/020",
+      "localId": "020",
+      "name": "熱辣娃"
+    },
+    {
+      "id": "S12a-041",
+      "localId": "041",
+      "name": "捷拉奧拉VMAX"
+    },
+    {
+      "id": "SC1a-078",
+      "localId": "078",
+      "name": "雷吉洛克V"
+    },
+    {
+      "id": "SV8a-058",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/058",
+      "localId": "058",
+      "name": "勇基拉"
+    },
+    {
+      "id": "SV6-081",
+      "localId": "081",
+      "name": "多龍巴魯托ex"
+    },
+    {
+      "id": "SC1a-009",
+      "localId": "009",
+      "name": "小貓怪"
+    },
+    {
+      "id": "SC1a-028",
+      "localId": "028",
+      "name": "莫魯貝可V"
+    },
+    {
+      "id": "SV6-111",
+      "localId": "111",
+      "name": "可多拉"
+    },
+    {
+      "id": "SV2a-169",
+      "localId": "169",
+      "name": "火恐龍"
+    },
+    {
+      "id": "SV4a-069",
+      "localId": "069",
+      "name": "電海燕"
+    },
+    {
+      "id": "SV2a-156",
+      "localId": "156",
+      "name": "陳舊的秘密琥珀"
+    },
+    {
+      "id": "SV4a-175",
+      "localId": "175",
+      "name": "聶凱"
+    },
+    {
+      "id": "SV4a-194",
+      "localId": "194",
+      "name": "飛天螳螂"
+    },
+    {
+      "id": "SC1a-056",
+      "localId": "056",
+      "name": "愛管侍"
+    },
+    {
+      "id": "SV8a-103",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/103",
+      "localId": "103",
+      "name": "願增猿ex"
+    },
+    {
+      "id": "SV4a-041",
+      "localId": "041",
+      "name": "潤水鴨"
+    },
+    {
+      "id": "SV2a-110",
+      "localId": "110",
+      "name": "雙彈瓦斯"
+    },
+    {
+      "id": "S12a-249",
+      "localId": "249",
+      "name": "洗翠的夥伴"
+    },
+    {
+      "id": "SV6-023",
+      "localId": "023",
+      "name": "蚊香蝌蚪"
+    },
+    {
+      "id": "SV8a-161",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/161",
+      "localId": "161",
+      "name": "招式學習器 ‌衰退"
+    },
+    {
+      "id": "SV4a-240",
+      "localId": "240",
+      "name": "小貓怪"
+    },
+    {
+      "id": "SV4a-030",
+      "localId": "030",
+      "name": "呆火鱷"
+    },
+    {
+      "id": "SV6-110",
+      "localId": "110",
+      "name": "夠讚狗"
+    },
+    {
+      "id": "SV4a-264",
+      "localId": "264",
+      "name": "鑰圈兒"
+    },
+    {
+      "id": "S12a-125",
+      "localId": "125",
+      "name": "雷吉奇卡斯VSTAR"
+    },
+    {
+      "id": "SV4a-279",
+      "localId": "279",
+      "name": "帕底亞 肯泰羅"
+    },
+    {
+      "id": "SV8a-016",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/016",
+      "localId": "016",
+      "name": "鐵斑葉ex"
+    },
+    {
+      "id": "SV4a-088",
+      "localId": "088",
+      "name": "謎擬Ｑ"
+    },
+    {
+      "id": "SV4a-027",
+      "localId": "027",
+      "name": "帕底亞 肯泰羅"
+    },
+    {
+      "id": "SV4a-170",
+      "localId": "170",
+      "name": "招式學習器 火場一爆"
+    },
+    {
+      "id": "SV4a-042",
+      "localId": "042",
+      "name": "湧躍鴨"
+    },
+    {
+      "id": "S12a-034",
+      "localId": "034",
+      "name": "電擊獸"
+    },
+    {
+      "id": "SV2a-013",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/013",
+      "localId": "013",
+      "name": "獨角蟲"
+    },
+    {
+      "id": "SV4a-003",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/003",
+      "localId": "003",
+      "name": "霸王花"
+    },
+    {
+      "id": "SV2a-020",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/020",
+      "localId": "020",
+      "name": "拉達"
+    },
+    {
+      "id": "SV4a-292",
+      "localId": "292",
+      "name": "駒刀小兵"
+    },
+    {
+      "id": "SV2a-122",
+      "localId": "122",
+      "name": "魔牆人偶"
+    },
+    {
+      "id": "SV6-112",
+      "localId": "112",
+      "name": "米立龍"
+    },
+    {
+      "id": "SC1a-172",
+      "localId": "172",
+      "name": "亞洛"
+    },
+    {
+      "id": "SV8a-021",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/021",
+      "localId": "021",
+      "name": "火伊布"
+    },
+    {
+      "id": "S12a-154",
+      "localId": "154",
+      "name": "神奧的夥伴"
+    },
+    {
+      "id": "SV4a-086",
+      "localId": "086",
+      "name": "花岩怪"
+    },
+    {
+      "id": "SV6-075",
+      "localId": "075",
+      "name": "波士可多拉"
+    },
+    {
+      "id": "SV2a-201",
+      "localId": "201",
+      "name": "噴火龍ex"
+    },
+    {
+      "id": "SV8a-099",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/099",
+      "localId": "099",
+      "name": "猛惡菇"
+    },
+    {
+      "id": "SV6-087",
+      "localId": "087",
+      "name": "雙尾怪手"
+    },
+    {
+      "id": "SV2a-043",
+      "localId": "043",
+      "name": "走路草"
+    },
+    {
+      "id": "SV4a-328",
+      "localId": "328",
+      "name": "沙奈朵ex"
+    },
+    {
+      "id": "SV8a-077",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/077",
+      "localId": "077",
+      "name": "鐵磐岩"
+    },
+    {
+      "id": "SV2a-147",
+      "localId": "147",
+      "name": "迷你龍"
+    },
+    {
+      "id": "SV8a-045",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/045",
+      "localId": "045",
+      "name": "海豚俠"
+    },
+    {
+      "id": "SV8a-154",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/154",
+      "localId": "154",
+      "name": "鎖鏈糬"
+    },
+    {
+      "id": "SV4a-221",
+      "localId": "221",
+      "name": "海星星"
+    },
+    {
+      "id": "SV2a-086",
+      "localId": "086",
+      "name": "小海獅"
+    },
+    {
+      "id": "SC1a-060",
+      "localId": "060",
+      "name": "多龍巴魯托"
+    },
+    {
+      "id": "SV8a-174",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/174",
+      "localId": "174",
+      "name": "帕底亞的夥伴"
+    },
+    {
+      "id": "SV2a-019",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/019",
+      "localId": "019",
+      "name": "小拉達"
+    },
+    {
+      "id": "SV2a-063",
+      "localId": "063",
+      "name": "凱西"
+    },
+    {
+      "id": "SV4a-345",
+      "localId": "345",
+      "name": "帕底亞的學生"
+    },
+    {
+      "id": "SV4a-245",
+      "localId": "245",
+      "name": "毒電嬰"
+    },
+    {
+      "id": "SV6-028",
+      "localId": "028",
+      "name": "迷唇姐"
+    },
+    {
+      "id": "S12a-029",
+      "localId": "029",
+      "name": "瑪納霏"
+    },
+    {
+      "id": "SC1a-087",
+      "localId": "087",
+      "name": "沙螺蟒"
+    },
+    {
+      "id": "S12a-206",
+      "localId": "206",
+      "name": "草苗龜"
+    },
+    {
+      "id": "SV4a-305",
+      "localId": "305",
+      "name": "比比鳥"
+    },
+    {
+      "id": "SV2a-090",
+      "localId": "090",
+      "name": "大舌貝"
+    },
+    {
+      "id": "S12a-205",
+      "localId": "205",
+      "name": "皮卡丘"
+    },
+    {
+      "id": "S12a-119",
+      "localId": "119",
+      "name": "大奶罐"
+    },
+    {
+      "id": "SV6-122",
+      "localId": "122",
+      "name": "烏栗"
+    },
+    {
+      "id": "SV2a-031",
+      "localId": "031",
+      "name": "尼多后"
+    },
+    {
+      "id": "S12a-061",
+      "localId": "061",
+      "name": "南瓜精"
+    },
+    {
+      "id": "SV2a-006",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/006",
+      "localId": "006",
+      "name": "噴火龍ex"
+    },
+    {
+      "id": "S12a-208",
+      "localId": "208",
+      "name": "土狼犬"
+    },
+    {
+      "id": "SV6-065",
+      "localId": "065",
+      "name": "厄鬼椪 礎石面具ex"
+    },
+    {
+      "id": "SV2a-045",
+      "localId": "045",
+      "name": "霸王花"
+    },
+    {
+      "id": "SV4a-288",
+      "localId": "288",
+      "name": "黑暗鴉"
+    },
+    {
+      "id": "SV8a-130",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/130",
+      "localId": "130",
+      "name": "土龍節節"
+    },
+    {
+      "id": "SV8a-176",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/176",
+      "localId": "176",
+      "name": "白蕾雅"
+    },
+    {
+      "id": "SC1a-157",
+      "localId": "157",
+      "name": "莫魯貝可V"
+    },
+    {
+      "id": "S12a-228",
+      "localId": "228",
+      "name": "達克萊伊VSTAR"
+    },
+    {
+      "id": "SV4a-347",
+      "localId": "347",
+      "name": "夢幻ex"
+    },
+    {
+      "id": "SV2a-197",
+      "localId": "197",
+      "name": "坂木的領導力[支援者]"
+    },
+    {
+      "id": "SV8a-113",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/113",
+      "localId": "113",
+      "name": "鋁鋼橋龍"
+    },
+    {
+      "id": "S12a-241",
+      "localId": "241",
+      "name": "黑連的關心"
+    },
+    {
+      "id": "SC1a-160",
+      "localId": "160",
+      "name": "多龍巴魯托V"
+    },
+    {
+      "id": "SV2a-163",
+      "localId": "163",
+      "name": "奈奈美的幫助"
+    },
+    {
+      "id": "SV4a-314",
+      "localId": "314",
+      "name": "藏飽栗鼠"
+    },
+    {
+      "id": "SV6-128",
+      "localId": "128",
+      "name": "厄鬼椪 礎石面具ex"
+    },
+    {
+      "id": "SV8a-069",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/069",
+      "localId": "069",
+      "name": "仙子伊布ex"
+    },
+    {
+      "id": "SV6-085",
+      "localId": "085",
+      "name": "幸福蛋ex"
+    },
+    {
+      "id": "SV4a-031",
+      "localId": "031",
+      "name": "炙燙鱷"
+    },
+    {
+      "id": "SC1a-112",
+      "localId": "112",
+      "name": "雙劍鞘"
+    },
+    {
+      "id": "SC1a-098",
+      "localId": "098",
+      "name": "伽勒爾 喵頭目"
+    },
+    {
+      "id": "SV2a-102",
+      "localId": "102",
+      "name": "蛋蛋"
+    },
+    {
+      "id": "SC1a-051",
+      "localId": "051",
+      "name": "迷布莉姆"
+    },
+    {
+      "id": "SV4a-255",
+      "localId": "255",
+      "name": "皮寶寶"
+    },
+    {
+      "id": "SV2a-135",
+      "localId": "135",
+      "name": "雷伊布"
+    },
+    {
+      "id": "SV2a-152",
+      "localId": "152",
+      "name": "能量貼紙"
+    },
+    {
+      "id": "SV8a-189",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/189",
+      "localId": "189",
+      "name": "奧爾迪加"
+    },
+    {
+      "id": "SV2a-078",
+      "localId": "078",
+      "name": "烈焰馬"
+    },
+    {
+      "id": "SV4a-078",
+      "localId": "078",
+      "name": "天然雀"
+    },
+    {
+      "id": "SV2a-107",
+      "localId": "107",
+      "name": "快拳郎"
+    },
+    {
+      "id": "SV4a-053",
+      "localId": "053",
+      "name": "戟脊龍"
+    },
+    {
+      "id": "SV2a-189",
+      "localId": "189",
+      "name": "胖可丁ex"
+    },
+    {
+      "id": "S12a-035",
+      "localId": "035",
+      "name": "電擊魔獸"
+    },
+    {
+      "id": "SV8a-083",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/083",
+      "localId": "083",
+      "name": "螺釘地鼠"
+    },
+    {
+      "id": "SV4a-058",
+      "localId": "058",
+      "name": "頑皮雷彈"
+    },
+    {
+      "id": "S12a-170",
+      "localId": "170",
+      "name": "熔岩的瀑布深潭"
+    },
+    {
+      "id": "SV4a-188",
+      "localId": "188",
+      "name": "治療能量"
+    },
+    {
+      "id": "SV2a-100",
+      "localId": "100",
+      "name": "霹靂電球"
+    },
+    {
+      "id": "SV6-120",
+      "localId": "120",
+      "name": "多龍巴魯托ex"
+    },
+    {
+      "id": "SV6-053",
+      "localId": "053",
+      "name": "沙丘娃"
+    },
+    {
+      "id": "SV4a-067",
+      "localId": "067",
+      "name": "布土撥"
+    },
+    {
+      "id": "SV6-044",
+      "localId": "044",
+      "name": "大電海燕"
+    },
+    {
+      "id": "SV2a-172",
+      "localId": "172",
+      "name": "綠毛蟲"
+    },
+    {
+      "id": "S12a-149",
+      "localId": "149",
+      "name": "珠貝"
+    },
+    {
+      "id": "SC1a-012",
+      "localId": "012",
+      "name": "傘電蜥"
+    },
+    {
+      "id": "S12a-075",
+      "localId": "075",
+      "name": "雷吉洛克"
+    },
+    {
+      "id": "SV4a-300",
+      "localId": "300",
+      "name": "噗隆隆"
+    },
+    {
+      "id": "SV2a-108",
+      "localId": "108",
+      "name": "大舌頭"
+    },
+    {
+      "id": "SV2a-077",
+      "localId": "077",
+      "name": "小火馬"
+    },
+    {
+      "id": "SV8a-085",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/085",
+      "localId": "085",
+      "name": "月月熊 赫月"
+    },
+    {
+      "id": "SV4a-193",
+      "localId": "193",
+      "name": "霸王花"
+    },
+    {
+      "id": "SV2a-141",
+      "localId": "141",
+      "name": "鐮刀盔"
+    },
+    {
+      "id": "SC1a-045",
+      "localId": "045",
+      "name": "象徵鳥"
+    },
+    {
+      "id": "SC1a-046",
+      "localId": "046",
+      "name": "沙丘娃"
+    },
+    {
+      "id": "SV4a-169",
+      "localId": "169",
+      "name": "勇氣護符"
+    },
+    {
+      "id": "SC1a-148",
+      "localId": "148",
+      "name": "彼特"
+    },
+    {
+      "id": "SV8a-107",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/107",
+      "localId": "107",
+      "name": "金屬怪"
+    },
+    {
+      "id": "SV4a-206",
+      "localId": "206",
+      "name": "原野水母"
+    },
+    {
+      "id": "SV4a-015",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/015",
+      "localId": "015",
+      "name": "迷你芙"
+    },
+    {
+      "id": "SC1a-120",
+      "localId": "120",
+      "name": "鋁鋼龍"
+    },
+    {
+      "id": "S12a-002",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/002",
+      "localId": "002",
+      "name": "派拉斯特"
+    },
+    {
+      "id": "SV8a-200",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/200",
+      "localId": "200",
+      "name": "葉伊布ex"
+    },
+    {
+      "id": "SV8a-135",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/135",
+      "localId": "135",
+      "name": "鐵脖頸"
+    },
+    {
+      "id": "SV4a-232",
+      "localId": "232",
+      "name": "米立龍"
+    },
+    {
+      "id": "S12a-040",
+      "localId": "040",
+      "name": "捷拉奧拉V"
+    },
+    {
+      "id": "S12a-231",
+      "localId": "231",
+      "name": "胡帕V"
+    },
+    {
+      "id": "SC1a-130",
+      "localId": "130",
+      "name": "泡沫栗鼠"
+    },
+    {
+      "id": "S12a-197",
+      "localId": "197",
+      "name": "百變怪"
+    },
+    {
+      "id": "SV4a-068",
+      "localId": "068",
+      "name": "巴布土撥"
+    },
+    {
+      "id": "SV8a-053",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/053",
+      "localId": "053",
+      "name": "捷拉奧拉"
+    },
+    {
+      "id": "SV8a-008",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/008",
+      "localId": "008",
+      "name": "啃果蟲"
+    },
+    {
+      "id": "S12a-126",
+      "localId": "126",
+      "name": "阿爾宙斯V"
+    },
+    {
+      "id": "SV6-017",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/017",
+      "localId": "017",
+      "name": "火紅不倒翁"
+    },
+    {
+      "id": "SV2a-012",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/012",
+      "localId": "012",
+      "name": "巴大蝶"
+    },
+    {
+      "id": "SV2a-130",
+      "localId": "130",
+      "name": "暴鯉龍"
+    },
+    {
+      "id": "SV8a-055",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/055",
+      "localId": "055",
+      "name": "鐵荊棘"
+    },
+    {
+      "id": "SC1a-144",
+      "localId": "144",
+      "name": "幸運蛋"
+    },
+    {
+      "id": "SV4a-117",
+      "localId": "117",
+      "name": "帕底亞 土王ex"
+    },
+    {
+      "id": "S12a-234",
+      "localId": "234",
+      "name": "洗翠 索羅亞克VSTAR"
+    },
+    {
+      "id": "SV6-117",
+      "localId": "117",
+      "name": "厄鬼椪 水井面具ex"
+    },
+    {
+      "id": "SV6-036",
+      "localId": "036",
+      "name": "海豚俠ex"
+    },
+    {
+      "id": "SV4a-089",
+      "localId": "089",
+      "name": "狗仔包"
+    },
+    {
+      "id": "SV4a-006",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/006",
+      "localId": "006",
+      "name": "毽子花"
+    },
+    {
+      "id": "S12a-169",
+      "localId": "169",
+      "name": "神奧神殿"
+    },
+    {
+      "id": "SV2a-103",
+      "localId": "103",
+      "name": "椰蛋樹"
+    },
+    {
+      "id": "SV8a-080",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/080",
+      "localId": "080",
+      "name": "固拉多"
+    },
+    {
+      "id": "SV8a-122",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/122",
+      "localId": "122",
+      "name": "故勒頓"
+    },
+    {
+      "id": "SV8a-155",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/155",
+      "localId": "155",
+      "name": "豪華斗篷"
+    },
+    {
+      "id": "SV2a-132",
+      "localId": "132",
+      "name": "百變怪"
+    },
+    {
+      "id": "SV4a-284",
+      "localId": "284",
+      "name": "鹽石壘"
+    },
+    {
+      "id": "SV2a-084",
+      "localId": "084",
+      "name": "嘟嘟"
+    },
+    {
+      "id": "S12a-036",
+      "localId": "036",
+      "name": "咩利羊"
+    },
+    {
+      "id": "S12a-082",
+      "localId": "082",
+      "name": "大狼犬"
+    },
+    {
+      "id": "SV2a-082",
+      "localId": "082",
+      "name": "三合一磁怪"
+    },
+    {
+      "id": "SV4a-123",
+      "localId": "123",
+      "name": "劈斬司令"
+    },
+    {
+      "id": "SC1a-123",
+      "localId": "123",
+      "name": "藏瑪然特"
+    },
+    {
+      "id": "S12a-237",
+      "localId": "237",
+      "name": "奇巴納"
+    },
+    {
+      "id": "SV2a-195",
+      "localId": "195",
+      "name": "夢幻ex"
+    },
+    {
+      "id": "SV4a-236",
+      "localId": "236",
+      "name": "皮卡丘"
+    },
+    {
+      "id": "SV8a-227",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/227",
+      "localId": "227",
+      "name": "赤松"
+    },
+    {
+      "id": "SV4a-276",
+      "localId": "276",
+      "name": "猴怪"
+    },
+    {
+      "id": "SV4a-218",
+      "localId": "218",
+      "name": "紅蓮鎧騎"
+    },
+    {
+      "id": "SV4a-046",
+      "localId": "046",
+      "name": "波普海豚"
+    },
+    {
+      "id": "SV8a-007",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/007",
+      "localId": "007",
+      "name": "啪咚猴"
+    },
+    {
+      "id": "S12a-203",
+      "localId": "203",
+      "name": "夜巡靈"
+    },
+    {
+      "id": "S12a-057",
+      "localId": "057",
+      "name": "夜巡靈"
+    },
+    {
+      "id": "SV8a-185",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/185",
+      "localId": "185",
+      "name": "噴射能量"
+    },
+    {
+      "id": "SC1a-036",
+      "localId": "036",
+      "name": "鬼斯通"
+    },
+    {
+      "id": "SC1a-151",
+      "localId": "151",
+      "name": "訓練場地"
+    },
+    {
+      "id": "SV4a-270",
+      "localId": "270",
+      "name": "飄飄雛"
+    },
+    {
+      "id": "SV8a-012",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/012",
+      "localId": "012",
+      "name": "怖納噬草"
+    },
+    {
+      "id": "SC1a-132",
+      "localId": "132",
+      "name": "貪心栗鼠"
+    },
+    {
+      "id": "SV2a-176",
+      "localId": "176",
+      "name": "蚊香君"
+    },
+    {
+      "id": "SV8a-153",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/153",
+      "localId": "153",
+      "name": "緊急滑板"
+    },
+    {
+      "id": "SV6-067",
+      "localId": "067",
+      "name": "大狼犬"
+    },
+    {
+      "id": "SC1a-031",
+      "localId": "031",
+      "name": "皮可西"
+    },
+    {
+      "id": "SV2a-015",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/015",
+      "localId": "015",
+      "name": "大針蜂"
+    },
+    {
+      "id": "S12a-221",
+      "localId": "221",
+      "name": "超夢VSTAR"
+    },
+    {
+      "id": "SV6-108",
+      "localId": "108",
+      "name": "吉雉雞"
+    },
+    {
+      "id": "S12a-196",
+      "localId": "196",
+      "name": "洗翠 黏美龍"
+    },
+    {
+      "id": "SV6-052",
+      "localId": "052",
+      "name": "胖甜妮"
+    },
+    {
+      "id": "S12a-118",
+      "localId": "118",
+      "name": "土龍弟弟"
+    },
+    {
+      "id": "SV4a-093",
+      "localId": "093",
+      "name": "飄飄雛"
+    },
+    {
+      "id": "SV6-050",
+      "localId": "050",
+      "name": "風鈴鈴"
+    },
+    {
+      "id": "S12a-230",
+      "localId": "230",
+      "name": "洗翠 大劍鬼VSTAR"
+    },
+    {
+      "id": "S12a-243",
+      "localId": "243",
+      "name": "菜種的活力"
+    },
+    {
+      "id": "SC1a-118",
+      "localId": "118",
+      "name": "大王銅象VMAX"
+    },
+    {
+      "id": "SV6-038",
+      "localId": "038",
+      "name": "厄鬼椪 水井面具ex"
+    },
+    {
+      "id": "S12a-046",
+      "localId": "046",
+      "name": "鬼斯"
+    },
+    {
+      "id": "SV8a-109",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/109",
+      "localId": "109",
+      "name": "獨劍鞘"
+    },
+    {
+      "id": "SV4a-091",
+      "localId": "091",
+      "name": "蒼炎刃鬼"
+    },
+    {
+      "id": "SV2a-069",
+      "localId": "069",
+      "name": "喇叭芽"
+    },
+    {
+      "id": "SV4a-353",
+      "localId": "353",
+      "name": "派帕"
+    },
+    {
+      "id": "SV8a-211",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/211",
+      "localId": "211",
+      "name": "太陽伊布ex"
+    },
+    {
+      "id": "SV8a-022",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/022",
+      "localId": "022",
+      "name": "火伊布ex"
+    },
+    {
+      "id": "SV4a-017",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/017",
+      "localId": "017",
+      "name": "奧利瓦"
+    },
+    {
+      "id": "SV4a-018",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/018",
+      "localId": "018",
+      "name": "原野水母"
+    },
+    {
+      "id": "SC1a-134",
+      "localId": "134",
+      "name": "稚山雀"
+    },
+    {
+      "id": "SV4a-293",
+      "localId": "293",
+      "name": "劈斬司令"
+    },
+    {
+      "id": "SV4a-010",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/010",
+      "localId": "010",
+      "name": "雪笠怪"
+    },
+    {
+      "id": "SV2a-025",
+      "localId": "025",
+      "name": "皮卡丘"
+    },
+    {
+      "id": "S12a-033",
+      "localId": "033",
+      "name": "光輝甲賀忍蛙"
+    },
+    {
+      "id": "S12a-092",
+      "localId": "092",
+      "name": "偷兒狐"
+    },
+    {
+      "id": "SC1a-095",
+      "localId": "095",
+      "name": "巨石丁VMAX"
+    },
+    {
+      "id": "S12a-229",
+      "localId": "229",
+      "name": "洗翠 大劍鬼V"
+    },
+    {
+      "id": "S12a-207",
+      "localId": "207",
+      "name": "派拉斯"
+    },
+    {
+      "id": "SV4a-025",
+      "localId": "025",
+      "name": "小火龍"
+    },
+    {
+      "id": "SV8a-216",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/216",
+      "localId": "216",
+      "name": "厄鬼椪 礎石面具ex"
+    },
+    {
+      "id": "SC1a-133",
+      "localId": "133",
+      "name": "藏飽栗鼠"
+    },
+    {
+      "id": "SV6-049",
+      "localId": "049",
+      "name": "胡地"
+    },
+    {
+      "id": "SV8a-081",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/081",
+      "localId": "081",
+      "name": "圓陸鯊"
+    },
+    {
+      "id": "SC1a-014",
+      "localId": "014",
+      "name": "蟲電寶"
+    },
+    {
+      "id": "SC1a-127",
+      "localId": "127",
+      "name": "卡比獸"
+    },
+    {
+      "id": "SV8a-209",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/209",
+      "localId": "209",
+      "name": "雷伊布ex"
+    },
+    {
+      "id": "SV4a-183",
+      "localId": "183",
+      "name": "城鎮百貨公司"
+    },
+    {
+      "id": "S12a-051",
+      "localId": "051",
+      "name": "超夢VSTAR"
+    },
+    {
+      "id": "SV6-088",
+      "localId": "088",
+      "name": "鴨寶寶"
+    },
+    {
+      "id": "SV8a-223",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/223",
+      "localId": "223",
+      "name": "伊布ex"
+    },
+    {
+      "id": "SV2a-056",
+      "localId": "056",
+      "name": "猴怪"
+    },
+    {
+      "id": "SC1a-105",
+      "localId": "105",
+      "name": "種子鐵球"
+    },
+    {
+      "id": "SV2a-168",
+      "localId": "168",
+      "name": "小火龍"
+    },
+    {
+      "id": "SV2a-137",
+      "localId": "137",
+      "name": "多邊獸"
+    },
+    {
+      "id": "SV8a-060",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/060",
+      "localId": "060",
+      "name": "天然雀"
+    },
+    {
+      "id": "SV8a-131",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/131",
+      "localId": "131",
+      "name": "旋轉洛托姆"
+    },
+    {
+      "id": "SV4a-021",
+      "localId": "021",
+      "name": "狠辣椒"
+    },
+    {
+      "id": "SV2a-128",
+      "localId": "128",
+      "name": "肯泰羅"
+    },
+    {
+      "id": "SV6-016",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/016",
+      "localId": "016",
+      "name": "厄鬼椪 碧草面具ex"
+    },
+    {
+      "id": "SV2a-047",
+      "localId": "047",
+      "name": "派拉斯特"
+    },
+    {
+      "id": "SV2a-153",
+      "localId": "153",
+      "name": "抓換臂"
+    },
+    {
+      "id": "SV4a-074",
+      "localId": "074",
+      "name": "勇基拉"
+    },
+    {
+      "id": "SV2a-032",
+      "localId": "032",
+      "name": "尼多朗"
+    },
+    {
+      "id": "SV4a-064",
+      "localId": "064",
+      "name": "毒電嬰"
+    },
+    {
+      "id": "SV2a-067",
+      "localId": "067",
+      "name": "豪力"
+    },
+    {
+      "id": "SV8a-179",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/179",
+      "localId": "179",
+      "name": "梅洛可"
+    },
+    {
+      "id": "SV2a-028",
+      "localId": "028",
+      "name": "穿山王"
+    },
+    {
+      "id": "SC1a-019",
+      "localId": "019",
+      "name": "逐電犬V"
+    },
+    {
+      "id": "SV4a-219",
+      "localId": "219",
+      "name": "呆呆獸"
+    },
+    {
+      "id": "S12a-140",
+      "localId": "140",
+      "name": "洗翠的沉重球"
+    },
+    {
+      "id": "SV6-105",
+      "localId": "105",
+      "name": "電海燕"
+    },
+    {
+      "id": "SV6-011",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/011",
+      "localId": "011",
+      "name": "啃果蟲"
+    },
+    {
+      "id": "SV8a-172",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/172",
+      "localId": "172",
+      "name": "探險家的嚮導"
+    },
+    {
+      "id": "SV8a-181",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/181",
+      "localId": "181",
+      "name": "阻礙之塔"
+    },
+    {
+      "id": "S12a-146",
+      "localId": "146",
+      "name": "天空封印石"
+    },
+    {
+      "id": "S12a-093",
+      "localId": "093",
+      "name": "狐大盜"
+    },
+    {
+      "id": "S12a-155",
+      "localId": "155",
+      "name": "剛石"
+    },
+    {
+      "id": "SV8a-088",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/088",
+      "localId": "088",
+      "name": "沙鐵皮ex"
+    },
+    {
+      "id": "S12a-224",
+      "localId": "224",
+      "name": "布莉姆溫VMAX"
+    },
+    {
+      "id": "S12a-053",
+      "localId": "053",
+      "name": "夢幻V"
+    },
+    {
+      "id": "SV4a-212",
+      "localId": "212",
+      "name": "帕底亞 肯泰羅"
+    },
+    {
+      "id": "SC1a-052",
+      "localId": "052",
+      "name": "提布莉姆"
+    },
+    {
+      "id": "SV8a-028",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/028",
+      "localId": "028",
+      "name": "角金魚"
+    },
+    {
+      "id": "SC1a-110",
+      "localId": "110",
+      "name": "鐵蟻"
+    },
+    {
+      "id": "SV8a-159",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/159",
+      "localId": "159",
+      "name": "極限腰帶"
+    },
+    {
+      "id": "SV2a-118",
+      "localId": "118",
+      "name": "角金魚"
+    },
+    {
+      "id": "SV2a-081",
+      "localId": "081",
+      "name": "小磁怪"
+    },
+    {
+      "id": "S12a-059",
+      "localId": "059",
+      "name": "黑夜魔靈"
+    },
+    {
+      "id": "SV8a-030",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/030",
+      "localId": "030",
+      "name": "水伊布"
+    },
+    {
+      "id": "S12a-013",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/013",
+      "localId": "013",
+      "name": "噴火龍V"
+    },
+    {
+      "id": "SV4a-224",
+      "localId": "224",
+      "name": "潤水鴨"
+    },
+    {
+      "id": "SV4a-354",
+      "localId": "354",
+      "name": "牡丹"
+    },
+    {
+      "id": "SV2a-165",
+      "localId": "165",
+      "name": "自行車道"
+    },
+    {
+      "id": "SV4a-333",
+      "localId": "333",
+      "name": "鐵轍跡ex"
+    },
+    {
+      "id": "SV4a-267",
+      "localId": "267",
+      "name": "麻花犬"
+    },
+    {
+      "id": "SV4a-298",
+      "localId": "298",
+      "name": "塗標客"
+    },
+    {
+      "id": "SV8a-168",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/168",
+      "localId": "168",
+      "name": "水蓮的照顧"
+    },
+    {
+      "id": "SV8a-164",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/164",
+      "localId": "164",
+      "name": "阿克羅瑪的執著"
+    },
+    {
+      "id": "SV2a-039",
+      "localId": "039",
+      "name": "胖丁"
+    },
+    {
+      "id": "SC1a-100",
+      "localId": "100",
+      "name": "巨鉗螳螂"
+    },
+    {
+      "id": "SV4a-228",
+      "localId": "228",
+      "name": "波普海豚"
+    },
+    {
+      "id": "S12a-102",
+      "localId": "102",
+      "name": "蓋諾賽克特V"
+    },
+    {
+      "id": "S12a-235",
+      "localId": "235",
+      "name": "阿克羅瑪的實驗"
+    },
+    {
+      "id": "SV2a-146",
+      "localId": "146",
+      "name": "火焰鳥"
+    },
+    {
+      "id": "SV6-106",
+      "localId": "106",
+      "name": "風鈴鈴"
+    },
+    {
+      "id": "SV4a-254",
+      "localId": "254",
+      "name": "勇基拉"
+    },
+    {
+      "id": "SC1a-068",
+      "localId": "068",
+      "name": "鑽角犀獸"
+    },
+    {
+      "id": "S12a-204",
+      "localId": "204",
+      "name": "大牙狸"
+    },
+    {
+      "id": "S12a-227",
+      "localId": "227",
+      "name": "龍王蠍V"
+    },
+    {
+      "id": "SV2a-062",
+      "localId": "062",
+      "name": "蚊香泳士"
+    },
+    {
+      "id": "S12a-081",
+      "localId": "081",
+      "name": "土狼犬"
+    },
+    {
+      "id": "SV2a-175",
+      "localId": "175",
+      "name": "可達鴨"
+    },
+    {
+      "id": "SV8a-171",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/171",
+      "localId": "171",
+      "name": "紫竽"
+    },
+    {
+      "id": "SC1a-167",
+      "localId": "167",
+      "name": "奧利薇"
+    },
+    {
+      "id": "SV8a-218",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/218",
+      "localId": "218",
+      "name": "轟鳴月ex"
+    },
+    {
+      "id": "SV2a-182",
+      "localId": "182",
+      "name": "哈克龍"
+    },
+    {
+      "id": "SV6-114",
+      "localId": "114",
+      "name": "厄鬼椪 碧草面具ex"
+    },
+    {
+      "id": "SV4a-118",
+      "localId": "118",
+      "name": "黑暗鴉"
+    },
+    {
+      "id": "S12a-063",
+      "localId": "063",
+      "name": "蒂安希"
+    },
+    {
+      "id": "SC1a-062",
+      "localId": "062",
+      "name": "多龍巴魯托VMAX"
+    },
+    {
+      "id": "SC1a-075",
+      "localId": "075",
+      "name": "鯰魚王"
+    },
+    {
+      "id": "S12a-185",
+      "localId": "185",
+      "name": "代歐奇希斯"
+    },
+    {
+      "id": "SV2a-129",
+      "localId": "129",
+      "name": "鯉魚王"
+    },
+    {
+      "id": "SV4a-220",
+      "localId": "220",
+      "name": "呆殼獸"
+    },
+    {
+      "id": "SV6-118",
+      "localId": "118",
+      "name": "倫琴貓ex"
+    },
+    {
+      "id": "SV4a-106",
+      "localId": "106",
+      "name": "摔角鷹人"
+    },
+    {
+      "id": "SV8a-145",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/145",
+      "localId": "145",
+      "name": "太晶珠"
+    },
+    {
+      "id": "SV2a-193",
+      "localId": "193",
+      "name": "迷唇姐ex"
+    },
+    {
+      "id": "SV4a-246",
+      "localId": "246",
+      "name": "顫弦蠑螈"
+    },
+    {
+      "id": "SC1a-063",
+      "localId": "063",
+      "name": "伽勒爾 大蔥鴨"
+    },
+    {
+      "id": "SV8a-043",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/043",
+      "localId": "043",
+      "name": "三海地鼠"
+    },
+    {
+      "id": "SV2a-094",
+      "localId": "094",
+      "name": "耿鬼"
+    },
+    {
+      "id": "S12a-156",
+      "localId": "156",
+      "name": "黑連的關心"
+    },
+    {
+      "id": "S12a-083",
+      "localId": "083",
+      "name": "阿勃梭魯"
+    },
+    {
+      "id": "S12a-210",
+      "localId": "210",
+      "name": "葉伊布VSTAR"
+    },
+    {
+      "id": "S12a-139",
+      "localId": "139",
+      "name": "強力糖錠"
+    },
+    {
+      "id": "SV2a-053",
+      "localId": "053",
+      "name": "貓老大"
+    },
+    {
+      "id": "SV4a-302",
+      "localId": "302",
+      "name": "嗡蝠"
+    },
+    {
+      "id": "SV8a-229",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/229",
+      "localId": "229",
+      "name": "杜若"
+    },
+    {
+      "id": "SV4a-034",
+      "localId": "034",
+      "name": "紅蓮鎧騎"
+    },
+    {
+      "id": "S12a-174",
+      "localId": "174",
+      "name": "音箱蟀"
+    },
+    {
+      "id": "SV4a-217",
+      "localId": "217",
+      "name": "炭小侍"
+    },
+    {
+      "id": "SV2a-127",
+      "localId": "127",
+      "name": "凱羅斯"
+    },
+    {
+      "id": "SC1a-115",
+      "localId": "115",
+      "name": "銅象"
+    },
+    {
+      "id": "SV2a-111",
+      "localId": "111",
+      "name": "獨角犀牛"
+    },
+    {
+      "id": "S12a-107",
+      "localId": "107",
+      "name": "烈空坐V"
+    },
+    {
+      "id": "SC1a-091",
+      "localId": "091",
+      "name": "列陣兵"
+    },
+    {
+      "id": "SV2a-096",
+      "localId": "096",
+      "name": "催眠貘"
+    },
+    {
+      "id": "SV4a-346",
+      "localId": "346",
+      "name": "帕底亞的學生"
+    },
+    {
+      "id": "S12a-115",
+      "localId": "115",
+      "name": "光輝無極汰那"
+    },
+    {
+      "id": "SV2a-054",
+      "localId": "054",
+      "name": "可達鴨"
+    },
+    {
+      "id": "SC1a-039",
+      "localId": "039",
+      "name": "天然鳥"
+    },
+    {
+      "id": "SC1a-064",
+      "localId": "064",
+      "name": "伽勒爾 蔥遊兵"
+    },
+    {
+      "id": "SV6-008",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/008",
+      "localId": "008",
+      "name": "敲音猴"
+    },
+    {
+      "id": "S12a-219",
+      "localId": "219",
+      "name": "捷拉奧拉VMAX"
+    },
+    {
+      "id": "S12a-223",
+      "localId": "223",
+      "name": "代歐奇希斯VSTAR"
+    },
+    {
+      "id": "SV8a-020",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/020",
+      "localId": "020",
+      "name": "厄鬼椪 碧草面具ex"
+    },
+    {
+      "id": "SV8a-039",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/039",
+      "localId": "039",
+      "name": "烈咬陸鯊ex"
+    },
+    {
+      "id": "S12a-242",
+      "localId": "242",
+      "name": "杜娟"
+    },
+    {
+      "id": "SV4a-247",
+      "localId": "247",
+      "name": "布撥"
+    },
+    {
+      "id": "SV4a-337",
+      "localId": "337",
+      "name": "怒鸚哥ex"
+    },
+    {
+      "id": "SV4a-275",
+      "localId": "275",
+      "name": "墓揚犬"
+    },
+    {
+      "id": "S12a-076",
+      "localId": "076",
+      "name": "利歐路"
+    },
+    {
+      "id": "SV4a-104",
+      "localId": "104",
+      "name": "利歐路"
+    },
+    {
+      "id": "SV8a-115",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/115",
+      "localId": "115",
+      "name": "普隆隆姆"
+    },
+    {
+      "id": "SV2a-113",
+      "localId": "113",
+      "name": "吉利蛋"
+    },
+    {
+      "id": "SV6-069",
+      "localId": "069",
+      "name": "車輪毬"
+    },
+    {
+      "id": "SV2a-088",
+      "localId": "088",
+      "name": "臭泥"
+    },
+    {
+      "id": "SV4a-319",
+      "localId": "319",
+      "name": "纏紅鶴"
+    },
+    {
+      "id": "SV2a-074",
+      "localId": "074",
+      "name": "小拳石"
+    },
+    {
+      "id": "S12a-244",
+      "localId": "244",
+      "name": "美蓉"
+    },
+    {
+      "id": "S12a-162",
+      "localId": "162",
+      "name": "美蓉"
+    },
+    {
+      "id": "SV6-014",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/014",
+      "localId": "014",
+      "name": "來悲粗茶"
+    },
+    {
+      "id": "SV8a-204",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/204",
+      "localId": "204",
+      "name": "厄鬼椪 火灶面具ex"
+    },
+    {
+      "id": "SV2a-164",
+      "localId": "164",
+      "name": "正輝的輸送"
+    },
+    {
+      "id": "SV4a-277",
+      "localId": "277",
+      "name": "火爆猴"
+    },
+    {
+      "id": "SV4a-260",
+      "localId": "260",
+      "name": "飄飄球"
+    },
+    {
+      "id": "SV4a-012",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/012",
+      "localId": "012",
+      "name": "新葉喵"
+    },
+    {
+      "id": "SV4a-081",
+      "localId": "081",
+      "name": "奇魯莉安"
+    },
+    {
+      "id": "SV2a-021",
+      "localId": "021",
+      "name": "烈雀"
+    },
+    {
+      "id": "SV4a-344",
+      "localId": "344",
+      "name": "聶凱"
+    },
+    {
+      "id": "SV8a-217",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/217",
+      "localId": "217",
+      "name": "月亮伊布ex"
+    },
+    {
+      "id": "SV6-060",
+      "localId": "060",
+      "name": "鐵骨土人"
+    },
+    {
+      "id": "SV4a-055",
+      "localId": "055",
+      "name": "皮卡丘"
+    },
+    {
+      "id": "SV4a-339",
+      "localId": "339",
+      "name": "海豚俠"
+    },
+    {
+      "id": "SV4a-032",
+      "localId": "032",
+      "name": "骨紋巨聲鱷ex"
+    },
+    {
+      "id": "SV4a-126",
+      "localId": "126",
+      "name": "獒教父"
+    },
+    {
+      "id": "SV2a-206",
+      "localId": "206",
+      "name": "莉佳的招待[支援者]"
+    },
+    {
+      "id": "SV8a-044",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/044",
+      "localId": "044",
+      "name": "波普海豚"
+    },
+    {
+      "id": "SV4a-090",
+      "localId": "090",
+      "name": "麻花犬"
+    },
+    {
+      "id": "SV8a-036",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/036",
+      "localId": "036",
+      "name": "美納斯"
+    },
+    {
+      "id": "SV4a-261",
+      "localId": "261",
+      "name": "隨風球"
+    },
+    {
+      "id": "SV2a-037",
+      "localId": "037",
+      "name": "六尾"
+    },
+    {
+      "id": "SV2a-005",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/005",
+      "localId": "005",
+      "name": "火恐龍"
+    },
+    {
+      "id": "SV4a-234",
+      "localId": "234",
+      "name": "凍脊龍"
+    },
+    {
+      "id": "SV4a-101",
+      "localId": "101",
+      "name": "火爆猴"
+    },
+    {
+      "id": "SV4a-251",
+      "localId": "251",
+      "name": "大電海燕"
+    },
+    {
+      "id": "SV4a-268",
+      "localId": "268",
+      "name": "蒼炎刃鬼"
+    },
+    {
+      "id": "SV2a-008",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/008",
+      "localId": "008",
+      "name": "卡咪龜"
+    },
+    {
+      "id": "SV6-030",
+      "localId": "030",
+      "name": "美納斯"
+    },
+    {
+      "id": "SV2a-183",
+      "localId": "183",
+      "name": "超夢"
+    },
+    {
+      "id": "SV8a-123",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/123",
+      "localId": "123",
+      "name": "密勒頓"
+    },
+    {
+      "id": "SV2a-055",
+      "localId": "055",
+      "name": "哥達鴨"
+    },
+    {
+      "id": "SV4a-202",
+      "localId": "202",
+      "name": "蒂蕾喵"
+    },
+    {
+      "id": "SC1a-168",
+      "localId": "168",
+      "name": "博士的研究(木蘭博士)"
+    },
+    {
+      "id": "SC1a-131",
+      "localId": "131",
+      "name": "奇諾栗鼠"
+    },
+    {
+      "id": "SV4a-205",
+      "localId": "205",
+      "name": "奧利瓦"
+    },
+    {
+      "id": "SV4a-196",
+      "localId": "196",
+      "name": "毽子花"
+    },
+    {
+      "id": "S12a-186",
+      "localId": "186",
+      "name": "蒂安希"
+    },
+    {
+      "id": "SV8a-068",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/068",
+      "localId": "068",
+      "name": "仙子伊布"
+    },
+    {
+      "id": "SV6-009",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/009",
+      "localId": "009",
+      "name": "啪咚猴"
+    },
+    {
+      "id": "SC1a-081",
+      "localId": "081",
+      "name": "龜腳腳"
+    },
+    {
+      "id": "SV8a-047",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/047",
+      "localId": "047",
+      "name": "鐵包袱"
+    },
+    {
+      "id": "SV6-125",
+      "localId": "125",
+      "name": "厄鬼椪 碧草面具ex"
+    },
+    {
+      "id": "SV8a-118",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/118",
+      "localId": "118",
+      "name": "多龍梅西亞"
+    },
+    {
+      "id": "S12a-069",
+      "localId": "069",
+      "name": "洗翠 卡蒂狗"
+    },
+    {
+      "id": "SV8a-120",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/120",
+      "localId": "120",
+      "name": "多龍巴魯托ex"
+    },
+    {
+      "id": "SV6-005",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/005",
+      "localId": "005",
+      "name": "甜甜螢"
+    },
+    {
+      "id": "SV8a-190",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/190",
+      "localId": "190",
+      "name": "寇沙"
+    },
+    {
+      "id": "SV2a-154",
+      "localId": "154",
+      "name": "陳舊的貝殼化石"
+    },
+    {
+      "id": "SV4a-348",
+      "localId": "348",
+      "name": "沙奈朵ex"
+    },
+    {
+      "id": "S12a-052",
+      "localId": "052",
+      "name": "夢幻"
+    },
+    {
+      "id": "SV2a-202",
+      "localId": "202",
+      "name": "水箭龜ex"
+    },
+    {
+      "id": "SV4a-286",
+      "localId": "286",
+      "name": "晶光芽"
+    },
+    {
+      "id": "SC1a-043",
+      "localId": "043",
+      "name": "食夢夢"
+    },
+    {
+      "id": "SV2a-017",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/017",
+      "localId": "017",
+      "name": "比比鳥"
+    },
+    {
+      "id": "SV4a-244",
+      "localId": "244",
+      "name": "雷電雲"
+    },
+    {
+      "id": "SV8a-092",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/092",
+      "localId": "092",
+      "name": "月亮伊布"
+    },
+    {
+      "id": "SV4a-278",
+      "localId": "278",
+      "name": "棄世猴"
+    },
+    {
+      "id": "S12a-011",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/011",
+      "localId": "011",
+      "name": "葉伊布V"
+    },
+    {
+      "id": "SV4a-238",
+      "localId": "238",
+      "name": "霹靂電球"
+    },
+    {
+      "id": "SV8a-009",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/009",
+      "localId": "009",
+      "name": "裹蜜蟲"
+    },
+    {
+      "id": "SV8a-079",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/079",
+      "localId": "079",
+      "name": "古空棘魚"
+    },
+    {
+      "id": "SV4a-266",
+      "localId": "266",
+      "name": "狗仔包"
+    },
+    {
+      "id": "SC1a-007",
+      "localId": "007",
+      "name": "燈籠魚"
+    },
+    {
+      "id": "S12a-067",
+      "localId": "067",
+      "name": "蒼響V"
+    },
+    {
+      "id": "S12a-023",
+      "localId": "023",
+      "name": "拉普拉斯"
+    },
+    {
+      "id": "SV2a-159",
+      "localId": "159",
+      "name": "硬硬束帶"
+    },
+    {
+      "id": "S12a-132",
+      "localId": "132",
+      "name": "潮漩之扇"
+    },
+    {
+      "id": "SV4a-263",
+      "localId": "263",
+      "name": "花岩怪"
+    },
+    {
+      "id": "SV2a-014",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/014",
+      "localId": "014",
+      "name": "鐵殼蛹"
+    },
+    {
+      "id": "SV4a-290",
+      "localId": "290",
+      "name": "瑪狃拉"
+    },
+    {
+      "id": "SV4a-033",
+      "localId": "033",
+      "name": "炭小侍"
+    },
+    {
+      "id": "SV8a-230",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/230",
+      "localId": "230",
+      "name": "烏栗"
+    },
+    {
+      "id": "SV4a-072",
+      "localId": "072",
+      "name": "胖可丁"
+    },
+    {
+      "id": "SC1a-129",
+      "localId": "129",
+      "name": "貓頭夜鷹"
+    },
+    {
+      "id": "SV2a-071",
+      "localId": "071",
+      "name": "大食花"
+    },
+    {
+      "id": "SV6-083",
+      "localId": "083",
+      "name": "大蔥鴨"
+    },
+    {
+      "id": "SV2a-192",
+      "localId": "192",
+      "name": "袋獸ex"
+    },
+    {
+      "id": "S12a-143",
+      "localId": "143",
+      "name": "等級球"
+    },
+    {
+      "id": "SV2a-123",
+      "localId": "123",
+      "name": "飛天螳螂"
+    },
+    {
+      "id": "SV4a-208",
+      "localId": "208",
+      "name": "狠辣椒"
+    },
+    {
+      "id": "SV4a-180",
+      "localId": "180",
+      "name": "派帕"
+    },
+    {
+      "id": "SC1a-094",
+      "localId": "094",
+      "name": "巨石丁V"
+    },
+    {
+      "id": "SV8a-228",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/228",
+      "localId": "228",
+      "name": "阿杏的秘招"
+    },
+    {
+      "id": "S12a-131",
+      "localId": "131",
+      "name": "詭角鹿V"
+    },
+    {
+      "id": "SV4a-310",
+      "localId": "310",
+      "name": "卡比獸"
+    },
+    {
+      "id": "S12a-094",
+      "localId": "094",
+      "name": "小磁怪"
+    },
+    {
+      "id": "SV4a-056",
+      "localId": "056",
+      "name": "雷丘"
+    },
+    {
+      "id": "SV8a-040",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/040",
+      "localId": "040",
+      "name": "冰伊布"
+    },
+    {
+      "id": "SV8a-106",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/106",
+      "localId": "106",
+      "name": "鐵啞鈴"
+    },
+    {
+      "id": "SV8a-219",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/219",
+      "localId": "219",
+      "name": "桃歹郎ex"
+    },
+    {
+      "id": "SV2a-105",
+      "localId": "105",
+      "name": "嘎啦嘎啦"
+    },
+    {
+      "id": "SV8a-096",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/096",
+      "localId": "096",
+      "name": "索羅亞"
+    },
+    {
+      "id": "SV6-035",
+      "localId": "035",
+      "name": "海豚俠"
+    },
+    {
+      "id": "SV8a-212",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/212",
+      "localId": "212",
+      "name": "仙子伊布ex"
+    },
+    {
+      "id": "SV8a-026",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/026",
+      "localId": "026",
+      "name": "厄鬼椪 火灶面具ex"
+    },
+    {
+      "id": "SC1a-074",
+      "localId": "074",
+      "name": "泥泥鰍"
+    },
+    {
+      "id": "SV2a-080",
+      "localId": "080",
+      "name": "呆殼獸"
+    },
+    {
+      "id": "SV2a-116",
+      "localId": "116",
+      "name": "墨海馬"
+    },
+    {
+      "id": "SV4a-013",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/013",
+      "localId": "013",
+      "name": "蒂蕾喵"
+    },
+    {
+      "id": "SV4a-060",
+      "localId": "060",
+      "name": "勒克貓"
+    },
+    {
+      "id": "S12a-211",
+      "localId": "211",
+      "name": "噴火龍V"
+    },
+    {
+      "id": "S12a-072",
+      "localId": "072",
+      "name": "怪力VMAX"
+    },
+    {
+      "id": "S12a-129",
+      "localId": "129",
+      "name": "洗翠 索羅亞克VSTAR"
+    },
+    {
+      "id": "SV8a-004",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/004",
+      "localId": "004",
+      "name": "木棉球"
+    },
+    {
+      "id": "SV4a-352",
+      "localId": "352",
+      "name": "聶凱"
+    },
+    {
+      "id": "SV4a-269",
+      "localId": "269",
+      "name": "蟲甲聖"
+    },
+    {
+      "id": "SV4a-272",
+      "localId": "272",
+      "name": "巧鍛匠"
+    },
+    {
+      "id": "S12a-031",
+      "localId": "031",
+      "name": "洗翠 幽尾玄魚"
+    },
+    {
+      "id": "SV4a-038",
+      "localId": "038",
+      "name": "海星星"
+    },
+    {
+      "id": "SV4a-016",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/016",
+      "localId": "016",
+      "name": "奧利紐"
+    },
+    {
+      "id": "SV8a-059",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/059",
+      "localId": "059",
+      "name": "胡地"
+    },
+    {
+      "id": "SV8a-136",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/136",
+      "localId": "136",
+      "name": "太樂巴戈斯ex"
+    },
+    {
+      "id": "SV4a-197",
+      "localId": "197",
+      "name": "毽子棉"
+    },
+    {
+      "id": "SV2a-170",
+      "localId": "170",
+      "name": "傑尼龜"
+    },
+    {
+      "id": "S12a-250",
+      "localId": "250",
+      "name": "老大的指令（赤日）"
+    },
+    {
+      "id": "SC1a-152",
+      "localId": "152",
+      "name": "高速雷能量"
+    },
+    {
+      "id": "SV6-037",
+      "localId": "037",
+      "name": "鐵包袱"
+    },
+    {
+      "id": "SV2a-155",
+      "localId": "155",
+      "name": "陳舊的甲殼化石"
+    },
+    {
+      "id": "S12a-012",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/012",
+      "localId": "012",
+      "name": "葉伊布VSTAR"
+    },
+    {
+      "id": "SV2a-061",
+      "localId": "061",
+      "name": "蚊香君"
+    },
+    {
+      "id": "S12a-049",
+      "localId": "049",
+      "name": "伽勒爾 急凍鳥"
+    },
+    {
+      "id": "S12a-064",
+      "localId": "064",
+      "name": "花療環環"
+    },
+    {
+      "id": "S12a-172",
+      "localId": "172",
+      "name": "匯流能量"
+    },
+    {
+      "id": "SV6-113",
+      "localId": "113",
+      "name": "吉利蛋"
+    },
+    {
+      "id": "SV4a-330",
+      "localId": "330",
+      "name": "雄偉牙ex"
+    },
+    {
+      "id": "SV4a-079",
+      "localId": "079",
+      "name": "天然鳥"
+    },
+    {
+      "id": "SV8a-195",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/195",
+      "localId": "195",
+      "name": "帕底亞的夥伴"
+    },
+    {
+      "id": "SC1a-108",
+      "localId": "108",
+      "name": "駒刀小兵"
+    },
+    {
+      "id": "S12a-004",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/004",
+      "localId": "004",
+      "name": "洗翠 頑皮雷彈"
+    },
+    {
+      "id": "SV6-032",
+      "localId": "032",
+      "name": "冰鬼護"
+    },
+    {
+      "id": "SV4a-296",
+      "localId": "296",
+      "name": "獒教父"
+    },
+    {
+      "id": "SC1a-033",
+      "localId": "033",
+      "name": "伽勒爾 小火馬"
+    },
+    {
+      "id": "SV4a-230",
+      "localId": "230",
+      "name": "輕身鱈"
+    },
+    {
+      "id": "SV4a-216",
+      "localId": "216",
+      "name": "炙燙鱷"
+    },
+    {
+      "id": "SV8a-093",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/093",
+      "localId": "093",
+      "name": "月亮伊布ex"
+    },
+    {
+      "id": "S12a-192",
+      "localId": "192",
+      "name": "狐大盜"
+    },
+    {
+      "id": "SV8a-090",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/090",
+      "localId": "090",
+      "name": "夠讚狗"
+    },
+    {
+      "id": "SV8a-052",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/052",
+      "localId": "052",
+      "name": "雷伊布ex"
+    },
+    {
+      "id": "SV6-026",
+      "localId": "026",
+      "name": "角金魚"
+    },
+    {
+      "id": "SV8a-234",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/234",
+      "localId": "234",
+      "name": "厄鬼椪 碧草面具ex"
+    },
+    {
+      "id": "SV6-094",
+      "localId": "094",
+      "name": "捕蟲組合"
+    },
+    {
+      "id": "SV2a-004",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/004",
+      "localId": "004",
+      "name": "小火龍"
+    },
+    {
+      "id": "SV2a-070",
+      "localId": "070",
+      "name": "口呆花"
+    },
+    {
+      "id": "S12a-047",
+      "localId": "047",
+      "name": "鬼斯通"
+    },
+    {
+      "id": "SV8a-184",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/184",
+      "localId": "184",
+      "name": "中立中心"
+    },
+    {
+      "id": "SV4a-071",
+      "localId": "071",
+      "name": "密勒頓ex"
+    },
+    {
+      "id": "SV2a-097",
+      "localId": "097",
+      "name": "引夢貘人"
+    },
+    {
+      "id": "SC1a-116",
+      "localId": "116",
+      "name": "大王銅象"
+    },
+    {
+      "id": "S12a-078",
+      "localId": "078",
+      "name": "光輝摔角鷹人"
+    },
+    {
+      "id": "SV4a-052",
+      "localId": "052",
+      "name": "凍脊龍"
+    },
+    {
+      "id": "SV4a-096",
+      "localId": "096",
+      "name": "巨鍛匠"
+    },
+    {
+      "id": "SV6-090",
+      "localId": "090",
+      "name": "鬼之假面"
+    },
+    {
+      "id": "SC1a-053",
+      "localId": "053",
+      "name": "布莉姆溫"
+    },
+    {
+      "id": "SV2a-027",
+      "localId": "027",
+      "name": "穿山鼠"
+    },
+    {
+      "id": "S12a-005",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/005",
+      "localId": "005",
+      "name": "洗翠 頑皮雷彈V"
+    },
+    {
+      "id": "SV4a-235",
+      "localId": "235",
+      "name": "戟脊龍"
+    },
+    {
+      "id": "S12a-222",
+      "localId": "222",
+      "name": "代歐奇希斯VMAX"
+    },
+    {
+      "id": "S12a-062",
+      "localId": "062",
+      "name": "南瓜怪人"
+    },
+    {
+      "id": "SV4a-036",
+      "localId": "036",
+      "name": "呆呆獸"
+    },
+    {
+      "id": "SV4a-233",
+      "localId": "233",
+      "name": "涼脊龍"
+    },
+    {
+      "id": "SV4a-242",
+      "localId": "242",
+      "name": "倫琴貓"
+    },
+    {
+      "id": "SC1a-119",
+      "localId": "119",
+      "name": "鋁鋼龍"
+    },
+    {
+      "id": "SV4a-182",
+      "localId": "182",
+      "name": "牡丹"
+    },
+    {
+      "id": "SV2a-151",
+      "localId": "151",
+      "name": "夢幻ex"
+    },
+    {
+      "id": "SV6-095",
+      "localId": "095",
+      "name": "手持循環扇"
+    },
+    {
+      "id": "SC1a-106",
+      "localId": "106",
+      "name": "堅果啞鈴"
+    },
+    {
+      "id": "SC1a-153",
+      "localId": "153",
+      "name": "恐怖超能量"
+    },
+    {
+      "id": "S12a-160",
+      "localId": "160",
+      "name": "洗翠的夥伴"
+    },
+    {
+      "id": "S12a-124",
+      "localId": "124",
+      "name": "雷吉奇卡斯V"
+    },
+    {
+      "id": "SV4a-171",
+      "localId": "171",
+      "name": "也慈"
+    },
+    {
+      "id": "SV2a-104",
+      "localId": "104",
+      "name": "卡拉卡拉"
+    },
+    {
+      "id": "S12a-066",
+      "localId": "066",
+      "name": "布莉姆溫VMAX"
+    },
+    {
+      "id": "SV2a-076",
+      "localId": "076",
+      "name": "隆隆岩ex"
+    },
+    {
+      "id": "SC1a-010",
+      "localId": "010",
+      "name": "勒克貓"
+    },
+    {
+      "id": "SV2a-038",
+      "localId": "038",
+      "name": "九尾ex"
+    },
+    {
+      "id": "SV4a-294",
+      "localId": "294",
+      "name": "仆斬將軍"
+    },
+    {
+      "id": "SV4a-338",
+      "localId": "338",
+      "name": "三海地鼠"
+    },
+    {
+      "id": "S12a-151",
+      "localId": "151",
+      "name": "奇巴納"
+    },
+    {
+      "id": "S12a-232",
+      "localId": "232",
+      "name": "藏瑪然特V"
+    },
+    {
+      "id": "SV6-064",
+      "localId": "064",
+      "name": "夠讚狗"
+    },
+    {
+      "id": "S12a-055",
+      "localId": "055",
+      "name": "光輝沙奈朵"
+    },
+    {
+      "id": "SV2a-173",
+      "localId": "173",
+      "name": "皮卡丘"
+    },
+    {
+      "id": "S12a-112",
+      "localId": "112",
+      "name": "黏黏寶"
+    },
+    {
+      "id": "S12a-240",
+      "localId": "240",
+      "name": "剛石"
+    },
+    {
+      "id": "S12a-068",
+      "localId": "068",
+      "name": "眷戀雲V"
+    },
+    {
+      "id": "SV4a-327",
+      "localId": "327",
+      "name": "夢幻ex"
+    },
+    {
+      "id": "SV8a-035",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/035",
+      "localId": "035",
+      "name": "醜醜魚"
+    },
+    {
+      "id": "SV8a-116",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/116",
+      "localId": "116",
+      "name": "鐵轍跡"
+    },
+    {
+      "id": "S12a-147",
+      "localId": "147",
+      "name": "葉隱披風"
+    },
+    {
+      "id": "SV2a-140",
+      "localId": "140",
+      "name": "化石盔"
+    },
+    {
+      "id": "SV6-080",
+      "localId": "080",
+      "name": "多龍奇"
+    },
+    {
+      "id": "SC1a-097",
+      "localId": "097",
+      "name": "伽勒爾 喵喵"
+    },
+    {
+      "id": "SV6-018",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/018",
+      "localId": "018",
+      "name": "達摩狒狒"
+    },
+    {
+      "id": "SV4a-087",
+      "localId": "087",
+      "name": "鑰圈兒"
+    },
+    {
+      "id": "S12a-184",
+      "localId": "184",
+      "name": "月石"
+    },
+    {
+      "id": "SV4a-063",
+      "localId": "063",
+      "name": "雷電雲"
+    },
+    {
+      "id": "SV8a-175",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/175",
+      "localId": "175",
+      "name": "弗圖博士的劇本"
+    },
+    {
+      "id": "SV4a-048",
+      "localId": "048",
+      "name": "輕身鱈"
+    },
+    {
+      "id": "SV4a-226",
+      "localId": "226",
+      "name": "海地鼠"
+    },
+    {
+      "id": "S12a-114",
+      "localId": "114",
+      "name": "洗翠 黏美龍"
+    },
+    {
+      "id": "S12a-194",
+      "localId": "194",
+      "name": "七夕青鳥"
+    },
+    {
+      "id": "SV8a-065",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/065",
+      "localId": "065",
+      "name": "彷徨夜靈"
+    },
+    {
+      "id": "SV4a-309",
+      "localId": "309",
+      "name": "百變怪"
+    },
+    {
+      "id": "SC1a-141",
+      "localId": "141",
+      "name": "文柚果"
+    },
+    {
+      "id": "SC1a-037",
+      "localId": "037",
+      "name": "耿鬼"
+    },
+    {
+      "id": "SV8a-134",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/134",
+      "localId": "134",
+      "name": "月月熊 赫月ex"
+    },
+    {
+      "id": "SV4a-322",
+      "localId": "322",
+      "name": "陸地水母ex"
+    },
+    {
+      "id": "SC1a-088",
+      "localId": "088",
+      "name": "沙螺蟒V"
+    },
+    {
+      "id": "SC1a-086",
+      "localId": "086",
+      "name": "沙包蛇"
+    },
+    {
+      "id": "SV4a-306",
+      "localId": "306",
+      "name": "胖丁"
+    },
+    {
+      "id": "SC1a-163",
+      "localId": "163",
+      "name": "巨石丁V"
+    },
+    {
+      "id": "SC1a-142",
+      "localId": "142",
+      "name": "逆境手套"
+    },
+    {
+      "id": "SV2a-143",
+      "localId": "143",
+      "name": "卡比獸"
+    },
+    {
+      "id": "SV6-102",
+      "localId": "102",
+      "name": "向日花怪"
+    },
+    {
+      "id": "SV4a-271",
+      "localId": "271",
+      "name": "小鍛匠"
+    },
+    {
+      "id": "SC1a-049",
+      "localId": "049",
+      "name": "怖思壺"
+    },
+    {
+      "id": "SV4a-050",
+      "localId": "050",
+      "name": "米立龍"
+    },
+    {
+      "id": "S12a-060",
+      "localId": "060",
+      "name": "代歐奇希斯"
+    },
+    {
+      "id": "SV4a-256",
+      "localId": "256",
+      "name": "天然雀"
+    },
+    {
+      "id": "SV4a-178",
+      "localId": "178",
+      "name": "帕底亞的學生"
+    },
+    {
+      "id": "SV8a-237",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/237",
+      "localId": "237",
+      "name": "太樂巴戈斯ex"
+    },
+    {
+      "id": "SV4a-325",
+      "localId": "325",
+      "name": "狂歡浪舞鴨ex"
+    },
+    {
+      "id": "S12a-130",
+      "localId": "130",
+      "name": "智揮猩V"
+    },
+    {
+      "id": "S12a-217",
+      "localId": "217",
+      "name": "冰伊布VSTAR"
+    },
+    {
+      "id": "SV6-041",
+      "localId": "041",
+      "name": "倫琴貓ex"
+    },
+    {
+      "id": "SV8a-177",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/177",
+      "localId": "177",
+      "name": "白露的真心"
+    },
+    {
+      "id": "SV2a-089",
+      "localId": "089",
+      "name": "臭臭泥"
+    },
+    {
+      "id": "SV6-129",
+      "localId": "129",
+      "name": "烏栗"
+    },
+    {
+      "id": "SV2a-149",
+      "localId": "149",
+      "name": "快龍"
+    },
+    {
+      "id": "S12a-164",
+      "localId": "164",
+      "name": "暴風雨山脈"
+    },
+    {
+      "id": "SV8a-173",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/173",
+      "localId": "173",
+      "name": "納莉"
+    },
+    {
+      "id": "SV6-043",
+      "localId": "043",
+      "name": "電海燕"
+    },
+    {
+      "id": "SV2a-179",
+      "localId": "179",
+      "name": "魔牆人偶"
+    },
+    {
+      "id": "SV4a-252",
+      "localId": "252",
+      "name": "胖可丁"
+    },
+    {
+      "id": "S12a-043",
+      "localId": "043",
+      "name": "毒電嬰"
+    },
+    {
+      "id": "SV4a-281",
+      "localId": "281",
+      "name": "路卡利歐"
+    },
+    {
+      "id": "S12a-121",
+      "localId": "121",
+      "name": "大牙狸"
+    },
+    {
+      "id": "SC1a-114",
+      "localId": "114",
+      "name": "鋼鎧鴉"
+    },
+    {
+      "id": "SV6-119",
+      "localId": "119",
+      "name": "厄鬼椪 礎石面具ex"
+    },
+    {
+      "id": "S12a-173",
+      "localId": "173",
+      "name": "洗翠 霹靂電球"
+    },
+    {
+      "id": "SC1a-150",
+      "localId": "150",
+      "name": "亞洛"
+    },
+    {
+      "id": "SV6-084",
+      "localId": "084",
+      "name": "吉利蛋"
+    },
+    {
+      "id": "SV2a-050",
+      "localId": "050",
+      "name": "地鼠"
+    },
+    {
+      "id": "SV8a-132",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/132",
+      "localId": "132",
+      "name": "雷吉奇卡斯"
+    },
+    {
+      "id": "SV2a-187",
+      "localId": "187",
+      "name": "阿柏怪ex"
+    },
+    {
+      "id": "SV4a-198",
+      "localId": "198",
+      "name": "榛果球"
+    },
+    {
+      "id": "SV4a-014",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/014",
+      "localId": "014",
+      "name": "魔幻假面喵ex"
+    },
+    {
+      "id": "S12a-007",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/007",
+      "localId": "007",
+      "name": "樹林龜"
+    },
+    {
+      "id": "S12a-022",
+      "localId": "022",
+      "name": "花舞鳥"
+    },
+    {
+      "id": "SV8a-124",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/124",
+      "localId": "124",
+      "name": "猛雷鼓ex"
+    },
+    {
+      "id": "SC1a-002",
+      "localId": "002",
+      "name": "強顎雞母蟲"
+    },
+    {
+      "id": "SV2a-049",
+      "localId": "049",
+      "name": "摩魯蛾"
+    },
+    {
+      "id": "SV8a-140",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/140",
+      "localId": "140",
+      "name": "玻璃喇叭"
+    },
+    {
+      "id": "S12a-247",
+      "localId": "247",
+      "name": "神奧的夥伴"
+    },
+    {
+      "id": "S12a-195",
+      "localId": "195",
+      "name": "拉帝亞斯"
+    },
+    {
+      "id": "SV2a-198",
+      "localId": "198",
+      "name": "奈奈美的幫助[支援者]"
+    },
+    {
+      "id": "SV4a-313",
+      "localId": "313",
+      "name": "貪心栗鼠"
+    },
+    {
+      "id": "S12a-179",
+      "localId": "179",
+      "name": "凱路迪歐"
+    },
+    {
+      "id": "SV4a-062",
+      "localId": "062",
+      "name": "帕奇利茲"
+    },
+    {
+      "id": "SV6-072",
+      "localId": "072",
+      "name": "盔甲鳥"
+    },
+    {
+      "id": "S12a-202",
+      "localId": "202",
+      "name": "青綿鳥"
+    },
+    {
+      "id": "SV2a-200",
+      "localId": "200",
+      "name": "妙蛙花ex"
+    },
+    {
+      "id": "SV4a-249",
+      "localId": "249",
+      "name": "巴布土撥"
+    },
+    {
+      "id": "SC1a-128",
+      "localId": "128",
+      "name": "咕咕"
+    },
+    {
+      "id": "SV4a-351",
+      "localId": "351",
+      "name": "妮莫"
+    },
+    {
+      "id": "SV8a-128",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/128",
+      "localId": "128",
+      "name": "貓頭夜鷹"
+    },
+    {
+      "id": "SV8a-188",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/188",
+      "localId": "188",
+      "name": "青木的手法"
+    },
+    {
+      "id": "SV4a-039",
+      "localId": "039",
+      "name": "寶石海星"
+    },
+    {
+      "id": "SV8a-018",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/018",
+      "localId": "018",
+      "name": "來悲粗茶"
+    },
+    {
+      "id": "SV4a-295",
+      "localId": "295",
+      "name": "偶叫獒"
+    },
+    {
+      "id": "SV8a-111",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/111",
+      "localId": "111",
+      "name": "堅盾劍怪"
+    },
+    {
+      "id": "SV8a-149",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/149",
+      "localId": "149",
+      "name": "寶可夢旋風回收機"
+    },
+    {
+      "id": "S12a-200",
+      "localId": "200",
+      "name": "大尾狸"
+    },
+    {
+      "id": "S12a-017",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/017",
+      "localId": "017",
+      "name": "鴨嘴炎獸"
+    },
+    {
+      "id": "SV4a-113",
+      "localId": "113",
+      "name": "古鼎鹿ex"
+    },
+    {
+      "id": "SV4a-097",
+      "localId": "097",
+      "name": "墓仔狗"
+    },
+    {
+      "id": "SV2a-026",
+      "localId": "026",
+      "name": "雷丘"
+    },
+    {
+      "id": "S12a-178",
+      "localId": "178",
+      "name": "瑪納霏"
+    },
+    {
+      "id": "SC1a-018",
+      "localId": "018",
+      "name": "逐電犬"
+    },
+    {
+      "id": "SV2a-114",
+      "localId": "114",
+      "name": "蔓藤怪"
+    },
+    {
+      "id": "SV4a-172",
+      "localId": "172",
+      "name": "克拉韋爾"
+    },
+    {
+      "id": "SV4a-211",
+      "localId": "211",
+      "name": "火恐龍"
+    },
+    {
+      "id": "SV2a-093",
+      "localId": "093",
+      "name": "鬼斯通"
+    },
+    {
+      "id": "SV4a-283",
+      "localId": "283",
+      "name": "鹽石寶"
+    },
+    {
+      "id": "SV4a-324",
+      "localId": "324",
+      "name": "骨紋巨聲鱷ex"
+    },
+    {
+      "id": "SC1a-147",
+      "localId": "147",
+      "name": "博士的研究(木蘭博士)"
+    },
+    {
+      "id": "SC1a-084",
+      "localId": "084",
+      "name": "大炭車"
+    },
+    {
+      "id": "S12a-216",
+      "localId": "216",
+      "name": "霓虹魚V"
+    },
+    {
+      "id": "SV2a-066",
+      "localId": "066",
+      "name": "腕力"
+    },
+    {
+      "id": "SV8a-187",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/187",
+      "localId": "187",
+      "name": "古舊能量"
+    },
+    {
+      "id": "SV2a-001",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/001",
+      "localId": "001",
+      "name": "妙蛙種子"
+    },
+    {
+      "id": "S12a-246",
+      "localId": "246",
+      "name": "小菊兒的璀璨"
+    },
+    {
+      "id": "S12a-042",
+      "localId": "042",
+      "name": "捷拉奧拉VSTAR"
+    },
+    {
+      "id": "S12a-152",
+      "localId": "152",
+      "name": "查克洛"
+    },
+    {
+      "id": "SV4a-250",
+      "localId": "250",
+      "name": "電海燕"
+    },
+    {
+      "id": "SV2a-142",
+      "localId": "142",
+      "name": "化石翼龍"
+    },
+    {
+      "id": "SV4a-181",
+      "localId": "181",
+      "name": "老大的指令"
+    },
+    {
+      "id": "SV6-100",
+      "localId": "100",
+      "name": "阻礙之塔"
+    },
+    {
+      "id": "SV4a-258",
+      "localId": "258",
+      "name": "拉魯拉絲"
+    },
+    {
+      "id": "SV4a-223",
+      "localId": "223",
+      "name": "帕底亞 肯泰羅"
+    },
+    {
+      "id": "S12a-008",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/008",
+      "localId": "008",
+      "name": "土台龜"
+    },
+    {
+      "id": "S12a-025",
+      "localId": "025",
+      "name": "雷吉艾斯"
+    },
+    {
+      "id": "SV4a-199",
+      "localId": "199",
+      "name": "雪笠怪"
+    },
+    {
+      "id": "SV2a-024",
+      "localId": "024",
+      "name": "阿柏怪ex"
+    },
+    {
+      "id": "SV4a-350",
+      "localId": "350",
+      "name": "奇樹"
+    },
+    {
+      "id": "SC1a-006",
+      "localId": "006",
+      "name": "電擊魔獸"
+    },
+    {
+      "id": "SV8a-084",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/084",
+      "localId": "084",
+      "name": "摔角鷹人"
+    },
+    {
+      "id": "SV2a-036",
+      "localId": "036",
+      "name": "皮可西"
+    },
+    {
+      "id": "SV8a-215",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/215",
+      "localId": "215",
+      "name": "沙鐵皮ex"
+    },
+    {
+      "id": "SV8a-142",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/142",
+      "localId": "142",
+      "name": "釣竿MAX"
+    },
+    {
+      "id": "SV4a-028",
+      "localId": "028",
+      "name": "炎帝"
+    },
+    {
+      "id": "SV2a-184",
+      "localId": "184",
+      "name": "妙蛙花ex"
+    },
+    {
+      "id": "SV6-003",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/003",
+      "localId": "003",
+      "name": "赫拉克羅斯"
+    },
+    {
+      "id": "S12a-038",
+      "localId": "038",
+      "name": "雷公V"
+    },
+    {
+      "id": "SC1a-170",
+      "localId": "170",
+      "name": "寶可夢中心的姐姐"
+    },
+    {
+      "id": "SV8a-031",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/031",
+      "localId": "031",
+      "name": "水伊布ex"
+    },
+    {
+      "id": "SV2a-101",
+      "localId": "101",
+      "name": "頑皮雷彈"
+    },
+    {
+      "id": "SV2a-144",
+      "localId": "144",
+      "name": "急凍鳥"
+    },
+    {
+      "id": "SV8a-210",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/210",
+      "localId": "210",
+      "name": "鐵臂膀ex"
+    },
+    {
+      "id": "S12a-086",
+      "localId": "086",
+      "name": "洗翠 大劍鬼V"
+    },
+    {
+      "id": "SV8a-049",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/049",
+      "localId": "049",
+      "name": "波盪水ex"
+    },
+    {
+      "id": "SV4a-004",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/004",
+      "localId": "004",
+      "name": "飛天螳螂"
+    },
+    {
+      "id": "SV2a-158",
+      "localId": "158",
+      "name": "大氣球"
+    },
+    {
+      "id": "SV2a-033",
+      "localId": "033",
+      "name": "尼多力諾"
+    },
+    {
+      "id": "SV8a-114",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/114",
+      "localId": "114",
+      "name": "噗隆隆"
+    },
+    {
+      "id": "SV6-007",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/007",
+      "localId": "007",
+      "name": "朽木妖"
+    },
+    {
+      "id": "SV4a-026",
+      "localId": "026",
+      "name": "火恐龍"
+    },
+    {
+      "id": "S12a-089",
+      "localId": "089",
+      "name": "酷豹"
+    },
+    {
+      "id": "SV4a-317",
+      "localId": "317",
+      "name": "一對鼠"
+    },
+    {
+      "id": "SV2a-060",
+      "localId": "060",
+      "name": "蚊香蝌蚪"
+    },
+    {
+      "id": "SV4a-215",
+      "localId": "215",
+      "name": "呆火鱷"
+    },
+    {
+      "id": "SV2a-064",
+      "localId": "064",
+      "name": "勇基拉"
+    },
+    {
+      "id": "SC1a-041",
+      "localId": "041",
+      "name": "伽勒爾 太陽珊瑚"
+    },
+    {
+      "id": "SV6-076",
+      "localId": "076",
+      "name": "席多藍恩"
+    },
+    {
+      "id": "SV8a-051",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/051",
+      "localId": "051",
+      "name": "雷伊布"
+    },
+    {
+      "id": "SV6-001",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/001",
+      "localId": "001",
+      "name": "向日種子"
+    },
+    {
+      "id": "SV8a-226",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/226",
+      "localId": "226",
+      "name": "太樂巴戈斯ex"
+    },
+    {
+      "id": "SC1a-101",
+      "localId": "101",
+      "name": "大嘴娃"
+    },
+    {
+      "id": "SV4a-321",
+      "localId": "321",
+      "name": "魔幻假面喵ex"
+    },
+    {
+      "id": "SV2a-186",
+      "localId": "186",
+      "name": "水箭龜ex"
+    },
+    {
+      "id": "SV4a-195",
+      "localId": "195",
+      "name": "毽子草"
+    },
+    {
+      "id": "S12a-236",
+      "localId": "236",
+      "name": "珠貝"
+    },
+    {
+      "id": "SV8a-139",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/139",
+      "localId": "139",
+      "name": "反擊捕捉器"
+    },
+    {
+      "id": "SV6-126",
+      "localId": "126",
+      "name": "厄鬼椪 火灶面具ex"
+    },
+    {
+      "id": "S12a-134",
+      "localId": "134",
+      "name": "霧之水晶"
+    },
+    {
+      "id": "SV6-034",
+      "localId": "034",
+      "name": "波普海豚"
+    },
+    {
+      "id": "SV8a-094",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/094",
+      "localId": "094",
+      "name": "破破袋"
+    },
+    {
+      "id": "SV2a-083",
+      "localId": "083",
+      "name": "大蔥鴨"
+    },
+    {
+      "id": "SV2a-018",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/018",
+      "localId": "018",
+      "name": "大比鳥"
+    },
+    {
+      "id": "SV8a-231",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/231",
+      "localId": "231",
+      "name": "紫竽"
+    },
+    {
+      "id": "SC1a-124",
+      "localId": "124",
+      "name": "藏瑪然特V"
+    },
+    {
+      "id": "S12a-193",
+      "localId": "193",
+      "name": "自爆磁怪"
+    },
+    {
+      "id": "S12a-018",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/018",
+      "localId": "018",
+      "name": "火焰鳥"
+    },
+    {
+      "id": "S12a-212",
+      "localId": "212",
+      "name": "噴火龍VSTAR"
+    },
+    {
+      "id": "SV8a-050",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/050",
+      "localId": "050",
+      "name": "厄鬼椪 水井面具ex"
+    },
+    {
+      "id": "SV4a-082",
+      "localId": "082",
+      "name": "沙奈朵ex"
+    },
+    {
+      "id": "S12a-233",
+      "localId": "233",
+      "name": "雷吉奇卡斯VSTAR"
+    },
+    {
+      "id": "SV2a-203",
+      "localId": "203",
+      "name": "胡地ex"
+    },
+    {
+      "id": "SV4a-190",
+      "localId": "190",
+      "name": "夜光能量"
+    },
+    {
+      "id": "SV8a-220",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/220",
+      "localId": "220",
+      "name": "賽富豪ex"
+    },
+    {
+      "id": "SV4a-059",
+      "localId": "059",
+      "name": "小貓怪"
+    },
+    {
+      "id": "SC1a-137",
+      "localId": "137",
+      "name": "進化薰香"
+    },
+    {
+      "id": "SV4a-108",
+      "localId": "108",
+      "name": "鹽石壘"
+    },
+    {
+      "id": "SV8a-167",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/167",
+      "localId": "167",
+      "name": "奧琳博士的氣魄"
+    },
+    {
+      "id": "SC1a-092",
+      "localId": "092",
+      "name": "列陣兵V"
+    },
+    {
+      "id": "SV6-103",
+      "localId": "103",
+      "name": "裹蜜蟲"
+    },
+    {
+      "id": "SV4a-259",
+      "localId": "259",
+      "name": "奇魯莉安"
+    },
+    {
+      "id": "SV4a-120",
+      "localId": "120",
+      "name": "瑪狃拉"
+    },
+    {
+      "id": "S12a-163",
+      "localId": "163",
+      "name": "芽米"
+    },
+    {
+      "id": "SV6-033",
+      "localId": "033",
+      "name": "雪妖女"
+    },
+    {
+      "id": "S12a-190",
+      "localId": "190",
+      "name": "伽勒爾 火焰鳥"
+    },
+    {
+      "id": "SV6-104",
+      "localId": "104",
+      "name": "雪妖女"
+    },
+    {
+      "id": "SV4a-187",
+      "localId": "187",
+      "name": "練習工房"
+    },
+    {
+      "id": "SC1a-005",
+      "localId": "005",
+      "name": "電擊獸"
+    },
+    {
+      "id": "S12a-148",
+      "localId": "148",
+      "name": "阿克羅瑪的實驗"
+    },
+    {
+      "id": "SV6-010",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/010",
+      "localId": "010",
+      "name": "轟擂金剛猩"
+    },
+    {
+      "id": "S12a-220",
+      "localId": "220",
+      "name": "捷拉奧拉VSTAR"
+    },
+    {
+      "id": "S12a-026",
+      "localId": "026",
+      "name": "霓虹魚V"
+    },
+    {
+      "id": "S12a-085",
+      "localId": "085",
+      "name": "龍王蠍V"
+    },
+    {
+      "id": "SV8a-207",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/207",
+      "localId": "207",
+      "name": "海豚俠ex"
+    },
+    {
+      "id": "S12a-103",
+      "localId": "103",
+      "name": "藏瑪然特V"
+    },
+    {
+      "id": "SV4a-185",
+      "localId": "185",
+      "name": "深缽鎮"
+    },
+    {
+      "id": "S12a-095",
+      "localId": "095",
+      "name": "三合一磁怪"
+    },
+    {
+      "id": "SV4a-011",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/011",
+      "localId": "011",
+      "name": "暴雪王"
+    },
+    {
+      "id": "S12a-122",
+      "localId": "122",
+      "name": "大尾狸"
+    },
+    {
+      "id": "SC1a-071",
+      "localId": "071",
+      "name": "朝北鼻"
+    },
+    {
+      "id": "SV8a-170",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/170",
+      "localId": "170",
+      "name": "丹瑜"
+    },
+    {
+      "id": "SV8a-089",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/089",
+      "localId": "089",
+      "name": "古鼎鹿"
+    },
+    {
+      "id": "SV4a-076",
+      "localId": "076",
+      "name": "夢幻ex"
+    },
+    {
+      "id": "SV4a-077",
+      "localId": "077",
+      "name": "皮寶寶"
+    },
+    {
+      "id": "SV8a-046",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/046",
+      "localId": "046",
+      "name": "海豚俠ex"
+    },
+    {
+      "id": "SC1a-155",
+      "localId": "155",
+      "name": "逐電犬V"
+    },
+    {
+      "id": "S12a-135",
+      "localId": "135",
+      "name": "暗黑修正檔"
+    },
+    {
+      "id": "SV4a-225",
+      "localId": "225",
+      "name": "湧躍鴨"
+    },
+    {
+      "id": "SV4a-316",
+      "localId": "316",
+      "name": "飄香豚"
+    },
+    {
+      "id": "S12a-153",
+      "localId": "153",
+      "name": "竹蘭的霸氣"
+    },
+    {
+      "id": "SV8a-097",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/097",
+      "localId": "097",
+      "name": "索羅亞克"
+    },
+    {
+      "id": "SV8a-151",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/151",
+      "localId": "151",
+      "name": "夜間擔架"
+    },
+    {
+      "id": "SC1a-061",
+      "localId": "061",
+      "name": "多龍巴魯托V"
+    },
+    {
+      "id": "SV2a-057",
+      "localId": "057",
+      "name": "火爆猴"
+    },
+    {
+      "id": "S12a-181",
+      "localId": "181",
+      "name": "顫弦蠑螈"
+    },
+    {
+      "id": "S12a-030",
+      "localId": "030",
+      "name": "洗翠 野蠻鱸魚"
+    },
+    {
+      "id": "SV8a-041",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/041",
+      "localId": "041",
+      "name": "冰伊布ex"
+    },
+    {
+      "id": "SV4a-005",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/005",
+      "localId": "005",
+      "name": "毽子草"
+    },
+    {
+      "id": "SV8a-213",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/213",
+      "localId": "213",
+      "name": "鐵武者ex"
+    },
+    {
+      "id": "SV2a-035",
+      "localId": "035",
+      "name": "皮皮"
+    },
+    {
+      "id": "SC1a-080",
+      "localId": "080",
+      "name": "伽勒爾 死神板"
+    },
+    {
+      "id": "S12a-201",
+      "localId": "201",
+      "name": "利歐路"
+    },
+    {
+      "id": "SC1a-017",
+      "localId": "017",
+      "name": "來電汪"
+    },
+    {
+      "id": "SV8a-193",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/193",
+      "localId": "193",
+      "name": "泰姆"
+    },
+    {
+      "id": "S12a-048",
+      "localId": "048",
+      "name": "耿鬼"
+    },
+    {
+      "id": "SV4a-214",
+      "localId": "214",
+      "name": "花舞鳥"
+    },
+    {
+      "id": "SV8a-126",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/126",
+      "localId": "126",
+      "name": "伊布ex"
+    },
+    {
+      "id": "S12a-110",
+      "localId": "110",
+      "name": "騎拉帝納V"
+    },
+    {
+      "id": "SV8a-091",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/091",
+      "localId": "091",
+      "name": "厄鬼椪 礎石面具ex"
+    },
+    {
+      "id": "SV4a-287",
+      "localId": "287",
+      "name": "帕底亞 烏波"
+    },
+    {
+      "id": "SC1a-008",
+      "localId": "008",
+      "name": "電燈怪"
+    },
+    {
+      "id": "S12a-214",
+      "localId": "214",
+      "name": "爆香猿VSTAR"
+    },
+    {
+      "id": "SV2a-095",
+      "localId": "095",
+      "name": "大岩蛇"
+    },
+    {
+      "id": "SV8a-101",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/101",
+      "localId": "101",
+      "name": "轟鳴月ex"
+    },
+    {
+      "id": "SC1a-077",
+      "localId": "077",
+      "name": "念力土偶"
+    },
+    {
+      "id": "SV6-130",
+      "localId": "130",
+      "name": "丹瑜"
+    },
+    {
+      "id": "SV8a-233",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/233",
+      "localId": "233",
+      "name": "鐵斑葉ex"
+    },
+    {
+      "id": "SV8a-138",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/138",
+      "localId": "138",
+      "name": "改造之錘"
+    },
+    {
+      "id": "SV6-040",
+      "localId": "040",
+      "name": "勒克貓"
+    },
+    {
+      "id": "SC1a-047",
+      "localId": "047",
+      "name": "噬沙堡爺"
+    },
+    {
+      "id": "SC1a-162",
+      "localId": "162",
+      "name": "列陣兵V"
+    },
+    {
+      "id": "SV6-062",
+      "localId": "062",
+      "name": "晶光芽"
+    },
+    {
+      "id": "SV2a-157",
+      "localId": "157",
+      "name": "安全護目鏡"
+    },
+    {
+      "id": "SV4a-340",
+      "localId": "340",
+      "name": "布撥"
+    },
+    {
+      "id": "SC1a-138",
+      "localId": "138",
+      "name": "道具拆除器"
+    },
+    {
+      "id": "S12a-225",
+      "localId": "225",
+      "name": "蒼響V"
+    },
+    {
+      "id": "SV4a-007",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/007",
+      "localId": "007",
+      "name": "毽子棉"
+    },
+    {
+      "id": "SV8a-221",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/221",
+      "localId": "221",
+      "name": "多龍巴魯托ex"
+    },
+    {
+      "id": "S12a-096",
+      "localId": "096",
+      "name": "自爆磁怪"
+    },
+    {
+      "id": "SV8a-225",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/225",
+      "localId": "225",
+      "name": "月月熊 赫月ex"
+    },
+    {
+      "id": "SV4a-094",
+      "localId": "094",
+      "name": "小鍛匠"
+    },
+    {
+      "id": "SV8a-074",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/074",
+      "localId": "074",
+      "name": "鐵武者ex"
+    },
+    {
+      "id": "SV2a-042",
+      "localId": "042",
+      "name": "大嘴蝠"
+    },
+    {
+      "id": "SV4a-023",
+      "localId": "023",
+      "name": "超能豔鴕ex"
+    },
+    {
+      "id": "S12a-109",
+      "localId": "109",
+      "name": "烈咬陸鯊V"
+    },
+    {
+      "id": "SV4a-297",
+      "localId": "297",
+      "name": "滋汁鼴"
+    },
+    {
+      "id": "SV2a-065",
+      "localId": "065",
+      "name": "胡地ex"
+    },
+    {
+      "id": "SC1a-136",
+      "localId": "136",
+      "name": "金珠"
+    },
+    {
+      "id": "SV6-022",
+      "localId": "022",
+      "name": "厄鬼椪 火灶面具ex"
+    },
+    {
+      "id": "S12a-215",
+      "localId": "215",
+      "name": "水君V"
+    },
+    {
+      "id": "SV8a-032",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/032",
+      "localId": "032",
+      "name": "小鋸鱷"
+    },
+    {
+      "id": "SV8a-037",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/037",
+      "localId": "037",
+      "name": "雪童子"
+    },
+    {
+      "id": "SV8a-186",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/186",
+      "localId": "186",
+      "name": "薄霧能量"
+    },
+    {
+      "id": "SV4a-227",
+      "localId": "227",
+      "name": "三海地鼠"
+    },
+    {
+      "id": "SV8a-156",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/156",
+      "localId": "156",
+      "name": "莓榴果"
+    },
+    {
+      "id": "SV2a-120",
+      "localId": "120",
+      "name": "海星星"
+    },
+    {
+      "id": "SV4a-109",
+      "localId": "109",
+      "name": "鹽石巨靈"
+    },
+    {
+      "id": "SC1a-055",
+      "localId": "055",
+      "name": "霜奶仙"
+    },
+    {
+      "id": "SV4a-066",
+      "localId": "066",
+      "name": "布撥"
+    },
+    {
+      "id": "S12a-003",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/003",
+      "localId": "003",
+      "name": "洗翠 霹靂電球"
+    },
+    {
+      "id": "S12a-015",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/015",
+      "localId": "015",
+      "name": "光輝噴火龍"
+    },
+    {
+      "id": "S12a-111",
+      "localId": "111",
+      "name": "騎拉帝納VSTAR"
+    },
+    {
+      "id": "SV2a-196",
+      "localId": "196",
+      "name": "莉佳的招待[支援者]"
+    },
+    {
+      "id": "S12a-010",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/010",
+      "localId": "010",
+      "name": "音箱蟀"
+    },
+    {
+      "id": "SC1a-166",
+      "localId": "166",
+      "name": "藏瑪然特V"
+    },
+    {
+      "id": "SV6-059",
+      "localId": "059",
+      "name": "搬運小匠"
+    },
+    {
+      "id": "S12a-106",
+      "localId": "106",
+      "name": "拉帝歐斯"
+    },
+    {
+      "id": "S12a-188",
+      "localId": "188",
+      "name": "伽勒爾 閃電鳥"
+    },
+    {
+      "id": "SV4a-341",
+      "localId": "341",
+      "name": "謎擬Ｑ"
+    },
+    {
+      "id": "SV6-101",
+      "localId": "101",
+      "name": "古舊能量"
+    },
+    {
+      "id": "SC1a-072",
+      "localId": "072",
+      "name": "瑪沙那"
+    },
+    {
+      "id": "SV8a-095",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/095",
+      "localId": "095",
+      "name": "灰塵山"
+    },
+    {
+      "id": "SV2a-059",
+      "localId": "059",
+      "name": "風速狗"
+    },
+    {
+      "id": "SV8a-110",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/110",
+      "localId": "110",
+      "name": "雙劍鞘"
+    },
+    {
+      "id": "SC1a-034",
+      "localId": "034",
+      "name": "伽勒爾 烈焰馬"
+    },
+    {
+      "id": "S12a-189",
+      "localId": "189",
+      "name": "太陽岩"
+    },
+    {
+      "id": "SV4a-203",
+      "localId": "203",
+      "name": "迷你芙"
+    },
+    {
+      "id": "SV8a-152",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/152",
+      "localId": "152",
+      "name": "璀璨結晶"
+    },
+    {
+      "id": "S12a-020",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/020",
+      "localId": "020",
+      "name": "爆香猿V"
+    },
+    {
+      "id": "SV4a-002",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/002",
+      "localId": "002",
+      "name": "臭臭花"
+    },
+    {
+      "id": "SV2a-185",
+      "localId": "185",
+      "name": "噴火龍ex"
+    },
+    {
+      "id": "SV2a-139",
+      "localId": "139",
+      "name": "多刺菊石獸"
+    },
+    {
+      "id": "S12a-167",
+      "localId": "167",
+      "name": "崩塌的競技場"
+    },
+    {
+      "id": "SV4a-103",
+      "localId": "103",
+      "name": "帕底亞 肯泰羅"
+    },
+    {
+      "id": "SV8a-192",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/192",
+      "localId": "192",
+      "name": "秋明"
+    },
+    {
+      "id": "SV4a-308",
+      "localId": "308",
+      "name": "嘟嘟利"
+    },
+    {
+      "id": "SV4a-051",
+      "localId": "051",
+      "name": "涼脊龍"
+    },
+    {
+      "id": "SV2a-099",
+      "localId": "099",
+      "name": "巨鉗蟹"
+    },
+    {
+      "id": "S12a-133",
+      "localId": "133",
+      "name": "堅毅十字鎬"
+    },
+    {
+      "id": "SV6-109",
+      "localId": "109",
+      "name": "搬運小匠"
+    },
+    {
+      "id": "S12a-142",
+      "localId": "142",
+      "name": "救援行李箱"
+    },
+    {
+      "id": "SV2a-010",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/010",
+      "localId": "010",
+      "name": "綠毛蟲"
+    },
+    {
+      "id": "SV4a-121",
+      "localId": "121",
+      "name": "勾魂眼"
+    },
+    {
+      "id": "SV8a-166",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/166",
+      "localId": "166",
+      "name": "阿杏的秘招"
+    },
+    {
+      "id": "SV2a-136",
+      "localId": "136",
+      "name": "火伊布"
+    },
+    {
+      "id": "SC1a-076",
+      "localId": "076",
+      "name": "天秤偶"
+    },
+    {
+      "id": "SC1a-001",
+      "localId": "001",
+      "name": "飛天螳螂"
+    },
+    {
+      "id": "SV8a-042",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/042",
+      "localId": "042",
+      "name": "海地鼠"
+    },
+    {
+      "id": "SV2a-174",
+      "localId": "174",
+      "name": "尼多王"
+    },
+    {
+      "id": "SV4a-177",
+      "localId": "177",
+      "name": "博士的研究"
+    },
+    {
+      "id": "SV6-077",
+      "localId": "077",
+      "name": "噗隆隆"
+    },
+    {
+      "id": "SC1a-113",
+      "localId": "113",
+      "name": "堅盾劍怪"
+    },
+    {
+      "id": "SV2a-191",
+      "localId": "191",
+      "name": "隆隆岩ex"
+    },
+    {
+      "id": "SV4a-201",
+      "localId": "201",
+      "name": "新葉喵"
+    },
+    {
+      "id": "SV4a-001",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/001",
+      "localId": "001",
+      "name": "走路草"
+    },
+    {
+      "id": "SV6-074",
+      "localId": "074",
+      "name": "可多拉"
+    },
+    {
+      "id": "SV8a-150",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/150",
+      "localId": "150",
+      "name": "捕蟲組合"
+    },
+    {
+      "id": "SV4a-200",
+      "localId": "200",
+      "name": "暴雪王"
+    },
+    {
+      "id": "SV8a-006",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/006",
+      "localId": "006",
+      "name": "敲音猴"
+    },
+    {
+      "id": "SV8a-013",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/013",
+      "localId": "013",
+      "name": "蟲滾泥"
+    },
+    {
+      "id": "SV4a-257",
+      "localId": "257",
+      "name": "天然鳥"
+    },
+    {
+      "id": "SV2a-126",
+      "localId": "126",
+      "name": "鴨嘴火獸"
+    },
+    {
+      "id": "S12a-001",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/001",
+      "localId": "001",
+      "name": "派拉斯"
+    },
+    {
+      "id": "S12a-150",
+      "localId": "150",
+      "name": "小菊兒的璀璨"
+    },
+    {
+      "id": "SV4a-291",
+      "localId": "291",
+      "name": "勾魂眼"
+    },
+    {
+      "id": "SV8a-198",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/198",
+      "localId": "198",
+      "name": "梅洛可"
+    },
+    {
+      "id": "SC1a-032",
+      "localId": "032",
+      "name": "伽勒爾 小火馬"
+    },
+    {
+      "id": "SV4a-304",
+      "localId": "304",
+      "name": "波波"
+    },
+    {
+      "id": "SV2a-023",
+      "localId": "023",
+      "name": "阿柏蛇"
+    },
+    {
+      "id": "SV6-093",
+      "localId": "093",
+      "name": "寶可夢旋風回收機"
+    },
+    {
+      "id": "S12a-074",
+      "localId": "074",
+      "name": "太陽岩"
+    },
+    {
+      "id": "SC1a-025",
+      "localId": "025",
+      "name": "啪嚓海膽"
+    },
+    {
+      "id": "S12a-044",
+      "localId": "044",
+      "name": "顫弦蠑螈"
+    },
+    {
+      "id": "SV4a-119",
+      "localId": "119",
+      "name": "狃拉"
+    },
+    {
+      "id": "SC1a-093",
+      "localId": "093",
+      "name": "巨石丁"
+    },
+    {
+      "id": "S12a-058",
+      "localId": "058",
+      "name": "彷徨夜靈"
+    },
+    {
+      "id": "SV4a-237",
+      "localId": "237",
+      "name": "雷丘"
+    },
+    {
+      "id": "SV8a-003",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/003",
+      "localId": "003",
+      "name": "葉伊布ex"
+    },
+    {
+      "id": "SC1a-079",
+      "localId": "079",
+      "name": "伽勒爾 哭哭面具"
+    },
+    {
+      "id": "SV4a-329",
+      "localId": "329",
+      "name": "晶光花ex"
+    },
+    {
+      "id": "S12a-071",
+      "localId": "071",
+      "name": "怪力V"
+    },
+    {
+      "id": "SV4a-265",
+      "localId": "265",
+      "name": "謎擬Ｑ"
+    },
+    {
+      "id": "S12a-065",
+      "localId": "065",
+      "name": "布莉姆溫V"
+    },
+    {
+      "id": "SV4a-037",
+      "localId": "037",
+      "name": "呆殼獸"
+    },
+    {
+      "id": "SV2a-119",
+      "localId": "119",
+      "name": "金魚王"
+    },
+    {
+      "id": "SV4a-124",
+      "localId": "124",
+      "name": "仆斬將軍"
+    },
+    {
+      "id": "SV8a-011",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/011",
+      "localId": "011",
+      "name": "納噬草"
+    },
+    {
+      "id": "SV2a-048",
+      "localId": "048",
+      "name": "毛球"
+    },
+    {
+      "id": "SV4a-029",
+      "localId": "029",
+      "name": "花舞鳥"
+    },
+    {
+      "id": "S12a-187",
+      "localId": "187",
+      "name": "花療環環"
+    },
+    {
+      "id": "SV2a-068",
+      "localId": "068",
+      "name": "怪力"
+    },
+    {
+      "id": "SC1a-035",
+      "localId": "035",
+      "name": "鬼斯"
+    },
+    {
+      "id": "SC1a-111",
+      "localId": "111",
+      "name": "獨劍鞘"
+    },
+    {
+      "id": "S12a-084",
+      "localId": "084",
+      "name": "花岩怪"
+    },
+    {
+      "id": "SV4a-332",
+      "localId": "332",
+      "name": "帕底亞 土王ex"
+    },
+    {
+      "id": "SC1a-070",
+      "localId": "070",
+      "name": "樹才怪"
+    },
+    {
+      "id": "S12a-016",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/016",
+      "localId": "016",
+      "name": "鴨嘴火獸"
+    },
+    {
+      "id": "SV8a-137",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/137",
+      "localId": "137",
+      "name": "鬼之假面"
+    },
+    {
+      "id": "S12a-073",
+      "localId": "073",
+      "name": "伽勒爾 閃電鳥"
+    },
+    {
+      "id": "SV6-089",
+      "localId": "089",
+      "name": "舞天鵝"
+    },
+    {
+      "id": "SV6-070",
+      "localId": "070",
+      "name": "蜈蚣王"
+    },
+    {
+      "id": "SV4a-241",
+      "localId": "241",
+      "name": "勒克貓"
+    },
+    {
+      "id": "S12a-198",
+      "localId": "198",
+      "name": "土龍弟弟"
+    },
+    {
+      "id": "SV8a-023",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/023",
+      "localId": "023",
+      "name": "炭小侍"
+    },
+    {
+      "id": "SV4a-098",
+      "localId": "098",
+      "name": "墓揚犬"
+    },
+    {
+      "id": "SC1a-027",
+      "localId": "027",
+      "name": "莫魯貝可"
+    },
+    {
+      "id": "SV8a-182",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/182",
+      "localId": "182",
+      "name": "零之大空洞"
+    },
+    {
+      "id": "SV6-079",
+      "localId": "079",
+      "name": "多龍梅西亞"
+    },
+    {
+      "id": "SV8a-048",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/048",
+      "localId": "048",
+      "name": "古劍豹"
+    },
+    {
+      "id": "SV4a-192",
+      "localId": "192",
+      "name": "臭臭花"
+    },
+    {
+      "id": "SV6-006",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/006",
+      "localId": "006",
+      "name": "小木靈"
+    },
+    {
+      "id": "SV4a-248",
+      "localId": "248",
+      "name": "布土撥"
+    },
+    {
+      "id": "SC1a-165",
+      "localId": "165",
+      "name": "蒼響V"
+    },
+    {
+      "id": "SV8a-062",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/062",
+      "localId": "062",
+      "name": "太陽伊布"
+    },
+    {
+      "id": "SV8a-100",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/100",
+      "localId": "100",
+      "name": "轟鳴月"
+    },
+    {
+      "id": "SV2a-150",
+      "localId": "150",
+      "name": "超夢"
+    },
+    {
+      "id": "SV6-099",
+      "localId": "099",
+      "name": "祭典會場"
+    },
+    {
+      "id": "SV8a-191",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/191",
+      "localId": "191",
+      "name": "秋明"
+    },
+    {
+      "id": "SV4a-289",
+      "localId": "289",
+      "name": "狃拉"
+    },
+    {
+      "id": "S12a-108",
+      "localId": "108",
+      "name": "烈空坐VMAX"
+    },
+    {
+      "id": "SV8a-078",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/078",
+      "localId": "078",
+      "name": "鐵頭殼ex"
+    },
+    {
+      "id": "SC1a-149",
+      "localId": "149",
+      "name": "風露"
+    },
+    {
+      "id": "SV4a-084",
+      "localId": "084",
+      "name": "隨風球"
+    },
+    {
+      "id": "SC1a-011",
+      "localId": "011",
+      "name": "倫琴貓"
+    },
+    {
+      "id": "S12a-039",
+      "localId": "039",
+      "name": "光輝蟲電寶"
+    },
+    {
+      "id": "SV4a-239",
+      "localId": "239",
+      "name": "頑皮雷彈"
+    },
+    {
+      "id": "S12a-113",
+      "localId": "113",
+      "name": "洗翠 黏美兒"
+    },
+    {
+      "id": "SV8a-147",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/147",
+      "localId": "147",
+      "name": "好友寶芬"
+    },
+    {
+      "id": "SV4a-349",
+      "localId": "349",
+      "name": "噴火龍ex"
+    },
+    {
+      "id": "SV4a-122",
+      "localId": "122",
+      "name": "駒刀小兵"
+    },
+    {
+      "id": "SC1a-029",
+      "localId": "029",
+      "name": "莫魯貝可VMAX"
+    },
+    {
+      "id": "SV4a-174",
+      "localId": "174",
+      "name": "奇樹"
+    },
+    {
+      "id": "S12a-021",
+      "localId": "021",
+      "name": "爆香猿VSTAR"
+    },
+    {
+      "id": "SV8a-056",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/056",
+      "localId": "056",
+      "name": "鐵荊棘ex"
+    },
+    {
+      "id": "SV2a-073",
+      "localId": "073",
+      "name": "毒刺水母"
+    },
+    {
+      "id": "SV6-096",
+      "localId": "096",
+      "name": "烏栗"
+    },
+    {
+      "id": "S12a-175",
+      "localId": "175",
+      "name": "鴨嘴炎獸"
+    },
+    {
+      "id": "SV8a-076",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/076",
+      "localId": "076",
+      "name": "吉雉雞"
+    },
+    {
+      "id": "SV8a-121",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/121",
+      "localId": "121",
+      "name": "米立龍"
+    },
+    {
+      "id": "SV6-051",
+      "localId": "051",
+      "name": "綿綿泡芙"
+    },
+    {
+      "id": "SC1a-050",
+      "localId": "050",
+      "name": "怖思壺V"
+    },
+    {
+      "id": "SV8a-208",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/208",
+      "localId": "208",
+      "name": "厄鬼椪 水井面具ex"
+    },
+    {
+      "id": "SV8a-038",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/038",
+      "localId": "038",
+      "name": "雪妖女"
+    },
+    {
+      "id": "SV2a-207",
+      "localId": "207",
+      "name": "坂木的領導力[支援者]"
+    },
+    {
+      "id": "SC1a-099",
+      "localId": "099",
+      "name": "伽勒爾 喵頭目"
+    },
+    {
+      "id": "SV4a-179",
+      "localId": "179",
+      "name": "帕底亞的學生"
+    },
+    {
+      "id": "SV4a-022",
+      "localId": "022",
+      "name": "蟲滾泥"
+    },
+    {
+      "id": "S12a-138",
+      "localId": "138",
+      "name": "高級球"
+    },
+    {
+      "id": "SV4a-173",
+      "localId": "173",
+      "name": "坂木的領導力"
+    },
+    {
+      "id": "SV4a-116",
+      "localId": "116",
+      "name": "帕底亞 烏波"
+    },
+    {
+      "id": "SV4a-083",
+      "localId": "083",
+      "name": "飄飄球"
+    },
+    {
+      "id": "S12a-117",
+      "localId": "117",
+      "name": "百變怪"
+    },
+    {
+      "id": "SV6-013",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/013",
+      "localId": "013",
+      "name": "斯魔茶"
+    },
+    {
+      "id": "SV4a-065",
+      "localId": "065",
+      "name": "顫弦蠑螈"
+    },
+    {
+      "id": "SV4a-111",
+      "localId": "111",
+      "name": "晶光花ex"
+    },
+    {
+      "id": "SC1a-024",
+      "localId": "024",
+      "name": "顫弦蠑螈VMAX"
+    },
+    {
+      "id": "SV4a-331",
+      "localId": "331",
+      "name": "噴火龍ex"
+    },
+    {
+      "id": "S12a-180",
+      "localId": "180",
+      "name": "電擊魔獸"
+    },
+    {
+      "id": "S12a-141",
+      "localId": "141",
+      "name": "幻想門"
+    },
+    {
+      "id": "S12a-183",
+      "localId": "183",
+      "name": "夢幻"
+    },
+    {
+      "id": "SC1a-109",
+      "localId": "109",
+      "name": "劈斬司令"
+    },
+    {
+      "id": "S12a-120",
+      "localId": "120",
+      "name": "青綿鳥"
+    },
+    {
+      "id": "S12a-213",
+      "localId": "213",
+      "name": "炎帝V"
+    },
+    {
+      "id": "SV6-082",
+      "localId": "082",
+      "name": "米立龍"
+    },
+    {
+      "id": "SV4a-099",
+      "localId": "099",
+      "name": "索財靈"
+    },
+    {
+      "id": "SV4a-024",
+      "localId": "024",
+      "name": "古簡蝸ex"
+    },
+    {
+      "id": "SV8a-201",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/201",
+      "localId": "201",
+      "name": "厄鬼椪 碧草面具ex"
+    },
+    {
+      "id": "SV4a-102",
+      "localId": "102",
+      "name": "棄世猴"
+    },
+    {
+      "id": "SV8a-214",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/214",
+      "localId": "214",
+      "name": "鐵頭殼ex"
+    },
+    {
+      "id": "SV8a-206",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/206",
+      "localId": "206",
+      "name": "冰伊布ex"
+    },
+    {
+      "id": "SV8a-063",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/063",
+      "localId": "063",
+      "name": "太陽伊布ex"
+    },
+    {
+      "id": "SV4a-342",
+      "localId": "342",
+      "name": "裁判"
+    },
+    {
+      "id": "S12a-116",
+      "localId": "116",
+      "name": "雷吉鐸拉戈"
+    },
+    {
+      "id": "SC1a-069",
+      "localId": "069",
+      "name": "超甲狂犀"
+    },
+    {
+      "id": "SV2a-148",
+      "localId": "148",
+      "name": "哈克龍"
+    },
+    {
+      "id": "SV4a-176",
+      "localId": "176",
+      "name": "博士的研究"
+    },
+    {
+      "id": "SV2a-009",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/009",
+      "localId": "009",
+      "name": "水箭龜ex"
+    },
+    {
+      "id": "SV2a-133",
+      "localId": "133",
+      "name": "伊布"
+    },
+    {
+      "id": "SV2a-162",
+      "localId": "162",
+      "name": "坂木的領導力"
+    },
+    {
+      "id": "SV2a-085",
+      "localId": "085",
+      "name": "嘟嘟利"
+    },
+    {
+      "id": "SV2a-115",
+      "localId": "115",
+      "name": "袋獸ex"
+    },
+    {
+      "id": "SC1a-125",
+      "localId": "125",
+      "name": "喵喵V"
+    },
+    {
+      "id": "SC1a-117",
+      "localId": "117",
+      "name": "大王銅象V"
+    },
+    {
+      "id": "SV2a-145",
+      "localId": "145",
+      "name": "閃電鳥ex"
+    },
+    {
+      "id": "SV8a-104",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/104",
+      "localId": "104",
+      "name": "吉雉雞ex"
+    },
+    {
+      "id": "S12a-027",
+      "localId": "027",
+      "name": "起源帕路奇亞V"
+    },
+    {
+      "id": "SC1a-085",
+      "localId": "085",
+      "name": "巨炭山"
+    },
+    {
+      "id": "S12a-077",
+      "localId": "077",
+      "name": "路卡利歐"
+    },
+    {
+      "id": "SV8a-119",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/119",
+      "localId": "119",
+      "name": "多龍奇"
+    },
+    {
+      "id": "SV2a-178",
+      "localId": "178",
+      "name": "蔓藤怪"
+    },
+    {
+      "id": "S12a-127",
+      "localId": "127",
+      "name": "阿爾宙斯VSTAR"
+    },
+    {
+      "id": "S12a-024",
+      "localId": "024",
+      "name": "水君V"
+    },
+    {
+      "id": "S12a-176",
+      "localId": "176",
+      "name": "花舞鳥"
+    },
+    {
+      "id": "S12a-226",
+      "localId": "226",
+      "name": "路卡利歐VSTAR"
+    },
+    {
+      "id": "SV8a-102",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/102",
+      "localId": "102",
+      "name": "夠讚狗ex"
+    },
+    {
+      "id": "SC1a-140",
+      "localId": "140",
+      "name": "金屬碟"
+    },
+    {
+      "id": "SV6-015",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/015",
+      "localId": "015",
+      "name": "厄鬼椪 碧草面具"
+    },
+    {
+      "id": "SV8a-162",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/162",
+      "localId": "162",
+      "name": "青木的手法"
+    },
+    {
+      "id": "S12a-091",
+      "localId": "091",
+      "name": "索羅亞克"
+    },
+    {
+      "id": "S12a-037",
+      "localId": "037",
+      "name": "茸茸羊"
+    },
+    {
+      "id": "SV6-066",
+      "localId": "066",
+      "name": "土狼犬"
+    },
+    {
+      "id": "S12a-101",
+      "localId": "101",
+      "name": "起源帝牙盧卡VSTAR"
+    },
+    {
+      "id": "S12a-158",
+      "localId": "158",
+      "name": "菜種的活力"
+    },
+    {
+      "id": "SV2a-194",
+      "localId": "194",
+      "name": "閃電鳥ex"
+    },
+    {
+      "id": "SV4a-054",
+      "localId": "054",
+      "name": "古劍豹ex"
+    },
+    {
+      "id": "SV4a-334",
+      "localId": "334",
+      "name": "音波龍ex"
+    },
+    {
+      "id": "SC1a-058",
+      "localId": "058",
+      "name": "多龍梅西亞"
+    },
+    {
+      "id": "SV2a-058",
+      "localId": "058",
+      "name": "卡蒂狗"
+    },
+    {
+      "id": "SV8a-196",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/196",
+      "localId": "196",
+      "name": "皮拿"
+    },
+    {
+      "id": "SV8a-202",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/202",
+      "localId": "202",
+      "name": "火伊布ex"
+    },
+    {
+      "id": "SV4a-092",
+      "localId": "092",
+      "name": "蟲甲聖"
+    },
+    {
+      "id": "SV4a-080",
+      "localId": "080",
+      "name": "拉魯拉絲"
+    },
+    {
+      "id": "SC1a-054",
+      "localId": "054",
+      "name": "小仙奶"
+    },
+    {
+      "id": "SV8a-180",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/180",
+      "localId": "180",
+      "name": "祭典會場"
+    },
+    {
+      "id": "SV6-039",
+      "localId": "039",
+      "name": "小貓怪"
+    },
+    {
+      "id": "S12a-087",
+      "localId": "087",
+      "name": "洗翠 大劍鬼VSTAR"
+    },
+    {
+      "id": "SV4a-335",
+      "localId": "335",
+      "name": "大比鳥ex"
+    },
+    {
+      "id": "SC1a-159",
+      "localId": "159",
+      "name": "愛管侍V"
+    },
+    {
+      "id": "SV6-123",
+      "localId": "123",
+      "name": "丹瑜"
+    },
+    {
+      "id": "SC1a-030",
+      "localId": "030",
+      "name": "皮皮"
+    },
+    {
+      "id": "SC1a-066",
+      "localId": "066",
+      "name": "快拳郎"
+    },
+    {
+      "id": "SV4a-057",
+      "localId": "057",
+      "name": "霹靂電球"
+    },
+    {
+      "id": "S12a-199",
+      "localId": "199",
+      "name": "大奶罐"
+    },
+    {
+      "id": "SV8a-073",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/073",
+      "localId": "073",
+      "name": "索財靈"
+    },
+    {
+      "id": "SV6-054",
+      "localId": "054",
+      "name": "噬沙堡爺"
+    },
+    {
+      "id": "SC1a-038",
+      "localId": "038",
+      "name": "天然雀"
+    },
+    {
+      "id": "S12a-028",
+      "localId": "028",
+      "name": "起源帕路奇亞VSTAR"
+    },
+    {
+      "id": "S12a-239",
+      "localId": "239",
+      "name": "竹蘭的霸氣"
+    },
+    {
+      "id": "SV2a-079",
+      "localId": "079",
+      "name": "呆呆獸"
+    },
+    {
+      "id": "SV4a-125",
+      "localId": "125",
+      "name": "偶叫獒"
+    },
+    {
+      "id": "SV8a-067",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/067",
+      "localId": "067",
+      "name": "綿綿泡芙"
+    },
+    {
+      "id": "SV8a-199",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/199",
+      "localId": "199",
+      "name": "蕾荷"
+    },
+    {
+      "id": "SV4a-110",
+      "localId": "110",
+      "name": "晶光芽"
+    },
+    {
+      "id": "S12a-191",
+      "localId": "191",
+      "name": "阿勃梭魯"
+    },
+    {
+      "id": "SV2a-002",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/002",
+      "localId": "002",
+      "name": "妙蛙草"
+    },
+    {
+      "id": "SV4a-222",
+      "localId": "222",
+      "name": "寶石海星"
+    },
+    {
+      "id": "SV2a-125",
+      "localId": "125",
+      "name": "電擊獸"
+    },
+    {
+      "id": "SV2a-166",
+      "localId": "166",
+      "name": "妙蛙種子"
+    },
+    {
+      "id": "SV4a-073",
+      "localId": "073",
+      "name": "凱西"
+    },
+    {
+      "id": "SV4a-095",
+      "localId": "095",
+      "name": "巧鍛匠"
+    },
+    {
+      "id": "SV4a-191",
+      "localId": "191",
+      "name": "走路草"
+    },
+    {
+      "id": "SV6-107",
+      "localId": "107",
+      "name": "願增猿"
+    },
+    {
+      "id": "SV4a-301",
+      "localId": "301",
+      "name": "普隆隆姆"
+    },
+    {
+      "id": "S12a-050",
+      "localId": "050",
+      "name": "超夢V"
+    },
+    {
+      "id": "SV2a-167",
+      "localId": "167",
+      "name": "妙蛙草"
+    },
+    {
+      "id": "SV8a-061",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/061",
+      "localId": "061",
+      "name": "天然鳥"
+    },
+    {
+      "id": "SV2a-044",
+      "localId": "044",
+      "name": "臭臭花"
+    },
+    {
+      "id": "S12a-105",
+      "localId": "105",
+      "name": "拉帝亞斯"
+    },
+    {
+      "id": "SV8a-105",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/105",
+      "localId": "105",
+      "name": "桃歹郎ex"
+    },
+    {
+      "id": "SV2a-188",
+      "localId": "188",
+      "name": "九尾ex"
+    },
+    {
+      "id": "SV8a-235",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/235",
+      "localId": "235",
+      "name": "波盪水ex"
+    },
+    {
+      "id": "SV6-092",
+      "localId": "092",
+      "name": "秘密箱"
+    },
+    {
+      "id": "SV2a-029",
+      "localId": "029",
+      "name": "尼多蘭"
+    },
+    {
+      "id": "SV6-046",
+      "localId": "046",
+      "name": "皮可西"
+    },
+    {
+      "id": "SV4a-326",
+      "localId": "326",
+      "name": "胡地ex"
+    },
+    {
+      "id": "S12a-128",
+      "localId": "128",
+      "name": "洗翠 索羅亞克V"
+    },
+    {
+      "id": "SV8a-197",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/197",
+      "localId": "197",
+      "name": "枇琶"
+    },
+    {
+      "id": "SC1a-146",
+      "localId": "146",
+      "name": "奧利薇"
+    },
+    {
+      "id": "SV4a-147",
+      "localId": "147",
+      "name": "大嘴鷗"
+    },
+    {
+      "id": "S12a-009",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/009",
+      "localId": "009",
+      "name": "圓法師"
+    },
+    {
+      "id": "SV8a-183",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/183",
+      "localId": "183",
+      "name": "月光丘陵"
+    },
+    {
+      "id": "SV2a-161",
+      "localId": "161",
+      "name": "莉佳的招待"
+    },
+    {
+      "id": "SV4a-213",
+      "localId": "213",
+      "name": "炎帝"
+    },
+    {
+      "id": "SC1a-065",
+      "localId": "065",
+      "name": "飛腿郎"
+    },
+    {
+      "id": "SC1a-048",
+      "localId": "048",
+      "name": "來悲茶"
+    },
+    {
+      "id": "SV6-020",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/020",
+      "localId": "020",
+      "name": "燈火幽靈"
+    },
+    {
+      "id": "S12a-014",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/014",
+      "localId": "014",
+      "name": "噴火龍VSTAR"
+    },
+    {
+      "id": "SV6-042",
+      "localId": "042",
+      "name": "電飛鼠"
+    },
+    {
+      "id": "SC1a-126",
+      "localId": "126",
+      "name": "喵喵VMAX"
+    },
+    {
+      "id": "SC1a-022",
+      "localId": "022",
+      "name": "顫弦蠑螈V"
+    },
+    {
+      "id": "SV4a-231",
+      "localId": "231",
+      "name": "吃吼霸"
+    },
+    {
+      "id": "SV6-121",
+      "localId": "121",
+      "name": "幸福蛋ex"
+    },
+    {
+      "id": "SV4a-285",
+      "localId": "285",
+      "name": "鹽石巨靈"
+    },
+    {
+      "id": "SV6-002",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/002",
+      "localId": "002",
+      "name": "向日花怪"
+    },
+    {
+      "id": "SV4a-043",
+      "localId": "043",
+      "name": "狂歡浪舞鴨ex"
+    },
+    {
+      "id": "SV2a-199",
+      "localId": "199",
+      "name": "正輝的輸送[支援者]"
+    },
+    {
+      "id": "SV8a-194",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/194",
+      "localId": "194",
+      "name": "納莉"
+    },
+    {
+      "id": "SV8a-158",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/158",
+      "localId": "158",
+      "name": "驅勁能量 未來"
+    },
+    {
+      "id": "S12a-079",
+      "localId": "079",
+      "name": "伽勒爾 火焰鳥"
+    },
+    {
+      "id": "SV8a-066",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/066",
+      "localId": "066",
+      "name": "黑夜魔靈"
+    },
+    {
+      "id": "SV2a-204",
+      "localId": "204",
+      "name": "閃電鳥ex"
+    },
+    {
+      "id": "SV4a-274",
+      "localId": "274",
+      "name": "墓仔狗"
+    },
+    {
+      "id": "SC1a-067",
+      "localId": "067",
+      "name": "獨角犀牛"
+    },
+    {
+      "id": "SV6-021",
+      "localId": "021",
+      "name": "水晶燈火靈"
+    },
+    {
+      "id": "SV8a-117",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/117",
+      "localId": "117",
+      "name": "賽富豪ex"
+    },
+    {
+      "id": "SC1a-013",
+      "localId": "013",
+      "name": "光電傘蜥"
+    },
+    {
+      "id": "SC1a-104",
+      "localId": "104",
+      "name": "大朝北鼻"
+    },
+    {
+      "id": "SV4a-273",
+      "localId": "273",
+      "name": "巨鍛匠"
+    },
+    {
+      "id": "SV2a-011",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/011",
+      "localId": "011",
+      "name": "鐵甲蛹"
+    },
+    {
+      "id": "SC1a-020",
+      "localId": "020",
+      "name": "毒電嬰"
+    },
+    {
+      "id": "SV8a-143",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/143",
+      "localId": "143",
+      "name": "大地之容器"
+    },
+    {
+      "id": "SV6-115",
+      "localId": "115",
+      "name": "厄鬼椪 火灶面具ex"
+    },
+    {
+      "id": "SV6-091",
+      "localId": "091",
+      "name": "配樂之笛"
+    },
+    {
+      "id": "SV4a-115",
+      "localId": "115",
+      "name": "噴火龍ex"
+    },
+    {
+      "id": "S12a-099",
+      "localId": "099",
+      "name": "青銅鐘"
+    },
+    {
+      "id": "SC1a-073",
+      "localId": "073",
+      "name": "恰雷姆"
+    },
+    {
+      "id": "S12a-100",
+      "localId": "100",
+      "name": "起源帝牙盧卡V"
+    },
+    {
+      "id": "SV8a-071",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/071",
+      "localId": "071",
+      "name": "吼叫尾"
+    },
+    {
+      "id": "SV4a-229",
+      "localId": "229",
+      "name": "海豚俠"
+    },
+    {
+      "id": "SV8a-222",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/222",
+      "localId": "222",
+      "name": "猛雷鼓ex"
+    },
+    {
+      "id": "SV4a-312",
+      "localId": "312",
+      "name": "大嘴鷗"
+    },
+    {
+      "id": "SV4a-035",
+      "localId": "035",
+      "name": "古玉魚ex"
+    },
+    {
+      "id": "S12a-123",
+      "localId": "123",
+      "name": "雷吉奇卡斯"
+    },
+    {
+      "id": "SV4a-303",
+      "localId": "303",
+      "name": "摩托蜥"
+    },
+    {
+      "id": "SV2a-072",
+      "localId": "072",
+      "name": "瑪瑙水母"
+    },
+    {
+      "id": "SC1a-090",
+      "localId": "090",
+      "name": "八爪武師"
+    },
+    {
+      "id": "SV8a-029",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/029",
+      "localId": "029",
+      "name": "金魚王"
+    },
+    {
+      "id": "S12a-070",
+      "localId": "070",
+      "name": "洗翠 風速狗"
+    },
+    {
+      "id": "SV2a-098",
+      "localId": "098",
+      "name": "大鉗蟹"
+    },
+    {
+      "id": "S12a-245",
+      "localId": "245",
+      "name": "望羅"
+    },
+    {
+      "id": "S12a-168",
+      "localId": "168",
+      "name": "祝慶村"
+    },
+    {
+      "id": "SV8a-146",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/146",
+      "localId": "146",
+      "name": "珍寶配件"
+    },
+    {
+      "id": "SC1a-004",
+      "localId": "004",
+      "name": "頑皮雷彈"
+    },
+    {
+      "id": "SV8a-057",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/057",
+      "localId": "057",
+      "name": "凱西"
+    },
+    {
+      "id": "SV8a-098",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/098",
+      "localId": "098",
+      "name": "莫魯貝可"
+    },
+    {
+      "id": "S12a-209",
+      "localId": "209",
+      "name": "咩利羊"
+    },
+    {
+      "id": "SV2a-138",
+      "localId": "138",
+      "name": "菊石獸"
+    },
+    {
+      "id": "SV4a-045",
+      "localId": "045",
+      "name": "三海地鼠"
+    },
+    {
+      "id": "SV6-068",
+      "localId": "068",
+      "name": "百足蜈蚣"
+    },
+    {
+      "id": "SV6-097",
+      "localId": "097",
+      "name": "丹瑜"
+    },
+    {
+      "id": "SV4a-019",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/019",
+      "localId": "019",
+      "name": "陸地水母ex"
+    },
+    {
+      "id": "SV6-031",
+      "localId": "031",
+      "name": "雪童子"
+    },
+    {
+      "id": "S12a-137",
+      "localId": "137",
+      "name": "健行鞋"
+    },
+    {
+      "id": "SV2a-106",
+      "localId": "106",
+      "name": "飛腿郎"
+    },
+    {
+      "id": "SV2a-177",
+      "localId": "177",
+      "name": "豪力"
+    },
+    {
+      "id": "SC1a-021",
+      "localId": "021",
+      "name": "顫弦蠑螈"
+    },
+    {
+      "id": "SV2a-181",
+      "localId": "181",
+      "name": "卡比獸"
+    },
+    {
+      "id": "SV6-019",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/019",
+      "localId": "019",
+      "name": "燭光靈"
+    },
+    {
+      "id": "SV8a-144",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/144",
+      "localId": "144",
+      "name": "高科技雷達"
+    },
+    {
+      "id": "S12a-104",
+      "localId": "104",
+      "name": "七夕青鳥"
+    },
+    {
+      "id": "SV2a-087",
+      "localId": "087",
+      "name": "白海獅"
+    },
+    {
+      "id": "SV4a-282",
+      "localId": "282",
+      "name": "摔角鷹人"
+    },
+    {
+      "id": "SV2a-134",
+      "localId": "134",
+      "name": "水伊布"
+    },
+    {
+      "id": "SV8a-236",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/236",
+      "localId": "236",
+      "name": "皮卡丘ex"
+    },
+    {
+      "id": "SV2a-112",
+      "localId": "112",
+      "name": "鑽角犀獸"
+    },
+    {
+      "id": "SC1a-135",
+      "localId": "135",
+      "name": "藍鴉"
+    },
+    {
+      "id": "SV2a-092",
+      "localId": "092",
+      "name": "鬼斯"
+    },
+    {
+      "id": "SV4a-100",
+      "localId": "100",
+      "name": "猴怪"
+    },
+    {
+      "id": "SV4a-040",
+      "localId": "040",
+      "name": "帕底亞 肯泰羅"
+    },
+    {
+      "id": "SV8a-002",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/002",
+      "localId": "002",
+      "name": "葉伊布"
+    },
+    {
+      "id": "SV8a-001",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/001",
+      "localId": "001",
+      "name": "含羞苞"
+    },
+    {
+      "id": "SV8a-025",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/025",
+      "localId": "025",
+      "name": "古玉魚"
+    },
+    {
+      "id": "SC1a-059",
+      "localId": "059",
+      "name": "多龍奇"
+    },
+    {
+      "id": "SC1a-057",
+      "localId": "057",
+      "name": "愛管侍V"
+    },
+    {
+      "id": "SV2a-190",
+      "localId": "190",
+      "name": "胡地ex"
+    },
+    {
+      "id": "SV4a-107",
+      "localId": "107",
+      "name": "鹽石寶"
+    },
+    {
+      "id": "SV6-048",
+      "localId": "048",
+      "name": "勇基拉"
+    },
+    {
+      "id": "SV2a-040",
+      "localId": "040",
+      "name": "胖可丁ex"
+    },
+    {
+      "id": "SV6-045",
+      "localId": "045",
+      "name": "皮皮"
+    },
+    {
+      "id": "SV4a-049",
+      "localId": "049",
+      "name": "吃吼霸"
+    },
+    {
+      "id": "SC1a-096",
+      "localId": "096",
+      "name": "伽勒爾 喵喵"
+    },
+    {
+      "id": "SV4a-070",
+      "localId": "070",
+      "name": "大電海燕"
+    },
+    {
+      "id": "SV2a-046",
+      "localId": "046",
+      "name": "派拉斯"
+    },
+    {
+      "id": "SC1a-161",
+      "localId": "161",
+      "name": "沙螺蟒V"
+    },
+    {
+      "id": "SV6-024",
+      "localId": "024",
+      "name": "蚊香君"
+    },
+    {
+      "id": "SV4a-207",
+      "localId": "207",
+      "name": "熱辣娃"
+    },
+    {
+      "id": "SV6-056",
+      "localId": "056",
+      "name": "吉雉雞"
+    },
+    {
+      "id": "SC1a-139",
+      "localId": "139",
+      "name": "普通釣竿"
+    },
+    {
+      "id": "SV4a-112",
+      "localId": "112",
+      "name": "雄偉牙ex"
+    },
+    {
+      "id": "SV8a-112",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/112",
+      "localId": "112",
+      "name": "鋁鋼龍"
+    },
+    {
+      "id": "S12a-218",
+      "localId": "218",
+      "name": "雷公V"
+    },
+    {
+      "id": "SV6-027",
+      "localId": "027",
+      "name": "金魚王"
+    },
+    {
+      "id": "SV8a-163",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/163",
+      "localId": "163",
+      "name": "赤松"
+    },
+    {
+      "id": "SV6-127",
+      "localId": "127",
+      "name": "厄鬼椪 水井面具ex"
+    },
+    {
+      "id": "SV8a-005",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/005",
+      "localId": "005",
+      "name": "風妖精"
+    },
+    {
+      "id": "SV8a-203",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/203",
+      "localId": "203",
+      "name": "蒼炎刃鬼ex"
+    },
+    {
+      "id": "SC1a-158",
+      "localId": "158",
+      "name": "果然翁V"
+    },
+    {
+      "id": "SV2a-022",
+      "localId": "022",
+      "name": "大嘴雀"
+    },
+    {
+      "id": "SV4a-209",
+      "localId": "209",
+      "name": "蟲滾泥"
+    },
+    {
+      "id": "SV8a-125",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/125",
+      "localId": "125",
+      "name": "伊布"
+    },
+    {
+      "id": "SC1a-107",
+      "localId": "107",
+      "name": "伽勒爾 泥巴魚"
+    },
+    {
+      "id": "SV8a-141",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/141",
+      "localId": "141",
+      "name": "超級能量回收"
+    },
+    {
+      "id": "SV8a-064",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/064",
+      "localId": "064",
+      "name": "夜巡靈"
+    },
+    {
+      "id": "SV6-047",
+      "localId": "047",
+      "name": "凱西"
+    },
+    {
+      "id": "SV6-071",
+      "localId": "071",
+      "name": "猛惡菇"
+    },
+    {
+      "id": "SV4a-189",
+      "localId": "189",
+      "name": "反轉能量"
+    },
+    {
+      "id": "SV6-086",
+      "localId": "086",
+      "name": "長尾怪手"
+    },
+    {
+      "id": "SC1a-015",
+      "localId": "015",
+      "name": "鍬農炮蟲"
+    },
+    {
+      "id": "SV4a-262",
+      "localId": "262",
+      "name": "魔尼尼"
+    },
+    {
+      "id": "SV2a-041",
+      "localId": "041",
+      "name": "超音蝠"
+    },
+    {
+      "id": "SV2a-030",
+      "localId": "030",
+      "name": "尼多娜"
+    },
+    {
+      "id": "SV4a-008",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/008",
+      "localId": "008",
+      "name": "榛果球"
+    },
+    {
+      "id": "SC1a-044",
+      "localId": "044",
+      "name": "夢夢蝕"
+    },
+    {
+      "id": "SV4a-009",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/009",
+      "localId": "009",
+      "name": "佛烈托斯ex"
+    },
+    {
+      "id": "SV6-004",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/004",
+      "localId": "004",
+      "name": "電螢蟲"
+    },
+    {
+      "id": "S12a-090",
+      "localId": "090",
+      "name": "索羅亞"
+    },
+    {
+      "id": "SV2a-180",
+      "localId": "180",
+      "name": "菊石獸"
+    },
+    {
+      "id": "SV4a-336",
+      "localId": "336",
+      "name": "胖可丁ex"
+    },
+    {
+      "id": "SV2a-205",
+      "localId": "205",
+      "name": "夢幻ex"
+    },
+    {
+      "id": "SV4a-105",
+      "localId": "105",
+      "name": "路卡利歐"
+    },
+    {
+      "id": "SV8a-054",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/054",
+      "localId": "054",
+      "name": "鐵臂膀ex"
+    },
+    {
+      "id": "SV2a-131",
+      "localId": "131",
+      "name": "拉普拉斯"
+    },
+    {
+      "id": "SV2a-051",
+      "localId": "051",
+      "name": "三地鼠"
+    },
+    {
+      "id": "SV8a-165",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/165",
+      "localId": "165",
+      "name": "暗碼迷的解讀"
+    },
+    {
+      "id": "SC1a-103",
+      "localId": "103",
+      "name": "青銅鐘"
+    },
+    {
+      "id": "S12a-159",
+      "localId": "159",
+      "name": "博士的研究（山梨博士）"
+    },
+    {
+      "id": "SV4a-318",
+      "localId": "318",
+      "name": "一家鼠"
+    },
+    {
+      "id": "SV8a-017",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/017",
+      "localId": "017",
+      "name": "斯魔茶"
+    },
+    {
+      "id": "SV6-063",
+      "localId": "063",
+      "name": "晶光花"
+    },
+    {
+      "id": "SV6-029",
+      "localId": "029",
+      "name": "醜醜魚"
+    },
+    {
+      "id": "SV8a-075",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/075",
+      "localId": "075",
+      "name": "願增猿"
+    },
+    {
+      "id": "SV2a-016",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/016",
+      "localId": "016",
+      "name": "波波"
+    },
+    {
+      "id": "SV2a-124",
+      "localId": "124",
+      "name": "迷唇姐ex"
+    },
+    {
+      "id": "SC1a-083",
+      "localId": "083",
+      "name": "小炭仔"
+    },
+    {
+      "id": "S12a-161",
+      "localId": "161",
+      "name": "老大的指令（赤日）"
+    },
+    {
+      "id": "SV4a-299",
+      "localId": "299",
+      "name": "巨鉗螳螂"
+    },
+    {
+      "id": "S12a-098",
+      "localId": "098",
+      "name": "銅鏡怪"
+    },
+    {
+      "id": "S12a-165",
+      "localId": "165",
+      "name": "通頂雪道"
+    },
+    {
+      "id": "SV2a-171",
+      "localId": "171",
+      "name": "卡咪龜"
+    },
+    {
+      "id": "SV4a-307",
+      "localId": "307",
+      "name": "嘟嘟"
+    },
+    {
+      "id": "SV8a-232",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/232",
+      "localId": "232",
+      "name": "納莉"
+    },
+    {
+      "id": "SV8a-127",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/127",
+      "localId": "127",
+      "name": "咕咕"
+    },
+    {
+      "id": "S12a-097",
+      "localId": "097",
+      "name": "雷吉斯奇魯"
+    },
+    {
+      "id": "S12a-056",
+      "localId": "056",
+      "name": "月石"
+    },
+    {
+      "id": "SV4a-320",
+      "localId": "320",
+      "name": "佛烈托斯ex"
+    },
+    {
+      "id": "SV8a-086",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/086",
+      "localId": "086",
+      "name": "雄偉牙"
+    },
+    {
+      "id": "SV2a-109",
+      "localId": "109",
+      "name": "瓦斯彈"
+    },
+    {
+      "id": "S12a-088",
+      "localId": "088",
+      "name": "扒手貓"
+    },
+    {
+      "id": "SV4a-243",
+      "localId": "243",
+      "name": "帕奇利茲"
+    },
+    {
+      "id": "SV8a-027",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/027",
+      "localId": "027",
+      "name": "破空焰ex"
+    },
+    {
+      "id": "SV8a-178",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/178",
+      "localId": "178",
+      "name": "松葉的信心"
+    },
+    {
+      "id": "S12a-238",
+      "localId": "238",
+      "name": "查克洛"
+    }
+  ],
+  "image_cards": [
+    {
+      "id": "SV8a-133",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/133",
+      "localId": "133",
+      "name": "爆炸頭水牛"
+    },
+    {
+      "id": "SV2a-007",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/007",
+      "localId": "007",
+      "name": "傑尼龜"
+    },
+    {
+      "id": "SV8a-160",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/160",
+      "localId": "160",
+      "name": "招式學習器 演進"
+    },
+    {
+      "id": "SV8a-224",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/224",
+      "localId": "224",
+      "name": "伊布ex"
+    },
+    {
+      "id": "SV8a-015",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/015",
+      "localId": "015",
+      "name": "古簡蝸"
+    },
+    {
+      "id": "SV8a-072",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/072",
+      "localId": "072",
+      "name": "振翼髮"
+    },
+    {
+      "id": "SV8a-019",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/019",
+      "localId": "019",
+      "name": "來悲粗茶ex"
+    },
+    {
+      "id": "SV8a-157",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/157",
+      "localId": "157",
+      "name": "驅勁能量 古代"
+    },
+    {
+      "id": "SV8a-129",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/129",
+      "localId": "129",
+      "name": "土龍弟弟"
+    },
+    {
+      "id": "SV8a-024",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/024",
+      "localId": "024",
+      "name": "鐵毒蛾"
+    },
+    {
+      "id": "SV8a-033",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/033",
+      "localId": "033",
+      "name": "藍鱷"
+    },
+    {
+      "id": "SV8a-148",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/148",
+      "localId": "148",
+      "name": "頂尖捕捉器"
+    },
+    {
+      "id": "SV8a-014",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/014",
+      "localId": "014",
+      "name": "蟲甲聖"
+    },
+    {
+      "id": "SV8a-108",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/108",
+      "localId": "108",
+      "name": "基拉祈"
+    },
+    {
+      "id": "SV8a-169",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/169",
+      "localId": "169",
+      "name": "烏栗"
+    },
+    {
+      "id": "SV8a-034",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/034",
+      "localId": "034",
+      "name": "大力鱷"
+    },
+    {
+      "id": "SV8a-087",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/087",
+      "localId": "087",
+      "name": "爬地翅"
+    },
+    {
+      "id": "SV6-012",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/012",
+      "localId": "012",
+      "name": "裹蜜蟲"
+    },
+    {
+      "id": "SV8a-010",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/010",
+      "localId": "010",
+      "name": "蜜集大蛇ex"
+    },
+    {
+      "id": "SV8a-082",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/082",
+      "localId": "082",
+      "name": "尖牙陸鯊"
+    },
+    {
+      "id": "SV8a-205",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/205",
+      "localId": "205",
+      "name": "水伊布ex"
+    },
+    {
+      "id": "S12a-006",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/006",
+      "localId": "006",
+      "name": "草苗龜"
+    },
+    {
+      "id": "S12a-019",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/019",
+      "localId": "019",
+      "name": "炎帝V"
+    },
+    {
+      "id": "SV8a-070",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/070",
+      "localId": "070",
+      "name": "蒼炎刃鬼"
+    },
+    {
+      "id": "SV2a-003",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/003",
+      "localId": "003",
+      "name": "妙蛙花ex"
+    },
+    {
+      "id": "SV4a-020",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/020",
+      "localId": "020",
+      "name": "熱辣娃"
+    },
+    {
+      "id": "SV8a-058",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/058",
+      "localId": "058",
+      "name": "勇基拉"
+    },
+    {
+      "id": "SV8a-103",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/103",
+      "localId": "103",
+      "name": "願增猿ex"
+    },
+    {
+      "id": "SV8a-161",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/161",
+      "localId": "161",
+      "name": "招式學習器 ‌衰退"
+    },
+    {
+      "id": "SV8a-016",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/016",
+      "localId": "016",
+      "name": "鐵斑葉ex"
+    },
+    {
+      "id": "SV2a-013",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/013",
+      "localId": "013",
+      "name": "獨角蟲"
+    },
+    {
+      "id": "SV4a-003",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/003",
+      "localId": "003",
+      "name": "霸王花"
+    },
+    {
+      "id": "SV2a-020",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/020",
+      "localId": "020",
+      "name": "拉達"
+    },
+    {
+      "id": "SV8a-021",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/021",
+      "localId": "021",
+      "name": "火伊布"
+    },
+    {
+      "id": "SV8a-099",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/099",
+      "localId": "099",
+      "name": "猛惡菇"
+    },
+    {
+      "id": "SV8a-077",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/077",
+      "localId": "077",
+      "name": "鐵磐岩"
+    },
+    {
+      "id": "SV8a-045",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/045",
+      "localId": "045",
+      "name": "海豚俠"
+    },
+    {
+      "id": "SV8a-154",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/154",
+      "localId": "154",
+      "name": "鎖鏈糬"
+    },
+    {
+      "id": "SV8a-174",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/174",
+      "localId": "174",
+      "name": "帕底亞的夥伴"
+    },
+    {
+      "id": "SV2a-019",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/019",
+      "localId": "019",
+      "name": "小拉達"
+    },
+    {
+      "id": "SV2a-006",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/006",
+      "localId": "006",
+      "name": "噴火龍ex"
+    },
+    {
+      "id": "SV8a-130",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/130",
+      "localId": "130",
+      "name": "土龍節節"
+    },
+    {
+      "id": "SV8a-176",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/176",
+      "localId": "176",
+      "name": "白蕾雅"
+    },
+    {
+      "id": "SV8a-113",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/113",
+      "localId": "113",
+      "name": "鋁鋼橋龍"
+    },
+    {
+      "id": "SV8a-069",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/069",
+      "localId": "069",
+      "name": "仙子伊布ex"
+    },
+    {
+      "id": "SV8a-189",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/189",
+      "localId": "189",
+      "name": "奧爾迪加"
+    },
+    {
+      "id": "SV8a-083",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/083",
+      "localId": "083",
+      "name": "螺釘地鼠"
+    },
+    {
+      "id": "SV8a-085",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/085",
+      "localId": "085",
+      "name": "月月熊 赫月"
+    },
+    {
+      "id": "SV8a-107",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/107",
+      "localId": "107",
+      "name": "金屬怪"
+    },
+    {
+      "id": "SV4a-015",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/015",
+      "localId": "015",
+      "name": "迷你芙"
+    },
+    {
+      "id": "S12a-002",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/002",
+      "localId": "002",
+      "name": "派拉斯特"
+    },
+    {
+      "id": "SV8a-200",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/200",
+      "localId": "200",
+      "name": "葉伊布ex"
+    },
+    {
+      "id": "SV8a-135",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/135",
+      "localId": "135",
+      "name": "鐵脖頸"
+    },
+    {
+      "id": "SV8a-053",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/053",
+      "localId": "053",
+      "name": "捷拉奧拉"
+    },
+    {
+      "id": "SV8a-008",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/008",
+      "localId": "008",
+      "name": "啃果蟲"
+    },
+    {
+      "id": "SV6-017",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/017",
+      "localId": "017",
+      "name": "火紅不倒翁"
+    },
+    {
+      "id": "SV2a-012",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/012",
+      "localId": "012",
+      "name": "巴大蝶"
+    },
+    {
+      "id": "SV8a-055",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/055",
+      "localId": "055",
+      "name": "鐵荊棘"
+    },
+    {
+      "id": "SV4a-006",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/006",
+      "localId": "006",
+      "name": "毽子花"
+    },
+    {
+      "id": "SV8a-080",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/080",
+      "localId": "080",
+      "name": "固拉多"
+    },
+    {
+      "id": "SV8a-122",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/122",
+      "localId": "122",
+      "name": "故勒頓"
+    },
+    {
+      "id": "SV8a-155",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/155",
+      "localId": "155",
+      "name": "豪華斗篷"
+    },
+    {
+      "id": "SV8a-227",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/227",
+      "localId": "227",
+      "name": "赤松"
+    },
+    {
+      "id": "SV8a-007",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/007",
+      "localId": "007",
+      "name": "啪咚猴"
+    },
+    {
+      "id": "SV8a-185",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/185",
+      "localId": "185",
+      "name": "噴射能量"
+    },
+    {
+      "id": "SV8a-012",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/012",
+      "localId": "012",
+      "name": "怖納噬草"
+    },
+    {
+      "id": "SV8a-153",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/153",
+      "localId": "153",
+      "name": "緊急滑板"
+    },
+    {
+      "id": "SV2a-015",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/015",
+      "localId": "015",
+      "name": "大針蜂"
+    },
+    {
+      "id": "SV8a-109",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/109",
+      "localId": "109",
+      "name": "獨劍鞘"
+    },
+    {
+      "id": "SV8a-211",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/211",
+      "localId": "211",
+      "name": "太陽伊布ex"
+    },
+    {
+      "id": "SV8a-022",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/022",
+      "localId": "022",
+      "name": "火伊布ex"
+    },
+    {
+      "id": "SV4a-017",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/017",
+      "localId": "017",
+      "name": "奧利瓦"
+    },
+    {
+      "id": "SV4a-018",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/018",
+      "localId": "018",
+      "name": "原野水母"
+    },
+    {
+      "id": "SV4a-010",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/010",
+      "localId": "010",
+      "name": "雪笠怪"
+    },
+    {
+      "id": "SV8a-216",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/216",
+      "localId": "216",
+      "name": "厄鬼椪 礎石面具ex"
+    },
+    {
+      "id": "SV8a-081",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/081",
+      "localId": "081",
+      "name": "圓陸鯊"
+    },
+    {
+      "id": "SV8a-209",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/209",
+      "localId": "209",
+      "name": "雷伊布ex"
+    },
+    {
+      "id": "SV8a-223",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/223",
+      "localId": "223",
+      "name": "伊布ex"
+    },
+    {
+      "id": "SV8a-060",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/060",
+      "localId": "060",
+      "name": "天然雀"
+    },
+    {
+      "id": "SV8a-131",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/131",
+      "localId": "131",
+      "name": "旋轉洛托姆"
+    },
+    {
+      "id": "SV6-016",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/016",
+      "localId": "016",
+      "name": "厄鬼椪 碧草面具ex"
+    },
+    {
+      "id": "SV8a-179",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/179",
+      "localId": "179",
+      "name": "梅洛可"
+    },
+    {
+      "id": "SV6-011",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/011",
+      "localId": "011",
+      "name": "啃果蟲"
+    },
+    {
+      "id": "SV8a-172",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/172",
+      "localId": "172",
+      "name": "探險家的嚮導"
+    },
+    {
+      "id": "SV8a-181",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/181",
+      "localId": "181",
+      "name": "阻礙之塔"
+    },
+    {
+      "id": "SV8a-088",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/088",
+      "localId": "088",
+      "name": "沙鐵皮ex"
+    },
+    {
+      "id": "SV8a-028",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/028",
+      "localId": "028",
+      "name": "角金魚"
+    },
+    {
+      "id": "SV8a-159",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/159",
+      "localId": "159",
+      "name": "極限腰帶"
+    },
+    {
+      "id": "SV8a-030",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/030",
+      "localId": "030",
+      "name": "水伊布"
+    },
+    {
+      "id": "S12a-013",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/013",
+      "localId": "013",
+      "name": "噴火龍V"
+    },
+    {
+      "id": "SV8a-168",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/168",
+      "localId": "168",
+      "name": "水蓮的照顧"
+    },
+    {
+      "id": "SV8a-164",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/164",
+      "localId": "164",
+      "name": "阿克羅瑪的執著"
+    },
+    {
+      "id": "SV8a-171",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/171",
+      "localId": "171",
+      "name": "紫竽"
+    },
+    {
+      "id": "SV8a-218",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/218",
+      "localId": "218",
+      "name": "轟鳴月ex"
+    },
+    {
+      "id": "SV8a-145",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/145",
+      "localId": "145",
+      "name": "太晶珠"
+    },
+    {
+      "id": "SV8a-043",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/043",
+      "localId": "043",
+      "name": "三海地鼠"
+    },
+    {
+      "id": "SV8a-229",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/229",
+      "localId": "229",
+      "name": "杜若"
+    },
+    {
+      "id": "SV6-008",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/008",
+      "localId": "008",
+      "name": "敲音猴"
+    },
+    {
+      "id": "SV8a-020",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/020",
+      "localId": "020",
+      "name": "厄鬼椪 碧草面具ex"
+    },
+    {
+      "id": "SV8a-039",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/039",
+      "localId": "039",
+      "name": "烈咬陸鯊ex"
+    },
+    {
+      "id": "SV8a-115",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/115",
+      "localId": "115",
+      "name": "普隆隆姆"
+    },
+    {
+      "id": "SV6-014",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/014",
+      "localId": "014",
+      "name": "來悲粗茶"
+    },
+    {
+      "id": "SV8a-204",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/204",
+      "localId": "204",
+      "name": "厄鬼椪 火灶面具ex"
+    },
+    {
+      "id": "SV4a-012",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/012",
+      "localId": "012",
+      "name": "新葉喵"
+    },
+    {
+      "id": "SV8a-217",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/217",
+      "localId": "217",
+      "name": "月亮伊布ex"
+    },
+    {
+      "id": "SV8a-044",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/044",
+      "localId": "044",
+      "name": "波普海豚"
+    },
+    {
+      "id": "SV8a-036",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/036",
+      "localId": "036",
+      "name": "美納斯"
+    },
+    {
+      "id": "SV2a-005",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/005",
+      "localId": "005",
+      "name": "火恐龍"
+    },
+    {
+      "id": "SV2a-008",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/008",
+      "localId": "008",
+      "name": "卡咪龜"
+    },
+    {
+      "id": "SV8a-123",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/123",
+      "localId": "123",
+      "name": "密勒頓"
+    },
+    {
+      "id": "SV8a-068",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/068",
+      "localId": "068",
+      "name": "仙子伊布"
+    },
+    {
+      "id": "SV6-009",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/009",
+      "localId": "009",
+      "name": "啪咚猴"
+    },
+    {
+      "id": "SV8a-047",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/047",
+      "localId": "047",
+      "name": "鐵包袱"
+    },
+    {
+      "id": "SV8a-118",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/118",
+      "localId": "118",
+      "name": "多龍梅西亞"
+    },
+    {
+      "id": "SV8a-120",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/120",
+      "localId": "120",
+      "name": "多龍巴魯托ex"
+    },
+    {
+      "id": "SV6-005",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/005",
+      "localId": "005",
+      "name": "甜甜螢"
+    },
+    {
+      "id": "SV8a-190",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/190",
+      "localId": "190",
+      "name": "寇沙"
+    },
+    {
+      "id": "SV2a-017",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/017",
+      "localId": "017",
+      "name": "比比鳥"
+    },
+    {
+      "id": "SV8a-092",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/092",
+      "localId": "092",
+      "name": "月亮伊布"
+    },
+    {
+      "id": "S12a-011",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/011",
+      "localId": "011",
+      "name": "葉伊布V"
+    },
+    {
+      "id": "SV8a-009",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/009",
+      "localId": "009",
+      "name": "裹蜜蟲"
+    },
+    {
+      "id": "SV8a-079",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/079",
+      "localId": "079",
+      "name": "古空棘魚"
+    },
+    {
+      "id": "SV2a-014",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/014",
+      "localId": "014",
+      "name": "鐵殼蛹"
+    },
+    {
+      "id": "SV8a-230",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/230",
+      "localId": "230",
+      "name": "烏栗"
+    },
+    {
+      "id": "SV8a-228",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/228",
+      "localId": "228",
+      "name": "阿杏的秘招"
+    },
+    {
+      "id": "SV8a-040",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/040",
+      "localId": "040",
+      "name": "冰伊布"
+    },
+    {
+      "id": "SV8a-106",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/106",
+      "localId": "106",
+      "name": "鐵啞鈴"
+    },
+    {
+      "id": "SV8a-219",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/219",
+      "localId": "219",
+      "name": "桃歹郎ex"
+    },
+    {
+      "id": "SV8a-096",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/096",
+      "localId": "096",
+      "name": "索羅亞"
+    },
+    {
+      "id": "SV8a-212",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/212",
+      "localId": "212",
+      "name": "仙子伊布ex"
+    },
+    {
+      "id": "SV8a-026",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/026",
+      "localId": "026",
+      "name": "厄鬼椪 火灶面具ex"
+    },
+    {
+      "id": "SV4a-013",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/013",
+      "localId": "013",
+      "name": "蒂蕾喵"
+    },
+    {
+      "id": "SV8a-004",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/004",
+      "localId": "004",
+      "name": "木棉球"
+    },
+    {
+      "id": "SV4a-016",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/016",
+      "localId": "016",
+      "name": "奧利紐"
+    },
+    {
+      "id": "SV8a-059",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/059",
+      "localId": "059",
+      "name": "胡地"
+    },
+    {
+      "id": "SV8a-136",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/136",
+      "localId": "136",
+      "name": "太樂巴戈斯ex"
+    },
+    {
+      "id": "S12a-012",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/012",
+      "localId": "012",
+      "name": "葉伊布VSTAR"
+    },
+    {
+      "id": "SV8a-195",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/195",
+      "localId": "195",
+      "name": "帕底亞的夥伴"
+    },
+    {
+      "id": "S12a-004",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/004",
+      "localId": "004",
+      "name": "洗翠 頑皮雷彈"
+    },
+    {
+      "id": "SV8a-093",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/093",
+      "localId": "093",
+      "name": "月亮伊布ex"
+    },
+    {
+      "id": "SV8a-090",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/090",
+      "localId": "090",
+      "name": "夠讚狗"
+    },
+    {
+      "id": "SV8a-052",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/052",
+      "localId": "052",
+      "name": "雷伊布ex"
+    },
+    {
+      "id": "SV8a-234",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/234",
+      "localId": "234",
+      "name": "厄鬼椪 碧草面具ex"
+    },
+    {
+      "id": "SV2a-004",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/004",
+      "localId": "004",
+      "name": "小火龍"
+    },
+    {
+      "id": "SV8a-184",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/184",
+      "localId": "184",
+      "name": "中立中心"
+    },
+    {
+      "id": "S12a-005",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/005",
+      "localId": "005",
+      "name": "洗翠 頑皮雷彈V"
+    },
+    {
+      "id": "SV8a-035",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/035",
+      "localId": "035",
+      "name": "醜醜魚"
+    },
+    {
+      "id": "SV8a-116",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/116",
+      "localId": "116",
+      "name": "鐵轍跡"
+    },
+    {
+      "id": "SV6-018",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/018",
+      "localId": "018",
+      "name": "達摩狒狒"
+    },
+    {
+      "id": "SV8a-175",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/175",
+      "localId": "175",
+      "name": "弗圖博士的劇本"
+    },
+    {
+      "id": "SV8a-065",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/065",
+      "localId": "065",
+      "name": "彷徨夜靈"
+    },
+    {
+      "id": "SV8a-134",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/134",
+      "localId": "134",
+      "name": "月月熊 赫月ex"
+    },
+    {
+      "id": "SV8a-237",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/237",
+      "localId": "237",
+      "name": "太樂巴戈斯ex"
+    },
+    {
+      "id": "SV8a-177",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/177",
+      "localId": "177",
+      "name": "白露的真心"
+    },
+    {
+      "id": "SV8a-173",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/173",
+      "localId": "173",
+      "name": "納莉"
+    },
+    {
+      "id": "SV8a-132",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/132",
+      "localId": "132",
+      "name": "雷吉奇卡斯"
+    },
+    {
+      "id": "SV4a-014",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/014",
+      "localId": "014",
+      "name": "魔幻假面喵ex"
+    },
+    {
+      "id": "S12a-007",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/007",
+      "localId": "007",
+      "name": "樹林龜"
+    },
+    {
+      "id": "SV8a-124",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/124",
+      "localId": "124",
+      "name": "猛雷鼓ex"
+    },
+    {
+      "id": "SV8a-140",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/140",
+      "localId": "140",
+      "name": "玻璃喇叭"
+    },
+    {
+      "id": "SV8a-128",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/128",
+      "localId": "128",
+      "name": "貓頭夜鷹"
+    },
+    {
+      "id": "SV8a-188",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/188",
+      "localId": "188",
+      "name": "青木的手法"
+    },
+    {
+      "id": "SV8a-018",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/018",
+      "localId": "018",
+      "name": "來悲粗茶"
+    },
+    {
+      "id": "SV8a-111",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/111",
+      "localId": "111",
+      "name": "堅盾劍怪"
+    },
+    {
+      "id": "SV8a-149",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/149",
+      "localId": "149",
+      "name": "寶可夢旋風回收機"
+    },
+    {
+      "id": "S12a-017",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/017",
+      "localId": "017",
+      "name": "鴨嘴炎獸"
+    },
+    {
+      "id": "SV8a-187",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/187",
+      "localId": "187",
+      "name": "古舊能量"
+    },
+    {
+      "id": "SV2a-001",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/001",
+      "localId": "001",
+      "name": "妙蛙種子"
+    },
+    {
+      "id": "S12a-008",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/008",
+      "localId": "008",
+      "name": "土台龜"
+    },
+    {
+      "id": "SV8a-084",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/084",
+      "localId": "084",
+      "name": "摔角鷹人"
+    },
+    {
+      "id": "SV8a-215",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/215",
+      "localId": "215",
+      "name": "沙鐵皮ex"
+    },
+    {
+      "id": "SV8a-142",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/142",
+      "localId": "142",
+      "name": "釣竿MAX"
+    },
+    {
+      "id": "SV6-003",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/003",
+      "localId": "003",
+      "name": "赫拉克羅斯"
+    },
+    {
+      "id": "SV8a-031",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/031",
+      "localId": "031",
+      "name": "水伊布ex"
+    },
+    {
+      "id": "SV8a-210",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/210",
+      "localId": "210",
+      "name": "鐵臂膀ex"
+    },
+    {
+      "id": "SV8a-049",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/049",
+      "localId": "049",
+      "name": "波盪水ex"
+    },
+    {
+      "id": "SV4a-004",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/004",
+      "localId": "004",
+      "name": "飛天螳螂"
+    },
+    {
+      "id": "SV8a-114",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/114",
+      "localId": "114",
+      "name": "噗隆隆"
+    },
+    {
+      "id": "SV6-007",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/007",
+      "localId": "007",
+      "name": "朽木妖"
+    },
+    {
+      "id": "SV8a-051",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/051",
+      "localId": "051",
+      "name": "雷伊布"
+    },
+    {
+      "id": "SV6-001",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/001",
+      "localId": "001",
+      "name": "向日種子"
+    },
+    {
+      "id": "SV8a-226",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/226",
+      "localId": "226",
+      "name": "太樂巴戈斯ex"
+    },
+    {
+      "id": "SV8a-139",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/139",
+      "localId": "139",
+      "name": "反擊捕捉器"
+    },
+    {
+      "id": "SV8a-094",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/094",
+      "localId": "094",
+      "name": "破破袋"
+    },
+    {
+      "id": "SV2a-018",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/018",
+      "localId": "018",
+      "name": "大比鳥"
+    },
+    {
+      "id": "SV8a-231",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/231",
+      "localId": "231",
+      "name": "紫竽"
+    },
+    {
+      "id": "S12a-018",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/018",
+      "localId": "018",
+      "name": "火焰鳥"
+    },
+    {
+      "id": "SV8a-050",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/050",
+      "localId": "050",
+      "name": "厄鬼椪 水井面具ex"
+    },
+    {
+      "id": "SV8a-220",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/220",
+      "localId": "220",
+      "name": "賽富豪ex"
+    },
+    {
+      "id": "SV8a-167",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/167",
+      "localId": "167",
+      "name": "奧琳博士的氣魄"
+    },
+    {
+      "id": "SV6-010",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/010",
+      "localId": "010",
+      "name": "轟擂金剛猩"
+    },
+    {
+      "id": "SV8a-207",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/207",
+      "localId": "207",
+      "name": "海豚俠ex"
+    },
+    {
+      "id": "SV4a-011",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/011",
+      "localId": "011",
+      "name": "暴雪王"
+    },
+    {
+      "id": "SV8a-170",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/170",
+      "localId": "170",
+      "name": "丹瑜"
+    },
+    {
+      "id": "SV8a-089",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/089",
+      "localId": "089",
+      "name": "古鼎鹿"
+    },
+    {
+      "id": "SV8a-046",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/046",
+      "localId": "046",
+      "name": "海豚俠ex"
+    },
+    {
+      "id": "SV8a-097",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/097",
+      "localId": "097",
+      "name": "索羅亞克"
+    },
+    {
+      "id": "SV8a-151",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/151",
+      "localId": "151",
+      "name": "夜間擔架"
+    },
+    {
+      "id": "SV8a-041",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/041",
+      "localId": "041",
+      "name": "冰伊布ex"
+    },
+    {
+      "id": "SV4a-005",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/005",
+      "localId": "005",
+      "name": "毽子草"
+    },
+    {
+      "id": "SV8a-213",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/213",
+      "localId": "213",
+      "name": "鐵武者ex"
+    },
+    {
+      "id": "SV8a-193",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/193",
+      "localId": "193",
+      "name": "泰姆"
+    },
+    {
+      "id": "SV8a-126",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/126",
+      "localId": "126",
+      "name": "伊布ex"
+    },
+    {
+      "id": "SV8a-091",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/091",
+      "localId": "091",
+      "name": "厄鬼椪 礎石面具ex"
+    },
+    {
+      "id": "SV8a-101",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/101",
+      "localId": "101",
+      "name": "轟鳴月ex"
+    },
+    {
+      "id": "SV8a-233",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/233",
+      "localId": "233",
+      "name": "鐵斑葉ex"
+    },
+    {
+      "id": "SV8a-138",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/138",
+      "localId": "138",
+      "name": "改造之錘"
+    },
+    {
+      "id": "SV4a-007",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/007",
+      "localId": "007",
+      "name": "毽子棉"
+    },
+    {
+      "id": "SV8a-221",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/221",
+      "localId": "221",
+      "name": "多龍巴魯托ex"
+    },
+    {
+      "id": "SV8a-225",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/225",
+      "localId": "225",
+      "name": "月月熊 赫月ex"
+    },
+    {
+      "id": "SV8a-074",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/074",
+      "localId": "074",
+      "name": "鐵武者ex"
+    },
+    {
+      "id": "SV8a-032",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/032",
+      "localId": "032",
+      "name": "小鋸鱷"
+    },
+    {
+      "id": "SV8a-037",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/037",
+      "localId": "037",
+      "name": "雪童子"
+    },
+    {
+      "id": "SV8a-186",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/186",
+      "localId": "186",
+      "name": "薄霧能量"
+    },
+    {
+      "id": "SV8a-156",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/156",
+      "localId": "156",
+      "name": "莓榴果"
+    },
+    {
+      "id": "S12a-003",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/003",
+      "localId": "003",
+      "name": "洗翠 霹靂電球"
+    },
+    {
+      "id": "S12a-015",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/015",
+      "localId": "015",
+      "name": "光輝噴火龍"
+    },
+    {
+      "id": "S12a-010",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/010",
+      "localId": "010",
+      "name": "音箱蟀"
+    },
+    {
+      "id": "SV8a-095",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/095",
+      "localId": "095",
+      "name": "灰塵山"
+    },
+    {
+      "id": "SV8a-110",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/110",
+      "localId": "110",
+      "name": "雙劍鞘"
+    },
+    {
+      "id": "SV8a-152",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/152",
+      "localId": "152",
+      "name": "璀璨結晶"
+    },
+    {
+      "id": "S12a-020",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/020",
+      "localId": "020",
+      "name": "爆香猿V"
+    },
+    {
+      "id": "SV4a-002",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/002",
+      "localId": "002",
+      "name": "臭臭花"
+    },
+    {
+      "id": "SV8a-192",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/192",
+      "localId": "192",
+      "name": "秋明"
+    },
+    {
+      "id": "SV2a-010",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/010",
+      "localId": "010",
+      "name": "綠毛蟲"
+    },
+    {
+      "id": "SV8a-166",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/166",
+      "localId": "166",
+      "name": "阿杏的秘招"
+    },
+    {
+      "id": "SV8a-042",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/042",
+      "localId": "042",
+      "name": "海地鼠"
+    },
+    {
+      "id": "SV4a-001",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/001",
+      "localId": "001",
+      "name": "走路草"
+    },
+    {
+      "id": "SV8a-150",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/150",
+      "localId": "150",
+      "name": "捕蟲組合"
+    },
+    {
+      "id": "SV8a-006",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/006",
+      "localId": "006",
+      "name": "敲音猴"
+    },
+    {
+      "id": "SV8a-013",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/013",
+      "localId": "013",
+      "name": "蟲滾泥"
+    },
+    {
+      "id": "S12a-001",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/001",
+      "localId": "001",
+      "name": "派拉斯"
+    },
+    {
+      "id": "SV8a-198",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/198",
+      "localId": "198",
+      "name": "梅洛可"
+    },
+    {
+      "id": "SV8a-003",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/003",
+      "localId": "003",
+      "name": "葉伊布ex"
+    },
+    {
+      "id": "SV8a-011",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/011",
+      "localId": "011",
+      "name": "納噬草"
+    },
+    {
+      "id": "S12a-016",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/016",
+      "localId": "016",
+      "name": "鴨嘴火獸"
+    },
+    {
+      "id": "SV8a-137",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/137",
+      "localId": "137",
+      "name": "鬼之假面"
+    },
+    {
+      "id": "SV8a-023",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/023",
+      "localId": "023",
+      "name": "炭小侍"
+    },
+    {
+      "id": "SV8a-182",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/182",
+      "localId": "182",
+      "name": "零之大空洞"
+    },
+    {
+      "id": "SV8a-048",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/048",
+      "localId": "048",
+      "name": "古劍豹"
+    },
+    {
+      "id": "SV6-006",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/006",
+      "localId": "006",
+      "name": "小木靈"
+    },
+    {
+      "id": "SV8a-062",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/062",
+      "localId": "062",
+      "name": "太陽伊布"
+    },
+    {
+      "id": "SV8a-100",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/100",
+      "localId": "100",
+      "name": "轟鳴月"
+    },
+    {
+      "id": "SV8a-191",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/191",
+      "localId": "191",
+      "name": "秋明"
+    },
+    {
+      "id": "SV8a-078",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/078",
+      "localId": "078",
+      "name": "鐵頭殼ex"
+    },
+    {
+      "id": "SV8a-147",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/147",
+      "localId": "147",
+      "name": "好友寶芬"
+    },
+    {
+      "id": "SV8a-056",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/056",
+      "localId": "056",
+      "name": "鐵荊棘ex"
+    },
+    {
+      "id": "SV8a-076",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/076",
+      "localId": "076",
+      "name": "吉雉雞"
+    },
+    {
+      "id": "SV8a-121",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/121",
+      "localId": "121",
+      "name": "米立龍"
+    },
+    {
+      "id": "SV8a-208",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/208",
+      "localId": "208",
+      "name": "厄鬼椪 水井面具ex"
+    },
+    {
+      "id": "SV8a-038",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/038",
+      "localId": "038",
+      "name": "雪妖女"
+    },
+    {
+      "id": "SV6-013",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/013",
+      "localId": "013",
+      "name": "斯魔茶"
+    },
+    {
+      "id": "SV8a-201",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/201",
+      "localId": "201",
+      "name": "厄鬼椪 碧草面具ex"
+    },
+    {
+      "id": "SV8a-214",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/214",
+      "localId": "214",
+      "name": "鐵頭殼ex"
+    },
+    {
+      "id": "SV8a-206",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/206",
+      "localId": "206",
+      "name": "冰伊布ex"
+    },
+    {
+      "id": "SV8a-063",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/063",
+      "localId": "063",
+      "name": "太陽伊布ex"
+    },
+    {
+      "id": "SV2a-009",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/009",
+      "localId": "009",
+      "name": "水箭龜ex"
+    },
+    {
+      "id": "SV8a-104",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/104",
+      "localId": "104",
+      "name": "吉雉雞ex"
+    },
+    {
+      "id": "SV8a-119",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/119",
+      "localId": "119",
+      "name": "多龍奇"
+    },
+    {
+      "id": "SV8a-102",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/102",
+      "localId": "102",
+      "name": "夠讚狗ex"
+    },
+    {
+      "id": "SV6-015",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/015",
+      "localId": "015",
+      "name": "厄鬼椪 碧草面具"
+    },
+    {
+      "id": "SV8a-162",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/162",
+      "localId": "162",
+      "name": "青木的手法"
+    },
+    {
+      "id": "SV8a-196",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/196",
+      "localId": "196",
+      "name": "皮拿"
+    },
+    {
+      "id": "SV8a-202",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/202",
+      "localId": "202",
+      "name": "火伊布ex"
+    },
+    {
+      "id": "SV8a-180",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/180",
+      "localId": "180",
+      "name": "祭典會場"
+    },
+    {
+      "id": "SV8a-073",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/073",
+      "localId": "073",
+      "name": "索財靈"
+    },
+    {
+      "id": "SV8a-067",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/067",
+      "localId": "067",
+      "name": "綿綿泡芙"
+    },
+    {
+      "id": "SV8a-199",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/199",
+      "localId": "199",
+      "name": "蕾荷"
+    },
+    {
+      "id": "SV2a-002",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/002",
+      "localId": "002",
+      "name": "妙蛙草"
+    },
+    {
+      "id": "SV8a-061",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/061",
+      "localId": "061",
+      "name": "天然鳥"
+    },
+    {
+      "id": "SV8a-105",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/105",
+      "localId": "105",
+      "name": "桃歹郎ex"
+    },
+    {
+      "id": "SV8a-235",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/235",
+      "localId": "235",
+      "name": "波盪水ex"
+    },
+    {
+      "id": "SV8a-197",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/197",
+      "localId": "197",
+      "name": "枇琶"
+    },
+    {
+      "id": "S12a-009",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/009",
+      "localId": "009",
+      "name": "圓法師"
+    },
+    {
+      "id": "SV8a-183",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/183",
+      "localId": "183",
+      "name": "月光丘陵"
+    },
+    {
+      "id": "SV6-020",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/020",
+      "localId": "020",
+      "name": "燈火幽靈"
+    },
+    {
+      "id": "S12a-014",
+      "image": "https://assets.tcgdex.net/zh-tw/S/S12a/014",
+      "localId": "014",
+      "name": "噴火龍VSTAR"
+    },
+    {
+      "id": "SV6-002",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/002",
+      "localId": "002",
+      "name": "向日花怪"
+    },
+    {
+      "id": "SV8a-194",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/194",
+      "localId": "194",
+      "name": "納莉"
+    },
+    {
+      "id": "SV8a-158",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/158",
+      "localId": "158",
+      "name": "驅勁能量 未來"
+    },
+    {
+      "id": "SV8a-066",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/066",
+      "localId": "066",
+      "name": "黑夜魔靈"
+    },
+    {
+      "id": "SV8a-117",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/117",
+      "localId": "117",
+      "name": "賽富豪ex"
+    },
+    {
+      "id": "SV2a-011",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/011",
+      "localId": "011",
+      "name": "鐵甲蛹"
+    },
+    {
+      "id": "SV8a-143",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/143",
+      "localId": "143",
+      "name": "大地之容器"
+    },
+    {
+      "id": "SV8a-071",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/071",
+      "localId": "071",
+      "name": "吼叫尾"
+    },
+    {
+      "id": "SV8a-222",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/222",
+      "localId": "222",
+      "name": "猛雷鼓ex"
+    },
+    {
+      "id": "SV8a-029",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/029",
+      "localId": "029",
+      "name": "金魚王"
+    },
+    {
+      "id": "SV8a-146",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/146",
+      "localId": "146",
+      "name": "珍寶配件"
+    },
+    {
+      "id": "SV8a-057",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/057",
+      "localId": "057",
+      "name": "凱西"
+    },
+    {
+      "id": "SV8a-098",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/098",
+      "localId": "098",
+      "name": "莫魯貝可"
+    },
+    {
+      "id": "SV4a-019",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/019",
+      "localId": "019",
+      "name": "陸地水母ex"
+    },
+    {
+      "id": "SV6-019",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/019",
+      "localId": "019",
+      "name": "燭光靈"
+    },
+    {
+      "id": "SV8a-144",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/144",
+      "localId": "144",
+      "name": "高科技雷達"
+    },
+    {
+      "id": "SV8a-236",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/236",
+      "localId": "236",
+      "name": "皮卡丘ex"
+    },
+    {
+      "id": "SV8a-002",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/002",
+      "localId": "002",
+      "name": "葉伊布"
+    },
+    {
+      "id": "SV8a-001",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/001",
+      "localId": "001",
+      "name": "含羞苞"
+    },
+    {
+      "id": "SV8a-025",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/025",
+      "localId": "025",
+      "name": "古玉魚"
+    },
+    {
+      "id": "SV8a-112",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/112",
+      "localId": "112",
+      "name": "鋁鋼龍"
+    },
+    {
+      "id": "SV8a-163",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/163",
+      "localId": "163",
+      "name": "赤松"
+    },
+    {
+      "id": "SV8a-005",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/005",
+      "localId": "005",
+      "name": "風妖精"
+    },
+    {
+      "id": "SV8a-203",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/203",
+      "localId": "203",
+      "name": "蒼炎刃鬼ex"
+    },
+    {
+      "id": "SV8a-125",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/125",
+      "localId": "125",
+      "name": "伊布"
+    },
+    {
+      "id": "SV8a-141",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/141",
+      "localId": "141",
+      "name": "超級能量回收"
+    },
+    {
+      "id": "SV8a-064",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/064",
+      "localId": "064",
+      "name": "夜巡靈"
+    },
+    {
+      "id": "SV4a-008",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/008",
+      "localId": "008",
+      "name": "榛果球"
+    },
+    {
+      "id": "SV4a-009",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV4a/009",
+      "localId": "009",
+      "name": "佛烈托斯ex"
+    },
+    {
+      "id": "SV6-004",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV6/004",
+      "localId": "004",
+      "name": "電螢蟲"
+    },
+    {
+      "id": "SV8a-054",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/054",
+      "localId": "054",
+      "name": "鐵臂膀ex"
+    },
+    {
+      "id": "SV8a-165",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/165",
+      "localId": "165",
+      "name": "暗碼迷的解讀"
+    },
+    {
+      "id": "SV8a-017",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/017",
+      "localId": "017",
+      "name": "斯魔茶"
+    },
+    {
+      "id": "SV8a-075",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/075",
+      "localId": "075",
+      "name": "願增猿"
+    },
+    {
+      "id": "SV2a-016",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV2a/016",
+      "localId": "016",
+      "name": "波波"
+    },
+    {
+      "id": "SV8a-232",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/232",
+      "localId": "232",
+      "name": "納莉"
+    },
+    {
+      "id": "SV8a-127",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/127",
+      "localId": "127",
+      "name": "咕咕"
+    },
+    {
+      "id": "SV8a-086",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/086",
+      "localId": "086",
+      "name": "雄偉牙"
+    },
+    {
+      "id": "SV8a-027",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/027",
+      "localId": "027",
+      "name": "破空焰ex"
+    },
+    {
+      "id": "SV8a-178",
+      "image": "https://assets.tcgdex.net/zh-tw/SV/SV8a/178",
+      "localId": "178",
+      "name": "松葉的信心"
+    }
+  ]
+}

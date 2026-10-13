@@ -1883,6 +1883,15 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 
+# TCGdex 未公布硬性请求或并发限额；PTCG 值为本机实测择优预设。
+# 2026-10-13：同样样本比较16/32/64，查询64、下载64吞吐最高。
+# 详见 tcgdex-benchmark-results/report.md；图片实测使用120秒socket超时。
+# https://tcgdex.dev/faq#are-there-rate-limits
+GAME_PRESETS = {
+    "万智牌": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
+    "PTCG": (64, 64),
+}
+
 LANG_PRESETS = {
     "简体 → 繁体 → 英文（默认）": "zhs,zht,en",
     "繁体 → 简体 → 英文": "zht,zhs,en",
@@ -1914,7 +1923,8 @@ def create_task_directory(output_root):
             sequence += 1
 
 
-def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, force):
+def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, force,
+                   download_workers=DEFAULT_DOWNLOAD_WORKERS):
     if getattr(sys, "frozen", False):
         command = [sys.executable, "--engine"]
     else:
@@ -1923,7 +1933,7 @@ def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, for
             executable = executable.with_name("python.exe")
         command = [str(executable), "-u", str(Path(__file__).resolve()), "--engine"]
     command += [str(deck), "--out", str(output), "--pics", str(Path(output).parent / "pics"),
-                "--workers", str(workers), "--download-workers", str(DEFAULT_DOWNLOAD_WORKERS),
+                "--workers", str(workers), "--download-workers", str(download_workers),
                 "--paper", paper, "--langs", langs]
     if not pdf:
         command.append("--no-pdf")
@@ -1963,6 +1973,10 @@ class CardDownloaderGUI:
         root.configure(bg="#f3f5f8")
         root.protocol("WM_DELETE_WINDOW", self.close)
         self._style()
+        self.game = tk.StringVar(value="万智牌")
+        self.network_policy = tk.StringVar()
+        self.game.trace_add("write", self._on_game_changed)
+        self._on_game_changed()
         self.paper = tk.StringVar(value="A4 · 竖向 · 每页 9 张")
         self.language = tk.StringVar(value=next(iter(LANG_PRESETS)))
         self.pdf = tk.BooleanVar(value=True)
@@ -2051,6 +2065,12 @@ class CardDownloaderGUI:
         ttk.Label(left, textvariable=self.count, style="Card.TLabel").pack(anchor="w", pady=(8, 3))
         ttk.Label(left, text="每行一种牌，例如 4 Lightning Bolt 或 4 闪电击。\n数量用于 PDF 排版，重复图片只下载一次。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
 
+        ttk.Label(right, text="卡牌游戏", style="Section.TLabel").pack(anchor="w")
+        self.game_box = self._editable(ttk.Combobox(
+            right, textvariable=self.game, values=tuple(GAME_PRESETS), state="readonly"), "readonly")
+        self.game_box.pack(fill="x", pady=(4, 6))
+        ttk.Label(right, textvariable=self.network_policy, style="Card.TLabel",
+                  wraplength=300, font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 14))
         ttk.Label(right, text="下载与排版", style="Section.TLabel").pack(anchor="w", pady=(0, 10))
         ttk.Label(right, text="PDF 纸张", style="Card.TLabel").pack(anchor="w")
         self.paper_box = self._editable(ttk.Combobox(right, textvariable=self.paper, state="readonly",
@@ -2164,13 +2184,29 @@ class CardDownloaderGUI:
         if not running:
             self.sync_options()
 
+    def concurrency(self):
+        try:
+            return GAME_PRESETS[self.game.get()]
+        except KeyError:
+            raise ValueError("请选择万智牌或 PTCG。") from None
+
+    def _on_game_changed(self, *args):
+        if self.game.get() not in GAME_PRESETS:
+            self.network_policy.set("请选择万智牌或 PTCG。")
+            return
+        query_workers, download_workers = self.concurrency()
+        text = "查询并发 %d · 下载并发 %d" % (query_workers, download_workers)
+        if self.game.get() == "PTCG":
+            text += "\n本机实测择优，TCGdex 未公布硬性限额。\nPTCG 查询与下载接口待接入。"
+        self.network_policy.set(text)
+
     def configuration(self):
         text = self.deck_text.get("1.0", "end-1c").strip()
         if not parse_decklist(text):
             raise ValueError("请先粘贴或导入牌表，每行填写一种牌。")
         if any(qty <= 0 for qty, name in parse_decklist(text)):
             raise ValueError("牌表里的数量必须大于 0。")
-        workers = DEFAULT_WORKERS
+        workers, _ = self.concurrency()
         lang_text = self.language.get().strip()
         langs = LANG_PRESETS.get(lang_text, lang_text).replace("，", ",")
         codes = [c.strip().lower() for c in langs.split(",") if c.strip()]
@@ -2185,11 +2221,16 @@ class CardDownloaderGUI:
             return
         try:
             text, workers, paper, langs = self.configuration()
+            _, download_workers = self.concurrency()
+            if self.game.get() == "PTCG":
+                raise ValueError("PTCG 查询与下载接口尚未接入；当前已配置查询 %d、下载 %d 的并发预设。" %
+                                 (workers, download_workers))
             task_dir = create_task_directory(self.output_root)
             deck_path = task_dir / "本次牌表.txt"
             deck_path.write_text(text + "\n", encoding="utf-8")
             command = engine_command(deck_path, task_dir, workers, paper, langs,
-                                     self.pdf.get(), self.cut_marks.get(), self.dry_run.get(), self.force.get())
+                                     self.pdf.get(), self.cut_marks.get(), self.dry_run.get(), self.force.get(),
+                                     download_workers=download_workers)
             self.output_dir = task_dir
             self.output_label.set(str(task_dir))
         except Exception as exc:

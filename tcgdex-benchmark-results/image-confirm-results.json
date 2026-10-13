@@ -1,0 +1,2843 @@
+{
+  "date": "2026-10-13T11:52:17.423944+08:00",
+  "method": "urllib system/environment proxy, TLS verification on, no retries, no application cache, no fixed request interval",
+  "records": [
+    {
+      "kind": "image",
+      "concurrency": 32,
+      "planned": 256,
+      "attempted": 256,
+      "successful": 256,
+      "failed": 0,
+      "skipped": 0,
+      "peak_active": 32,
+      "seconds": 122.969,
+      "requests_per_second": 2.082,
+      "megabytes": 97.11,
+      "p50_seconds": 14.0,
+      "p95_seconds": 25.406,
+      "status_counts": {
+        "200": 256
+      },
+      "errors": [],
+      "requests": [
+        {
+          "id": "SV8a-133",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/133/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 421978,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 8.359
+        },
+        {
+          "id": "SV2a-007",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/007/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 288188,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 7.765
+        },
+        {
+          "id": "SV8a-160",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/160/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 404846,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 20.609
+        },
+        {
+          "id": "SV8a-224",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/224/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 421945,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.313
+        },
+        {
+          "id": "SV8a-015",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/015/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 416061,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.156
+        },
+        {
+          "id": "SV8a-072",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/072/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 409523,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.047
+        },
+        {
+          "id": "SV8a-019",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/019/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 368775,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.625
+        },
+        {
+          "id": "SV8a-157",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/157/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 410704,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.984
+        },
+        {
+          "id": "SV8a-129",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/129/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 419053,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.937
+        },
+        {
+          "id": "SV8a-024",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/024/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 412881,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.0
+        },
+        {
+          "id": "SV8a-033",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/033/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 363660,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.063
+        },
+        {
+          "id": "SV8a-148",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/148/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 368875,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.547
+        },
+        {
+          "id": "SV8a-014",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/014/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 417623,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 31.562
+        },
+        {
+          "id": "SV8a-108",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/108/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 431046,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.14
+        },
+        {
+          "id": "SV8a-169",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/169/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 395950,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.906
+        },
+        {
+          "id": "SV8a-034",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/034/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 346117,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.203
+        },
+        {
+          "id": "SV8a-087",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/087/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 434968,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 20.203
+        },
+        {
+          "id": "SV6-012",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/012/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 311728,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 26.953
+        },
+        {
+          "id": "SV8a-010",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/010/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 370350,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.844
+        },
+        {
+          "id": "SV8a-082",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/082/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 377608,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.766
+        },
+        {
+          "id": "SV8a-205",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/205/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 423178,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.797
+        },
+        {
+          "id": "S12a-006",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/006/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 323966,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.516
+        },
+        {
+          "id": "S12a-019",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/019/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 298188,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.563
+        },
+        {
+          "id": "SV8a-070",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/070/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 416968,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.218
+        },
+        {
+          "id": "SV2a-003",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/003/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 320528,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.109
+        },
+        {
+          "id": "SV4a-020",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/020/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 320009,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.141
+        },
+        {
+          "id": "SV8a-058",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/058/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 425494,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 20.125
+        },
+        {
+          "id": "SV8a-103",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/103/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 359628,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.547
+        },
+        {
+          "id": "SV8a-161",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/161/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 300406,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.468
+        },
+        {
+          "id": "SV8a-016",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/016/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 335470,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.453
+        },
+        {
+          "id": "SV2a-013",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/013/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 302139,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 6.797
+        },
+        {
+          "id": "SV4a-003",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/003/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 320977,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.078
+        },
+        {
+          "id": "SV2a-020",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/020/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 327298,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.234
+        },
+        {
+          "id": "SV8a-021",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/021/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 362203,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.782
+        },
+        {
+          "id": "SV8a-099",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/099/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 425299,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 19.719
+        },
+        {
+          "id": "SV8a-077",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/077/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 396270,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.75
+        },
+        {
+          "id": "SV8a-045",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/045/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 345980,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.641
+        },
+        {
+          "id": "SV8a-154",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/154/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 419655,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.219
+        },
+        {
+          "id": "SV8a-174",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/174/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 418438,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.062
+        },
+        {
+          "id": "SV2a-019",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/019/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 302525,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 7.781
+        },
+        {
+          "id": "SV2a-006",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/006/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 339887,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.828
+        },
+        {
+          "id": "SV8a-130",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/130/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 398015,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 23.562
+        },
+        {
+          "id": "SV8a-176",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/176/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 397087,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 5.094
+        },
+        {
+          "id": "SV8a-113",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/113/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 424034,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.469
+        },
+        {
+          "id": "SV8a-069",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/069/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 424506,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 24.109
+        },
+        {
+          "id": "SV8a-189",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/189/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 375811,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.781
+        },
+        {
+          "id": "SV8a-083",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/083/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 417358,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 25.406
+        },
+        {
+          "id": "SV8a-085",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/085/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 413290,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.25
+        },
+        {
+          "id": "SV8a-107",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/107/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 356261,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 8.578
+        },
+        {
+          "id": "SV4a-015",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/015/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 340422,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.391
+        },
+        {
+          "id": "S12a-002",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/002/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 314677,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 8.734
+        },
+        {
+          "id": "SV8a-200",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/200/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 438381,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.907
+        },
+        {
+          "id": "SV8a-135",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/135/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 411286,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.219
+        },
+        {
+          "id": "SV8a-053",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/053/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 346885,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.531
+        },
+        {
+          "id": "SV8a-008",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/008/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 340219,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.484
+        },
+        {
+          "id": "SV6-017",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/017/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 313400,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 24.5
+        },
+        {
+          "id": "SV2a-012",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/012/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 301778,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.672
+        },
+        {
+          "id": "SV8a-055",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/055/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 330560,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 25.735
+        },
+        {
+          "id": "SV4a-006",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/006/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 309838,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.641
+        },
+        {
+          "id": "SV8a-080",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/080/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 364786,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.187
+        },
+        {
+          "id": "SV8a-122",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/122/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 360791,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.64
+        },
+        {
+          "id": "SV8a-155",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/155/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 396225,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.687
+        },
+        {
+          "id": "SV8a-227",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/227/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 412866,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 20.125
+        },
+        {
+          "id": "SV8a-007",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/007/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 423470,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.516
+        },
+        {
+          "id": "SV8a-185",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/185/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 419143,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.609
+        },
+        {
+          "id": "SV8a-012",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/012/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 422347,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.297
+        },
+        {
+          "id": "SV8a-153",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/153/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 401306,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.0
+        },
+        {
+          "id": "SV2a-015",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/015/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 303166,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.203
+        },
+        {
+          "id": "SV8a-109",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/109/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 425486,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.219
+        },
+        {
+          "id": "SV8a-211",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/211/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 427805,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 24.797
+        },
+        {
+          "id": "SV8a-022",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/022/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 421066,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.344
+        },
+        {
+          "id": "SV4a-017",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/017/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 313562,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 7.266
+        },
+        {
+          "id": "SV4a-018",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/018/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 329706,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.594
+        },
+        {
+          "id": "SV4a-010",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/010/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 326795,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 6.875
+        },
+        {
+          "id": "SV8a-216",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/216/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 448903,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.016
+        },
+        {
+          "id": "SV8a-081",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/081/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 421703,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.969
+        },
+        {
+          "id": "SV8a-209",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/209/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 422866,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.468
+        },
+        {
+          "id": "SV8a-223",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/223/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 425901,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.313
+        },
+        {
+          "id": "SV8a-060",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/060/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 339229,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.5
+        },
+        {
+          "id": "SV8a-131",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/131/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 414801,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.609
+        },
+        {
+          "id": "SV6-016",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/016/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 422573,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.391
+        },
+        {
+          "id": "SV8a-179",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/179/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 412896,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.906
+        },
+        {
+          "id": "SV6-011",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/011/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 331237,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 7.172
+        },
+        {
+          "id": "SV8a-172",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/172/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 413191,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.203
+        },
+        {
+          "id": "SV8a-181",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/181/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 271677,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.468
+        },
+        {
+          "id": "SV8a-088",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/088/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 370389,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.391
+        },
+        {
+          "id": "SV8a-028",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/028/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 413347,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.812
+        },
+        {
+          "id": "SV8a-159",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/159/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 372487,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 24.0
+        },
+        {
+          "id": "SV8a-030",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/030/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 428869,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.531
+        },
+        {
+          "id": "S12a-013",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/013/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 297004,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 6.281
+        },
+        {
+          "id": "SV8a-168",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/168/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 394445,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.5
+        },
+        {
+          "id": "SV8a-164",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/164/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 407547,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 24.438
+        },
+        {
+          "id": "SV8a-171",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/171/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 227555,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 6.625
+        },
+        {
+          "id": "SV8a-218",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/218/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 456036,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 27.141
+        },
+        {
+          "id": "SV8a-145",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/145/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 407772,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.0
+        },
+        {
+          "id": "SV8a-043",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/043/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 395783,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.688
+        },
+        {
+          "id": "SV8a-229",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/229/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 422495,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.532
+        },
+        {
+          "id": "SV6-008",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/008/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 336737,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.641
+        },
+        {
+          "id": "SV8a-020",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/020/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 433200,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 20.984
+        },
+        {
+          "id": "SV8a-039",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/039/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 441670,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.312
+        },
+        {
+          "id": "SV8a-115",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/115/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 346980,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.062
+        },
+        {
+          "id": "SV6-014",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/014/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 339803,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.109
+        },
+        {
+          "id": "SV8a-204",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/204/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 452599,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 20.5
+        },
+        {
+          "id": "SV4a-012",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/012/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 313214,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 7.469
+        },
+        {
+          "id": "SV8a-217",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/217/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 427932,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 19.5
+        },
+        {
+          "id": "SV8a-044",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/044/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 441022,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 19.297
+        },
+        {
+          "id": "SV8a-036",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/036/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 349643,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.25
+        },
+        {
+          "id": "SV2a-005",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/005/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 337579,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.61
+        },
+        {
+          "id": "SV2a-008",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/008/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 288642,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 3.406
+        },
+        {
+          "id": "SV8a-123",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/123/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 330788,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.016
+        },
+        {
+          "id": "SV8a-068",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/068/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 350693,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 27.313
+        },
+        {
+          "id": "SV6-009",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/009/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 329515,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 19.125
+        },
+        {
+          "id": "SV8a-047",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/047/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 344905,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 7.75
+        },
+        {
+          "id": "SV8a-118",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/118/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 418458,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.984
+        },
+        {
+          "id": "SV8a-120",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/120/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 430143,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 23.328
+        },
+        {
+          "id": "SV6-005",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/005/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 290062,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.078
+        },
+        {
+          "id": "SV8a-190",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/190/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 386036,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.609
+        },
+        {
+          "id": "SV2a-017",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/017/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 272289,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.0
+        },
+        {
+          "id": "SV8a-092",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/092/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 419791,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.235
+        },
+        {
+          "id": "S12a-011",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/011/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 308523,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 20.313
+        },
+        {
+          "id": "SV8a-009",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/009/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 329954,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.328
+        },
+        {
+          "id": "SV8a-079",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/079/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 418249,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.765
+        },
+        {
+          "id": "SV2a-014",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/014/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 306469,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.328
+        },
+        {
+          "id": "SV8a-230",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/230/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 405038,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.344
+        },
+        {
+          "id": "SV8a-228",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/228/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 409859,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.188
+        },
+        {
+          "id": "SV8a-040",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/040/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 433621,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.234
+        },
+        {
+          "id": "SV8a-106",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/106/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 430586,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.703
+        },
+        {
+          "id": "SV8a-219",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/219/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 428825,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 24.657
+        },
+        {
+          "id": "SV8a-096",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/096/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 391048,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.813
+        },
+        {
+          "id": "SV8a-212",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/212/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 432398,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.281
+        },
+        {
+          "id": "SV8a-026",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/026/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 435536,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 24.125
+        },
+        {
+          "id": "SV4a-013",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/013/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 312786,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.344
+        },
+        {
+          "id": "SV8a-004",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/004/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 411250,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.25
+        },
+        {
+          "id": "SV4a-016",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/016/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 313106,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.188
+        },
+        {
+          "id": "SV8a-059",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/059/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 419468,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.594
+        },
+        {
+          "id": "SV8a-136",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/136/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 422402,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 22.859
+        },
+        {
+          "id": "S12a-012",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/012/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 322092,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.344
+        },
+        {
+          "id": "SV8a-195",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/195/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 402610,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.266
+        },
+        {
+          "id": "S12a-004",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/004/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 284597,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.265
+        },
+        {
+          "id": "SV8a-093",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/093/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 426083,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 21.25
+        },
+        {
+          "id": "SV8a-090",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/090/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 371896,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.735
+        },
+        {
+          "id": "SV8a-052",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/052/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 423794,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 20.078
+        },
+        {
+          "id": "SV8a-234",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/234/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 447925,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.359
+        },
+        {
+          "id": "SV2a-004",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/004/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 314423,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.344
+        },
+        {
+          "id": "SV8a-184",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/184/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 385057,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.657
+        },
+        {
+          "id": "S12a-005",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/005/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 301091,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.391
+        },
+        {
+          "id": "SV8a-035",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/035/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 422202,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.906
+        },
+        {
+          "id": "SV8a-116",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/116/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 414863,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 19.578
+        },
+        {
+          "id": "SV6-018",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/018/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 328847,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.515
+        },
+        {
+          "id": "SV8a-175",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/175/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 390879,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 19.703
+        },
+        {
+          "id": "SV8a-065",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/065/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 428766,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.594
+        },
+        {
+          "id": "SV8a-134",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/134/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 384658,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.422
+        },
+        {
+          "id": "SV8a-237",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/237/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 450490,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 23.5
+        },
+        {
+          "id": "SV8a-177",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/177/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 412575,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 21.141
+        },
+        {
+          "id": "SV8a-173",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/173/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 227853,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 6.766
+        },
+        {
+          "id": "SV8a-132",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/132/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 429463,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 19.531
+        },
+        {
+          "id": "SV4a-014",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/014/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 314718,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.531
+        },
+        {
+          "id": "S12a-007",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/007/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 298320,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 8.343
+        },
+        {
+          "id": "SV8a-124",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/124/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 368245,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.843
+        },
+        {
+          "id": "SV8a-140",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/140/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 418213,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.5
+        },
+        {
+          "id": "SV8a-128",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/128/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 421485,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.828
+        },
+        {
+          "id": "SV8a-188",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/188/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 387805,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.531
+        },
+        {
+          "id": "SV8a-018",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/018/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 344651,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 7.969
+        },
+        {
+          "id": "SV8a-111",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/111/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 426020,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.078
+        },
+        {
+          "id": "SV8a-149",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/149/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 358800,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.187
+        },
+        {
+          "id": "S12a-017",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/017/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 340200,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.312
+        },
+        {
+          "id": "SV8a-187",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/187/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 392652,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.266
+        },
+        {
+          "id": "SV2a-001",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/001/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 291438,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 8.953
+        },
+        {
+          "id": "S12a-008",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/008/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 308272,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.969
+        },
+        {
+          "id": "SV8a-084",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/084/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 405707,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 19.14
+        },
+        {
+          "id": "SV8a-215",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/215/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 451482,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.094
+        },
+        {
+          "id": "SV8a-142",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/142/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 371952,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.656
+        },
+        {
+          "id": "SV6-003",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/003/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 318046,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 8.969
+        },
+        {
+          "id": "SV8a-031",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/031/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 424661,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.047
+        },
+        {
+          "id": "SV8a-210",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/210/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 432311,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.485
+        },
+        {
+          "id": "SV8a-049",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/049/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 368008,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.0
+        },
+        {
+          "id": "SV4a-004",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/004/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 314171,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 6.907
+        },
+        {
+          "id": "SV8a-114",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/114/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 425071,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.297
+        },
+        {
+          "id": "SV6-007",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/007/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 332354,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 19.797
+        },
+        {
+          "id": "SV8a-051",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/051/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 436221,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.5
+        },
+        {
+          "id": "SV6-001",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/001/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 360457,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.687
+        },
+        {
+          "id": "SV8a-226",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/226/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 441004,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.5
+        },
+        {
+          "id": "SV8a-139",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/139/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 418332,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 32.532
+        },
+        {
+          "id": "SV8a-094",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/094/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 406391,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 26.266
+        },
+        {
+          "id": "SV2a-018",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/018/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 286767,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 7.484
+        },
+        {
+          "id": "SV8a-231",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/231/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 422249,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.265
+        },
+        {
+          "id": "S12a-018",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/018/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 332112,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.094
+        },
+        {
+          "id": "SV8a-050",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/050/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 447081,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.11
+        },
+        {
+          "id": "SV8a-220",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/220/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 451824,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 26.766
+        },
+        {
+          "id": "SV8a-167",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/167/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 407784,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.5
+        },
+        {
+          "id": "SV6-010",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/010/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 333670,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.969
+        },
+        {
+          "id": "SV8a-207",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/207/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 454127,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.953
+        },
+        {
+          "id": "SV4a-011",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/011/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 303331,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.344
+        },
+        {
+          "id": "SV8a-170",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/170/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 400344,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.157
+        },
+        {
+          "id": "SV8a-089",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/089/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 441414,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.907
+        },
+        {
+          "id": "SV8a-046",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/046/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 385190,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 25.781
+        },
+        {
+          "id": "SV8a-097",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/097/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 403541,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.438
+        },
+        {
+          "id": "SV8a-151",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/151/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 396128,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.625
+        },
+        {
+          "id": "SV8a-041",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/041/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 433027,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 28.672
+        },
+        {
+          "id": "SV4a-005",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/005/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 337577,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 29.015
+        },
+        {
+          "id": "SV8a-213",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/213/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 433730,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.312
+        },
+        {
+          "id": "SV8a-193",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/193/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 404978,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 8.281
+        },
+        {
+          "id": "SV8a-126",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/126/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 427393,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 7.813
+        },
+        {
+          "id": "SV8a-091",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/091/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 446312,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 20.578
+        },
+        {
+          "id": "SV8a-101",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/101/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 357179,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.328
+        },
+        {
+          "id": "SV8a-233",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/233/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 454890,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.938
+        },
+        {
+          "id": "SV8a-138",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/138/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 225752,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.5
+        },
+        {
+          "id": "SV4a-007",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/007/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 301832,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.781
+        },
+        {
+          "id": "SV8a-221",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/221/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 436551,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.766
+        },
+        {
+          "id": "SV8a-225",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/225/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 453142,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 21.891
+        },
+        {
+          "id": "SV8a-074",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/074/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 347644,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.094
+        },
+        {
+          "id": "SV8a-032",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/032/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 348206,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.406
+        },
+        {
+          "id": "SV8a-037",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/037/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 420771,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 28.109
+        },
+        {
+          "id": "SV8a-186",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/186/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 313892,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.578
+        },
+        {
+          "id": "SV8a-156",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/156/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 415288,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 23.156
+        },
+        {
+          "id": "S12a-003",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/003/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 299864,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 18.859
+        },
+        {
+          "id": "S12a-015",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/015/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 356917,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.968
+        },
+        {
+          "id": "S12a-010",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/010/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 303890,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.875
+        },
+        {
+          "id": "SV8a-095",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/095/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 426969,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 24.281
+        },
+        {
+          "id": "SV8a-110",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/110/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 435914,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.094
+        },
+        {
+          "id": "SV8a-152",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/152/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 382310,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 23.547
+        },
+        {
+          "id": "S12a-020",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/020/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 296300,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.125
+        },
+        {
+          "id": "SV4a-002",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/002/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 320198,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 6.39
+        },
+        {
+          "id": "SV8a-192",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/192/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 403065,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 21.328
+        },
+        {
+          "id": "SV2a-010",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV2a/010/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 314607,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 22.813
+        },
+        {
+          "id": "SV8a-166",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/166/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 398345,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.172
+        },
+        {
+          "id": "SV8a-042",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/042/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 415736,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.515
+        },
+        {
+          "id": "SV4a-001",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV4a/001/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 332539,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 3.968
+        },
+        {
+          "id": "SV8a-150",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/150/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 411662,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.343
+        },
+        {
+          "id": "SV8a-006",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/006/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 423123,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 17.438
+        },
+        {
+          "id": "SV8a-013",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/013/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 406596,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.375
+        },
+        {
+          "id": "S12a-001",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/001/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 290242,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.672
+        },
+        {
+          "id": "SV8a-198",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/198/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 393115,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 8.578
+        },
+        {
+          "id": "SV8a-003",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/003/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 431422,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.469
+        },
+        {
+          "id": "SV8a-011",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/011/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 359295,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 19.547
+        },
+        {
+          "id": "S12a-016",
+          "url": "https://assets.tcgdex.net/zh-tw/S/S12a/016/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 350021,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.156
+        },
+        {
+          "id": "SV8a-137",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/137/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 397746,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 13.922
+        },
+        {
+          "id": "SV8a-023",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/023/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 422133,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 15.641
+        },
+        {
+          "id": "SV8a-182",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/182/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 417916,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.766
+        },
+        {
+          "id": "SV8a-048",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/048/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 441524,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.39
+        },
+        {
+          "id": "SV6-006",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/006/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 362159,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 14.672
+        },
+        {
+          "id": "SV8a-062",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/062/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 429780,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 16.234
+        },
+        {
+          "id": "SV8a-100",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/100/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 342953,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.859
+        },
+        {
+          "id": "SV8a-191",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/191/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 399643,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.484
+        },
+        {
+          "id": "SV8a-078",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/078/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 385822,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.265
+        },
+        {
+          "id": "SV8a-147",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/147/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 248078,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.328
+        },
+        {
+          "id": "SV8a-056",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/056/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 372648,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.437
+        },
+        {
+          "id": "SV8a-076",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/076/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 408888,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 12.797
+        },
+        {
+          "id": "SV8a-121",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/121/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 294187,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 8.344
+        },
+        {
+          "id": "SV8a-208",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/208/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 453383,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.796
+        },
+        {
+          "id": "SV8a-038",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/038/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 433814,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.578
+        },
+        {
+          "id": "SV6-013",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV6/013/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 344605,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 10.344
+        },
+        {
+          "id": "SV8a-201",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/201/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 444548,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 11.172
+        },
+        {
+          "id": "SV8a-214",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/214/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 446897,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.75
+        },
+        {
+          "id": "SV8a-206",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/206/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 432475,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 8.344
+        },
+        {
+          "id": "SV8a-063",
+          "url": "https://assets.tcgdex.net/zh-tw/SV/SV8a/063/high.png",
+          "ok": true,
+          "status": 200,
+          "bytes": 419958,
+          "headers": {
+            "Content-Type": "image/png"
+          },
+          "seconds": 9.485
+        }
+      ]
+    }
+  ]
+}

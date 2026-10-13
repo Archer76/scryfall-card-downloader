@@ -1,0 +1,2843 @@
+{
+  "date": "2026-10-13T11:50:14.446865+08:00",
+  "method": "urllib system/environment proxy, TLS verification on, no retries, no application cache, no fixed request interval",
+  "records": [
+    {
+      "kind": "detail",
+      "concurrency": 64,
+      "planned": 256,
+      "attempted": 256,
+      "successful": 256,
+      "failed": 0,
+      "skipped": 0,
+      "peak_active": 64,
+      "seconds": 4.172,
+      "requests_per_second": 61.361,
+      "megabytes": 0.424,
+      "p50_seconds": 0.75,
+      "p95_seconds": 1.485,
+      "status_counts": {
+        "200": 256
+      },
+      "errors": [],
+      "requests": [
+        {
+          "id": "SV8a-133",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-133",
+          "ok": true,
+          "status": 200,
+          "bytes": 2230,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.594
+        },
+        {
+          "id": "SC1a-171",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-171",
+          "ok": true,
+          "status": 200,
+          "bytes": 609,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.485
+        },
+        {
+          "id": "SV6-073",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-073",
+          "ok": true,
+          "status": 200,
+          "bytes": 1495,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.766
+        },
+        {
+          "id": "SV2a-007",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-007",
+          "ok": true,
+          "status": 200,
+          "bytes": 2456,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.797
+        },
+        {
+          "id": "SV2a-091",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-091",
+          "ok": true,
+          "status": 200,
+          "bytes": 2313,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.421
+        },
+        {
+          "id": "SV4a-075",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-075",
+          "ok": true,
+          "status": 200,
+          "bytes": 1571,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.734
+        },
+        {
+          "id": "SC1a-026",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-026",
+          "ok": true,
+          "status": 200,
+          "bytes": 1029,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.11
+        },
+        {
+          "id": "SC1a-082",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-082",
+          "ok": true,
+          "status": 200,
+          "bytes": 1064,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.859
+        },
+        {
+          "id": "S12a-171",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-171",
+          "ok": true,
+          "status": 200,
+          "bytes": 1461,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.922
+        },
+        {
+          "id": "SC1a-145",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-145",
+          "ok": true,
+          "status": 200,
+          "bytes": 696,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.234
+        },
+        {
+          "id": "SV2a-075",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-075",
+          "ok": true,
+          "status": 200,
+          "bytes": 2418,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.641
+        },
+        {
+          "id": "SV2a-117",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-117",
+          "ok": true,
+          "status": 200,
+          "bytes": 2428,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.984
+        },
+        {
+          "id": "SV8a-160",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-160",
+          "ok": true,
+          "status": 200,
+          "bytes": 1544,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.891
+        },
+        {
+          "id": "S12a-054",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-054",
+          "ok": true,
+          "status": 200,
+          "bytes": 1611,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.625
+        },
+        {
+          "id": "SV8a-224",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-224",
+          "ok": true,
+          "status": 200,
+          "bytes": 1652,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.343
+        },
+        {
+          "id": "SV2a-160",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-160",
+          "ok": true,
+          "status": 200,
+          "bytes": 2041,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.485
+        },
+        {
+          "id": "SV4a-047",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-047",
+          "ok": true,
+          "status": 200,
+          "bytes": 1672,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.641
+        },
+        {
+          "id": "SV2a-034",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-034",
+          "ok": true,
+          "status": 200,
+          "bytes": 2504,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.719
+        },
+        {
+          "id": "S12a-145",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-145",
+          "ok": true,
+          "status": 200,
+          "bytes": 1433,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.656
+        },
+        {
+          "id": "SV8a-015",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-015",
+          "ok": true,
+          "status": 200,
+          "bytes": 2092,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.578
+        },
+        {
+          "id": "SV8a-072",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-072",
+          "ok": true,
+          "status": 200,
+          "bytes": 2078,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.985
+        },
+        {
+          "id": "SV2a-121",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-121",
+          "ok": true,
+          "status": 200,
+          "bytes": 2449,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.594
+        },
+        {
+          "id": "SV8a-019",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-019",
+          "ok": true,
+          "status": 200,
+          "bytes": 1710,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.672
+        },
+        {
+          "id": "SV4a-186",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-186",
+          "ok": true,
+          "status": 200,
+          "bytes": 1387,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.578
+        },
+        {
+          "id": "SC1a-154",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-154",
+          "ok": true,
+          "status": 200,
+          "bytes": 702,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.875
+        },
+        {
+          "id": "SV4a-204",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-204",
+          "ok": true,
+          "status": 200,
+          "bytes": 1586,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.532
+        },
+        {
+          "id": "SV8a-157",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-157",
+          "ok": true,
+          "status": 200,
+          "bytes": 1501,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.563
+        },
+        {
+          "id": "SV8a-129",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-129",
+          "ok": true,
+          "status": 200,
+          "bytes": 1978,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.563
+        },
+        {
+          "id": "SV8a-024",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-024",
+          "ok": true,
+          "status": 200,
+          "bytes": 2155,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.547
+        },
+        {
+          "id": "SC1a-016",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-016",
+          "ok": true,
+          "status": 200,
+          "bytes": 947,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.5
+        },
+        {
+          "id": "SV8a-033",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-033",
+          "ok": true,
+          "status": 200,
+          "bytes": 1821,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.453
+        },
+        {
+          "id": "SV4a-311",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-311",
+          "ok": true,
+          "status": 200,
+          "bytes": 1428,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.594
+        },
+        {
+          "id": "S12a-177",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-177",
+          "ok": true,
+          "status": 200,
+          "bytes": 1595,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.812
+        },
+        {
+          "id": "SV4a-343",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-343",
+          "ok": true,
+          "status": 200,
+          "bytes": 1151,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.437
+        },
+        {
+          "id": "SV8a-148",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-148",
+          "ok": true,
+          "status": 200,
+          "bytes": 1324,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.531
+        },
+        {
+          "id": "SV4a-061",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-061",
+          "ok": true,
+          "status": 200,
+          "bytes": 1730,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.578
+        },
+        {
+          "id": "SV6-025",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-025",
+          "ok": true,
+          "status": 200,
+          "bytes": 1658,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.797
+        },
+        {
+          "id": "SV8a-014",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-014",
+          "ok": true,
+          "status": 200,
+          "bytes": 2075,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.5
+        },
+        {
+          "id": "SV4a-323",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-323",
+          "ok": true,
+          "status": 200,
+          "bytes": 1534,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.765
+        },
+        {
+          "id": "S12a-182",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-182",
+          "ok": true,
+          "status": 200,
+          "bytes": 1887,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.485
+        },
+        {
+          "id": "S12a-045",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-045",
+          "ok": true,
+          "status": 200,
+          "bytes": 1917,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.829
+        },
+        {
+          "id": "SV6-098",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-098",
+          "ok": true,
+          "status": 200,
+          "bytes": 1339,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.438
+        },
+        {
+          "id": "S12a-080",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-080",
+          "ok": true,
+          "status": 200,
+          "bytes": 1683,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.953
+        },
+        {
+          "id": "SV6-055",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-055",
+          "ok": true,
+          "status": 200,
+          "bytes": 1787,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.593
+        },
+        {
+          "id": "SV4a-210",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-210",
+          "ok": true,
+          "status": 200,
+          "bytes": 1454,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.563
+        },
+        {
+          "id": "SC1a-156",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-156",
+          "ok": true,
+          "status": 200,
+          "bytes": 959,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.782
+        },
+        {
+          "id": "SV2a-052",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-052",
+          "ok": true,
+          "status": 200,
+          "bytes": 2392,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.547
+        },
+        {
+          "id": "S12a-248",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-248",
+          "ok": true,
+          "status": 200,
+          "bytes": 1235,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.453
+        },
+        {
+          "id": "SV6-058",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-058",
+          "ok": true,
+          "status": 200,
+          "bytes": 1602,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.703
+        },
+        {
+          "id": "SV4a-280",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-280",
+          "ok": true,
+          "status": 200,
+          "bytes": 1475,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.531
+        },
+        {
+          "id": "SC1a-121",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-121",
+          "ok": true,
+          "status": 200,
+          "bytes": 1145,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.734
+        },
+        {
+          "id": "SV4a-044",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-044",
+          "ok": true,
+          "status": 200,
+          "bytes": 1677,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.735
+        },
+        {
+          "id": "SV6-061",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-061",
+          "ok": true,
+          "status": 200,
+          "bytes": 1706,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.063
+        },
+        {
+          "id": "SV6-116",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-116",
+          "ok": true,
+          "status": 200,
+          "bytes": 1557,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.578
+        },
+        {
+          "id": "SV6-124",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-124",
+          "ok": true,
+          "status": 200,
+          "bytes": 1333,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.828
+        },
+        {
+          "id": "SV8a-108",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-108",
+          "ok": true,
+          "status": 200,
+          "bytes": 2167,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.047
+        },
+        {
+          "id": "SC1a-042",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-042",
+          "ok": true,
+          "status": 200,
+          "bytes": 1218,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.563
+        },
+        {
+          "id": "S12a-032",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-032",
+          "ok": true,
+          "status": 200,
+          "bytes": 1566,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.141
+        },
+        {
+          "id": "S12a-144",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-144",
+          "ok": true,
+          "status": 200,
+          "bytes": 1501,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.031
+        },
+        {
+          "id": "SV8a-169",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-169",
+          "ok": true,
+          "status": 200,
+          "bytes": 1588,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.781
+        },
+        {
+          "id": "SC1a-003",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-003",
+          "ok": true,
+          "status": 200,
+          "bytes": 932,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.672
+        },
+        {
+          "id": "SC1a-143",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-143",
+          "ok": true,
+          "status": 200,
+          "bytes": 696,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.047
+        },
+        {
+          "id": "S12a-166",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-166",
+          "ok": true,
+          "status": 200,
+          "bytes": 1430,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.218
+        },
+        {
+          "id": "SV8a-034",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-034",
+          "ok": true,
+          "status": 200,
+          "bytes": 2153,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.281
+        },
+        {
+          "id": "SV4a-168",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-168",
+          "ok": true,
+          "status": 200,
+          "bytes": 1456,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.0
+        },
+        {
+          "id": "SV8a-087",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-087",
+          "ok": true,
+          "status": 200,
+          "bytes": 2030,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.109
+        },
+        {
+          "id": "SV6-078",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-078",
+          "ok": true,
+          "status": 200,
+          "bytes": 1726,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.203
+        },
+        {
+          "id": "SV6-012",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-012",
+          "ok": true,
+          "status": 200,
+          "bytes": 1829,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.828
+        },
+        {
+          "id": "SV8a-010",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-010",
+          "ok": true,
+          "status": 200,
+          "bytes": 1724,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.422
+        },
+        {
+          "id": "SV4a-253",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-253",
+          "ok": true,
+          "status": 200,
+          "bytes": 1443,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.672
+        },
+        {
+          "id": "S12a-157",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-157",
+          "ok": true,
+          "status": 200,
+          "bytes": 1493,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.938
+        },
+        {
+          "id": "SC1a-089",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-089",
+          "ok": true,
+          "status": 200,
+          "bytes": 931,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.422
+        },
+        {
+          "id": "SC1a-102",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-102",
+          "ok": true,
+          "status": 200,
+          "bytes": 934,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.812
+        },
+        {
+          "id": "SC1a-023",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-023",
+          "ok": true,
+          "status": 200,
+          "bytes": 953,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.64
+        },
+        {
+          "id": "SV4a-184",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-184",
+          "ok": true,
+          "status": 200,
+          "bytes": 1360,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.828
+        },
+        {
+          "id": "SV8a-082",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-082",
+          "ok": true,
+          "status": 200,
+          "bytes": 1872,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.687
+        },
+        {
+          "id": "SC1a-164",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-164",
+          "ok": true,
+          "status": 200,
+          "bytes": 971,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.203
+        },
+        {
+          "id": "SV8a-205",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-205",
+          "ok": true,
+          "status": 200,
+          "bytes": 1617,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.859
+        },
+        {
+          "id": "SC1a-169",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-169",
+          "ok": true,
+          "status": 200,
+          "bytes": 651,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.797
+        },
+        {
+          "id": "S12a-136",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-136",
+          "ok": true,
+          "status": 200,
+          "bytes": 1428,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.672
+        },
+        {
+          "id": "S12a-006",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-006",
+          "ok": true,
+          "status": 200,
+          "bytes": 1681,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.562
+        },
+        {
+          "id": "SV4a-085",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-085",
+          "ok": true,
+          "status": 200,
+          "bytes": 1671,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.0
+        },
+        {
+          "id": "SV4a-315",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-315",
+          "ok": true,
+          "status": 200,
+          "bytes": 1469,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.015
+        },
+        {
+          "id": "SC1a-040",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-040",
+          "ok": true,
+          "status": 200,
+          "bytes": 1010,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.906
+        },
+        {
+          "id": "S12a-019",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-019",
+          "ok": true,
+          "status": 200,
+          "bytes": 1619,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.843
+        },
+        {
+          "id": "SV4a-114",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-114",
+          "ok": true,
+          "status": 200,
+          "bytes": 1679,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.594
+        },
+        {
+          "id": "SC1a-122",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-122",
+          "ok": true,
+          "status": 200,
+          "bytes": 1147,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.75
+        },
+        {
+          "id": "SV6-057",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-057",
+          "ok": true,
+          "status": 200,
+          "bytes": 1549,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.328
+        },
+        {
+          "id": "SV8a-070",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-070",
+          "ok": true,
+          "status": 200,
+          "bytes": 2075,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.094
+        },
+        {
+          "id": "SV2a-003",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-003",
+          "ok": true,
+          "status": 200,
+          "bytes": 1637,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.687
+        },
+        {
+          "id": "SV4a-020",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-020",
+          "ok": true,
+          "status": 200,
+          "bytes": 1761,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.906
+        },
+        {
+          "id": "S12a-041",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-041",
+          "ok": true,
+          "status": 200,
+          "bytes": 1578,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.688
+        },
+        {
+          "id": "SC1a-078",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-078",
+          "ok": true,
+          "status": 200,
+          "bytes": 969,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.781
+        },
+        {
+          "id": "SV8a-058",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-058",
+          "ok": true,
+          "status": 200,
+          "bytes": 1928,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.781
+        },
+        {
+          "id": "SV6-081",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-081",
+          "ok": true,
+          "status": 200,
+          "bytes": 1449,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.047
+        },
+        {
+          "id": "SC1a-009",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-009",
+          "ok": true,
+          "status": 200,
+          "bytes": 902,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.61
+        },
+        {
+          "id": "SC1a-028",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-028",
+          "ok": true,
+          "status": 200,
+          "bytes": 1048,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.375
+        },
+        {
+          "id": "SV6-111",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-111",
+          "ok": true,
+          "status": 200,
+          "bytes": 1561,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.625
+        },
+        {
+          "id": "SV2a-169",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-169",
+          "ok": true,
+          "status": 200,
+          "bytes": 1553,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.719
+        },
+        {
+          "id": "SV4a-069",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-069",
+          "ok": true,
+          "status": 200,
+          "bytes": 1783,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.672
+        },
+        {
+          "id": "SV2a-156",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-156",
+          "ok": true,
+          "status": 200,
+          "bytes": 2264,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.984
+        },
+        {
+          "id": "SV4a-175",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-175",
+          "ok": true,
+          "status": 200,
+          "bytes": 1377,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.093
+        },
+        {
+          "id": "SV4a-194",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-194",
+          "ok": true,
+          "status": 200,
+          "bytes": 1583,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.594
+        },
+        {
+          "id": "SC1a-056",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-056",
+          "ok": true,
+          "status": 200,
+          "bytes": 1039,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.968
+        },
+        {
+          "id": "SV8a-103",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-103",
+          "ok": true,
+          "status": 200,
+          "bytes": 1681,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.969
+        },
+        {
+          "id": "SV4a-041",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-041",
+          "ok": true,
+          "status": 200,
+          "bytes": 1588,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.063
+        },
+        {
+          "id": "SV2a-110",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-110",
+          "ok": true,
+          "status": 200,
+          "bytes": 2603,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.391
+        },
+        {
+          "id": "S12a-249",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-249",
+          "ok": true,
+          "status": 200,
+          "bytes": 1188,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.532
+        },
+        {
+          "id": "SV6-023",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-023",
+          "ok": true,
+          "status": 200,
+          "bytes": 1559,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.25
+        },
+        {
+          "id": "SV8a-161",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-161",
+          "ok": true,
+          "status": 200,
+          "bytes": 1547,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.563
+        },
+        {
+          "id": "SV4a-240",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-240",
+          "ok": true,
+          "status": 200,
+          "bytes": 1444,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.578
+        },
+        {
+          "id": "SV4a-030",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-030",
+          "ok": true,
+          "status": 200,
+          "bytes": 1526,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.937
+        },
+        {
+          "id": "SV6-110",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-110",
+          "ok": true,
+          "status": 200,
+          "bytes": 1692,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.562
+        },
+        {
+          "id": "SV4a-264",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-264",
+          "ok": true,
+          "status": 200,
+          "bytes": 1685,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.328
+        },
+        {
+          "id": "S12a-125",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-125",
+          "ok": true,
+          "status": 200,
+          "bytes": 1724,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.5
+        },
+        {
+          "id": "SV4a-279",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-279",
+          "ok": true,
+          "status": 200,
+          "bytes": 1627,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.156
+        },
+        {
+          "id": "SV8a-016",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-016",
+          "ok": true,
+          "status": 200,
+          "bytes": 1757,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.5
+        },
+        {
+          "id": "SV4a-088",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-088",
+          "ok": true,
+          "status": 200,
+          "bytes": 1629,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.516
+        },
+        {
+          "id": "SV4a-027",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-027",
+          "ok": true,
+          "status": 200,
+          "bytes": 1793,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.485
+        },
+        {
+          "id": "SV4a-170",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-170",
+          "ok": true,
+          "status": 200,
+          "bytes": 1481,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.75
+        },
+        {
+          "id": "SV4a-042",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-042",
+          "ok": true,
+          "status": 200,
+          "bytes": 1601,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.11
+        },
+        {
+          "id": "S12a-034",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-034",
+          "ok": true,
+          "status": 200,
+          "bytes": 1726,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.797
+        },
+        {
+          "id": "SV2a-013",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-013",
+          "ok": true,
+          "status": 200,
+          "bytes": 2313,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.015
+        },
+        {
+          "id": "SV4a-003",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-003",
+          "ok": true,
+          "status": 200,
+          "bytes": 1767,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.875
+        },
+        {
+          "id": "SV2a-020",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-020",
+          "ok": true,
+          "status": 200,
+          "bytes": 2432,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.781
+        },
+        {
+          "id": "SV4a-292",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-292",
+          "ok": true,
+          "status": 200,
+          "bytes": 1447,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.687
+        },
+        {
+          "id": "SV2a-122",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-122",
+          "ok": true,
+          "status": 200,
+          "bytes": 2554,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.89
+        },
+        {
+          "id": "SV6-112",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-112",
+          "ok": true,
+          "status": 200,
+          "bytes": 1677,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.75
+        },
+        {
+          "id": "SC1a-172",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-172",
+          "ok": true,
+          "status": 200,
+          "bytes": 659,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.344
+        },
+        {
+          "id": "SV8a-021",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-021",
+          "ok": true,
+          "status": 200,
+          "bytes": 2073,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.313
+        },
+        {
+          "id": "S12a-154",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-154",
+          "ok": true,
+          "status": 200,
+          "bytes": 1338,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.75
+        },
+        {
+          "id": "SV4a-086",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-086",
+          "ok": true,
+          "status": 200,
+          "bytes": 1673,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.984
+        },
+        {
+          "id": "SV6-075",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-075",
+          "ok": true,
+          "status": 200,
+          "bytes": 1718,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.671
+        },
+        {
+          "id": "SV2a-201",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-201",
+          "ok": true,
+          "status": 200,
+          "bytes": 1573,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.656
+        },
+        {
+          "id": "SV8a-099",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-099",
+          "ok": true,
+          "status": 200,
+          "bytes": 2092,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.844
+        },
+        {
+          "id": "SV6-087",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-087",
+          "ok": true,
+          "status": 200,
+          "bytes": 1800,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.859
+        },
+        {
+          "id": "SV2a-043",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-043",
+          "ok": true,
+          "status": 200,
+          "bytes": 2226,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.89
+        },
+        {
+          "id": "SV4a-328",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-328",
+          "ok": true,
+          "status": 200,
+          "bytes": 1762,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.484
+        },
+        {
+          "id": "SV8a-077",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-077",
+          "ok": true,
+          "status": 200,
+          "bytes": 1940,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.625
+        },
+        {
+          "id": "SV2a-147",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-147",
+          "ok": true,
+          "status": 200,
+          "bytes": 2244,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.078
+        },
+        {
+          "id": "SV8a-045",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-045",
+          "ok": true,
+          "status": 200,
+          "bytes": 2172,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.093
+        },
+        {
+          "id": "SV8a-154",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-154",
+          "ok": true,
+          "status": 200,
+          "bytes": 1463,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.609
+        },
+        {
+          "id": "SV4a-221",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-221",
+          "ok": true,
+          "status": 200,
+          "bytes": 1513,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.469
+        },
+        {
+          "id": "SV2a-086",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-086",
+          "ok": true,
+          "status": 200,
+          "bytes": 2243,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.86
+        },
+        {
+          "id": "SC1a-060",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-060",
+          "ok": true,
+          "status": 200,
+          "bytes": 1185,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.407
+        },
+        {
+          "id": "SV8a-174",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-174",
+          "ok": true,
+          "status": 200,
+          "bytes": 1383,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.735
+        },
+        {
+          "id": "SV2a-019",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-019",
+          "ok": true,
+          "status": 200,
+          "bytes": 2417,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.297
+        },
+        {
+          "id": "SV2a-063",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-063",
+          "ok": true,
+          "status": 200,
+          "bytes": 2286,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.594
+        },
+        {
+          "id": "SV4a-345",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-345",
+          "ok": true,
+          "status": 200,
+          "bytes": 1406,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.719
+        },
+        {
+          "id": "SV4a-245",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-245",
+          "ok": true,
+          "status": 200,
+          "bytes": 1461,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.953
+        },
+        {
+          "id": "SV6-028",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-028",
+          "ok": true,
+          "status": 200,
+          "bytes": 1649,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.703
+        },
+        {
+          "id": "S12a-029",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-029",
+          "ok": true,
+          "status": 200,
+          "bytes": 1692,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.797
+        },
+        {
+          "id": "SC1a-087",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-087",
+          "ok": true,
+          "status": 200,
+          "bytes": 1041,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.516
+        },
+        {
+          "id": "S12a-206",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-206",
+          "ok": true,
+          "status": 200,
+          "bytes": 1483,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 2.109
+        },
+        {
+          "id": "SV4a-305",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-305",
+          "ok": true,
+          "status": 200,
+          "bytes": 1437,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.828
+        },
+        {
+          "id": "SV2a-090",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-090",
+          "ok": true,
+          "status": 200,
+          "bytes": 2323,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.859
+        },
+        {
+          "id": "S12a-205",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-205",
+          "ok": true,
+          "status": 200,
+          "bytes": 1715,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.11
+        },
+        {
+          "id": "S12a-119",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-119",
+          "ok": true,
+          "status": 200,
+          "bytes": 1644,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.578
+        },
+        {
+          "id": "SV6-122",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-122",
+          "ok": true,
+          "status": 200,
+          "bytes": 1376,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.609
+        },
+        {
+          "id": "SV2a-031",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-031",
+          "ok": true,
+          "status": 200,
+          "bytes": 2421,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.047
+        },
+        {
+          "id": "S12a-061",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-061",
+          "ok": true,
+          "status": 200,
+          "bytes": 1778,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.765
+        },
+        {
+          "id": "SV2a-006",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-006",
+          "ok": true,
+          "status": 200,
+          "bytes": 1597,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.141
+        },
+        {
+          "id": "S12a-208",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-208",
+          "ok": true,
+          "status": 200,
+          "bytes": 1540,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.796
+        },
+        {
+          "id": "SV6-065",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-065",
+          "ok": true,
+          "status": 200,
+          "bytes": 1611,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.937
+        },
+        {
+          "id": "SV2a-045",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-045",
+          "ok": true,
+          "status": 200,
+          "bytes": 2556,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.516
+        },
+        {
+          "id": "SV4a-288",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-288",
+          "ok": true,
+          "status": 200,
+          "bytes": 1674,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.516
+        },
+        {
+          "id": "SV8a-130",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-130",
+          "ok": true,
+          "status": 200,
+          "bytes": 2040,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.703
+        },
+        {
+          "id": "SV8a-176",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-176",
+          "ok": true,
+          "status": 200,
+          "bytes": 1576,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.14
+        },
+        {
+          "id": "SC1a-157",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-157",
+          "ok": true,
+          "status": 200,
+          "bytes": 1057,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.609
+        },
+        {
+          "id": "S12a-228",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-228",
+          "ok": true,
+          "status": 200,
+          "bytes": 1703,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.485
+        },
+        {
+          "id": "SV4a-347",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-347",
+          "ok": true,
+          "status": 200,
+          "bytes": 1582,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.657
+        },
+        {
+          "id": "SV2a-197",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-197",
+          "ok": true,
+          "status": 200,
+          "bytes": 1301,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.688
+        },
+        {
+          "id": "SV8a-113",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-113",
+          "ok": true,
+          "status": 200,
+          "bytes": 2136,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.703
+        },
+        {
+          "id": "S12a-241",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-241",
+          "ok": true,
+          "status": 200,
+          "bytes": 1288,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.703
+        },
+        {
+          "id": "SC1a-160",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-160",
+          "ok": true,
+          "status": 200,
+          "bytes": 967,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.656
+        },
+        {
+          "id": "SV2a-163",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-163",
+          "ok": true,
+          "status": 200,
+          "bytes": 2093,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.875
+        },
+        {
+          "id": "SV4a-314",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-314",
+          "ok": true,
+          "status": 200,
+          "bytes": 1564,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.406
+        },
+        {
+          "id": "SV6-128",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-128",
+          "ok": true,
+          "status": 200,
+          "bytes": 1618,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.953
+        },
+        {
+          "id": "SV8a-069",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-069",
+          "ok": true,
+          "status": 200,
+          "bytes": 1754,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.937
+        },
+        {
+          "id": "SV6-085",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-085",
+          "ok": true,
+          "status": 200,
+          "bytes": 1629,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.672
+        },
+        {
+          "id": "SV4a-031",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-031",
+          "ok": true,
+          "status": 200,
+          "bytes": 1576,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.219
+        },
+        {
+          "id": "SC1a-112",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-112",
+          "ok": true,
+          "status": 200,
+          "bytes": 1006,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.781
+        },
+        {
+          "id": "SC1a-098",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-098",
+          "ok": true,
+          "status": 200,
+          "bytes": 1097,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.718
+        },
+        {
+          "id": "SV2a-102",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-102",
+          "ok": true,
+          "status": 200,
+          "bytes": 2352,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.344
+        },
+        {
+          "id": "SC1a-051",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-051",
+          "ok": true,
+          "status": 200,
+          "bytes": 1036,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.719
+        },
+        {
+          "id": "SV4a-255",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-255",
+          "ok": true,
+          "status": 200,
+          "bytes": 1412,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.203
+        },
+        {
+          "id": "SV2a-135",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-135",
+          "ok": true,
+          "status": 200,
+          "bytes": 2472,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.656
+        },
+        {
+          "id": "SV2a-152",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-152",
+          "ok": true,
+          "status": 200,
+          "bytes": 2073,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.422
+        },
+        {
+          "id": "SV8a-189",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-189",
+          "ok": true,
+          "status": 200,
+          "bytes": 1324,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.985
+        },
+        {
+          "id": "SV2a-078",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-078",
+          "ok": true,
+          "status": 200,
+          "bytes": 2402,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.625
+        },
+        {
+          "id": "SV4a-078",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-078",
+          "ok": true,
+          "status": 200,
+          "bytes": 1659,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.156
+        },
+        {
+          "id": "SV2a-107",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-107",
+          "ok": true,
+          "status": 200,
+          "bytes": 2540,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.297
+        },
+        {
+          "id": "SV4a-053",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-053",
+          "ok": true,
+          "status": 200,
+          "bytes": 1616,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.609
+        },
+        {
+          "id": "SV2a-189",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-189",
+          "ok": true,
+          "status": 200,
+          "bytes": 1584,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.219
+        },
+        {
+          "id": "S12a-035",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-035",
+          "ok": true,
+          "status": 200,
+          "bytes": 1865,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.453
+        },
+        {
+          "id": "SV8a-083",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-083",
+          "ok": true,
+          "status": 200,
+          "bytes": 2029,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.766
+        },
+        {
+          "id": "SV4a-058",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-058",
+          "ok": true,
+          "status": 200,
+          "bytes": 1624,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.453
+        },
+        {
+          "id": "S12a-170",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-170",
+          "ok": true,
+          "status": 200,
+          "bytes": 1563,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.891
+        },
+        {
+          "id": "SV4a-188",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-188",
+          "ok": true,
+          "status": 200,
+          "bytes": 1468,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.938
+        },
+        {
+          "id": "SV2a-100",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-100",
+          "ok": true,
+          "status": 200,
+          "bytes": 2301,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.609
+        },
+        {
+          "id": "SV6-120",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-120",
+          "ok": true,
+          "status": 200,
+          "bytes": 1450,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.578
+        },
+        {
+          "id": "SV6-053",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-053",
+          "ok": true,
+          "status": 200,
+          "bytes": 1676,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.422
+        },
+        {
+          "id": "SV4a-067",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-067",
+          "ok": true,
+          "status": 200,
+          "bytes": 1711,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.797
+        },
+        {
+          "id": "SV6-044",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-044",
+          "ok": true,
+          "status": 200,
+          "bytes": 1766,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.422
+        },
+        {
+          "id": "SV2a-172",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-172",
+          "ok": true,
+          "status": 200,
+          "bytes": 1482,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.875
+        },
+        {
+          "id": "S12a-149",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-149",
+          "ok": true,
+          "status": 200,
+          "bytes": 1265,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.562
+        },
+        {
+          "id": "SC1a-012",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-012",
+          "ok": true,
+          "status": 200,
+          "bytes": 869,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.593
+        },
+        {
+          "id": "S12a-075",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-075",
+          "ok": true,
+          "status": 200,
+          "bytes": 1837,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.922
+        },
+        {
+          "id": "SV4a-300",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-300",
+          "ok": true,
+          "status": 200,
+          "bytes": 1564,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.297
+        },
+        {
+          "id": "SV2a-108",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-108",
+          "ok": true,
+          "status": 200,
+          "bytes": 2361,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.407
+        },
+        {
+          "id": "SV2a-077",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-077",
+          "ok": true,
+          "status": 200,
+          "bytes": 2345,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.562
+        },
+        {
+          "id": "SV8a-085",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-085",
+          "ok": true,
+          "status": 200,
+          "bytes": 2187,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.734
+        },
+        {
+          "id": "SV4a-193",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-193",
+          "ok": true,
+          "status": 200,
+          "bytes": 1708,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.171
+        },
+        {
+          "id": "SV2a-141",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-141",
+          "ok": true,
+          "status": 200,
+          "bytes": 2490,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.422
+        },
+        {
+          "id": "SC1a-045",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-045",
+          "ok": true,
+          "status": 200,
+          "bytes": 1204,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.5
+        },
+        {
+          "id": "SC1a-046",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-046",
+          "ok": true,
+          "status": 200,
+          "bytes": 909,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.016
+        },
+        {
+          "id": "SV4a-169",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-169",
+          "ok": true,
+          "status": 200,
+          "bytes": 1339,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.829
+        },
+        {
+          "id": "SC1a-148",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-148",
+          "ok": true,
+          "status": 200,
+          "bytes": 639,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.812
+        },
+        {
+          "id": "SV8a-107",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-107",
+          "ok": true,
+          "status": 200,
+          "bytes": 2165,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.609
+        },
+        {
+          "id": "SV4a-206",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-206",
+          "ok": true,
+          "status": 200,
+          "bytes": 1471,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.39
+        },
+        {
+          "id": "SV4a-015",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-015",
+          "ok": true,
+          "status": 200,
+          "bytes": 1700,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.61
+        },
+        {
+          "id": "SC1a-120",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-120",
+          "ok": true,
+          "status": 200,
+          "bytes": 1031,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.469
+        },
+        {
+          "id": "S12a-002",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-002",
+          "ok": true,
+          "status": 200,
+          "bytes": 1928,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.625
+        },
+        {
+          "id": "SV8a-200",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-200",
+          "ok": true,
+          "status": 200,
+          "bytes": 1592,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.61
+        },
+        {
+          "id": "SV8a-135",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-135",
+          "ok": true,
+          "status": 200,
+          "bytes": 2229,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.719
+        },
+        {
+          "id": "SV4a-232",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-232",
+          "ok": true,
+          "status": 200,
+          "bytes": 1610,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.875
+        },
+        {
+          "id": "S12a-040",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-040",
+          "ok": true,
+          "status": 200,
+          "bytes": 1494,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.547
+        },
+        {
+          "id": "S12a-231",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-231",
+          "ok": true,
+          "status": 200,
+          "bytes": 1552,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 1.172
+        },
+        {
+          "id": "SC1a-130",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-130",
+          "ok": true,
+          "status": 200,
+          "bytes": 1025,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.422
+        },
+        {
+          "id": "S12a-197",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-197",
+          "ok": true,
+          "status": 200,
+          "bytes": 1615,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.953
+        },
+        {
+          "id": "SV4a-068",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-068",
+          "ok": true,
+          "status": 200,
+          "bytes": 1675,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.735
+        },
+        {
+          "id": "SV8a-053",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-053",
+          "ok": true,
+          "status": 200,
+          "bytes": 1871,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.812
+        },
+        {
+          "id": "SV8a-008",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-008",
+          "ok": true,
+          "status": 200,
+          "bytes": 1786,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.625
+        },
+        {
+          "id": "S12a-126",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-126",
+          "ok": true,
+          "status": 200,
+          "bytes": 1551,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.594
+        },
+        {
+          "id": "SV6-017",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-017",
+          "ok": true,
+          "status": 200,
+          "bytes": 1552,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.406
+        },
+        {
+          "id": "SV2a-012",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-012",
+          "ok": true,
+          "status": 200,
+          "bytes": 2668,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.625
+        },
+        {
+          "id": "SV2a-130",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-130",
+          "ok": true,
+          "status": 200,
+          "bytes": 2563,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.672
+        },
+        {
+          "id": "SV8a-055",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-055",
+          "ok": true,
+          "status": 200,
+          "bytes": 2092,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.625
+        },
+        {
+          "id": "SC1a-144",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SC1a-144",
+          "ok": true,
+          "status": 200,
+          "bytes": 697,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.469
+        },
+        {
+          "id": "SV4a-117",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-117",
+          "ok": true,
+          "status": 200,
+          "bytes": 1616,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.734
+        },
+        {
+          "id": "S12a-234",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-234",
+          "ok": true,
+          "status": 200,
+          "bytes": 1685,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.687
+        },
+        {
+          "id": "SV6-117",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-117",
+          "ok": true,
+          "status": 200,
+          "bytes": 1706,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.546
+        },
+        {
+          "id": "SV6-036",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV6-036",
+          "ok": true,
+          "status": 200,
+          "bytes": 1560,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.562
+        },
+        {
+          "id": "SV4a-089",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-089",
+          "ok": true,
+          "status": 200,
+          "bytes": 1543,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.75
+        },
+        {
+          "id": "SV4a-006",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-006",
+          "ok": true,
+          "status": 200,
+          "bytes": 1898,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.672
+        },
+        {
+          "id": "S12a-169",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-169",
+          "ok": true,
+          "status": 200,
+          "bytes": 1408,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.422
+        },
+        {
+          "id": "SV2a-103",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-103",
+          "ok": true,
+          "status": 200,
+          "bytes": 2412,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.422
+        },
+        {
+          "id": "SV8a-080",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-080",
+          "ok": true,
+          "status": 200,
+          "bytes": 2078,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.453
+        },
+        {
+          "id": "SV8a-122",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-122",
+          "ok": true,
+          "status": 200,
+          "bytes": 2016,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.718
+        },
+        {
+          "id": "SV8a-155",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV8a-155",
+          "ok": true,
+          "status": 200,
+          "bytes": 1558,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.422
+        },
+        {
+          "id": "SV2a-132",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-132",
+          "ok": true,
+          "status": 200,
+          "bytes": 2606,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.703
+        },
+        {
+          "id": "SV4a-284",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV4a-284",
+          "ok": true,
+          "status": 200,
+          "bytes": 1475,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.422
+        },
+        {
+          "id": "SV2a-084",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-084",
+          "ok": true,
+          "status": 200,
+          "bytes": 2312,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.406
+        },
+        {
+          "id": "S12a-036",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-036",
+          "ok": true,
+          "status": 200,
+          "bytes": 1664,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.703
+        },
+        {
+          "id": "S12a-082",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/S12a-082",
+          "ok": true,
+          "status": 200,
+          "bytes": 1842,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.422
+        },
+        {
+          "id": "SV2a-082",
+          "url": "https://api.tcgdex.net/v2/zh-tw/cards/SV2a-082",
+          "ok": true,
+          "status": 200,
+          "bytes": 2415,
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "seconds": 0.391
+        }
+      ]
+    }
+  ]
+}

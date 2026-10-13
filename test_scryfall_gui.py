@@ -51,7 +51,7 @@ class GUITests(unittest.TestCase):
             self.assertNotIsInstance(widget, app.ttk.Spinbox)
             if isinstance(widget, app.ttk.Label):
                 labels.append(str(widget.cget('text')))
-        self.assertFalse(any('线程' in label or '并发' in label for label in labels))
+        self.assertIn('查询并发 4 · 下载并发 8', labels)
         self.assertIn('自动处理网络请求，受限时等待并重试。', labels)
         self.assertEqual(app.DEFAULT_WORKERS, 4)
         self.assertTrue(self.gui.pdf.get())
@@ -71,6 +71,42 @@ class GUITests(unittest.TestCase):
         self.assertEqual(str(self.gui.mark_check['state']), 'disabled')
         self.gui.language.set('英文 nonsense')
         with self.assertRaises(ValueError): self.gui.configuration()
+
+    def test_game_selection_and_concurrency(self):
+        self.gui.set_deck('1 皮卡丘')
+        self.assertEqual(tuple(self.gui.game_box['values']), ('万智牌', 'PTCG'))
+        self.assertEqual(str(self.gui.game_box['state']), 'readonly')
+        self.assertEqual(self.gui.concurrency(), (4, 8))
+        siblings = self.gui.game_box.master.winfo_children()
+        section = next(w for w in siblings if isinstance(w, app.ttk.Label)
+                       and w.cget('text') == '下载与排版')
+        self.assertLess(siblings.index(self.gui.game_box), siblings.index(section))
+        self.gui.game.set('PTCG')
+        self.assertEqual(self.gui.concurrency(), (64, 64))
+        self.assertEqual(self.gui.configuration()[1], 64)
+        self.assertIn('查询并发 64 · 下载并发 64', self.gui.network_policy.get())
+        self.assertIn('本机实测择优', self.gui.network_policy.get())
+        self.assertIn('未公布硬性限额', self.gui.network_policy.get())
+        command = app.engine_command('deck.txt', self.gui.output_dir, 64, 'A4', 'zht,en',
+                                     True, True, False, False,
+                                     download_workers=self.gui.concurrency()[1])
+        self.assertEqual(command[command.index('--workers') + 1], '64')
+        self.assertEqual(command[command.index('--download-workers') + 1], '64')
+        with patch.object(app.messagebox, 'showerror') as error, \
+             patch.object(app, 'engine_command') as engine:
+            self.gui.start()
+        error.assert_called_once()
+        self.assertIn('查询 64、下载 64', error.call_args.args[1])
+        engine.assert_not_called()
+        self.assertFalse(self.gui.running)
+        self.assertFalse(self.gui.output_root.exists())
+        self.gui.game.set('万智牌')
+        self.assertEqual(self.gui.concurrency(), (4, 8))
+        self.assertEqual(self.gui.configuration()[1], 4)
+        self.gui.set_running(True)
+        self.assertEqual(str(self.gui.game_box['state']), 'disabled')
+        self.gui.set_running(False)
+        self.assertEqual(str(self.gui.game_box['state']), 'readonly')
 
     def test_all_flags_forwarded(self):
         command = app.engine_command('deck.txt', self.gui.output_dir, 32, 'A3', 'zht,zhs,en', False, False, True, True)
@@ -121,7 +157,7 @@ class GUITests(unittest.TestCase):
         self.gui.set_deck('1 Forest')
         worker = Path(self.temp.name) / 'partial.py'
         worker.write_text("import sys\nfrom pathlib import Path\n(Path(sys.argv[1]) / 'cards.pdf').write_bytes(b'new PDF')\nprint('完成：成功 1 / 失败 1', flush=True)\nsys.exit(1)\n", encoding='utf-8')
-        with patch.object(app, 'engine_command', side_effect=lambda deck, output, *args: [sys.executable, '-u', str(worker), str(output)]):
+        with patch.object(app, 'engine_command', side_effect=lambda deck, output, *args, **kwargs: [sys.executable, '-u', str(worker), str(output)]):
             self.gui.start()
             self.pump()
         self.assertIn('部分卡牌失败', self.gui.status.get())
@@ -131,7 +167,7 @@ class GUITests(unittest.TestCase):
     def test_tasks_isolated_even_in_same_second(self):
         worker = Path(self.temp.name) / 'isolated.py'
         worker.write_text("import sys\nfrom pathlib import Path\nout=Path(sys.argv[1])\n(out/'cards').mkdir()\n(out/'cards'/'test.png').write_bytes(b'image')\n(out/'cards.pdf').write_bytes(b'PDF')\nprint('完成：成功 1 / 失败 0',flush=True)\n", encoding='utf-8')
-        with patch.object(app.time, 'strftime', return_value='261012-101030'), patch.object(app, 'engine_command', side_effect=lambda deck, output, *args: [sys.executable, '-u', str(worker), str(output)]):
+        with patch.object(app.time, 'strftime', return_value='261012-101030'), patch.object(app, 'engine_command', side_effect=lambda deck, output, *args, **kwargs: [sys.executable, '-u', str(worker), str(output)]):
             self.gui.set_deck('1 Forest')
             self.gui.start()
             self.pump()
