@@ -1,17 +1,17 @@
 # Scryfall 卡图下载器
 
-使用 Python 标准库编写的桌面工具。输入中英文牌表，优先选择中文卡图，下载到共享图片库，并生成适合打印的卡牌 PDF。
+使用 Python 编写的桌面工具。万智牌、宝可梦使用标准库，游戏王通过 Pillow 解码卡图；图片下载到共享图片库，并生成适合打印的卡牌 PDF。
 
 ## 功能
 
 - Tkinter 图形界面和命令行下载引擎。
 - 简体、繁体、英文语言优先顺序；中文文件名和双面牌处理。
-- 游戏选择：万智牌、宝可梦TCG（中文）、宝可梦TCG（英文）、游戏王（简中）、游戏王（日文）、游戏王（TCG）。后三项仅占位，不启动下载。
+- 游戏选择：万智牌、宝可梦TCG（中文）、宝可梦TCG（英文）、游戏王。游戏王优先百鸽简中→日文→英文，全部失败后自动回退 YGOPRODeck 英文；实际来源、语种和失败链写入清单。
 - 宝可梦中文仅访问 TCGdex `zh-tw`，英文仅访问 `en`；按指定系列和编号选图，不跨语言替换或同名重印替换。查询／下载默认 64／64，万智牌保持 4／8；任务运行期间禁止切换游戏。
 - PTCG 的 64／64 是本机实测择优预设，不是官方限额。2026-10-13 对相同样本比较 16／32／64：名称搜索与详情每档各 256 请求、30 秒 socket 超时，64 的综合耗时最低；同样 128 张高清 PNG（48.150 MB）、120 秒 socket 超时，三档分别耗时 83.469／81.328／68.703 秒，全部成功。若低档达到最高吞吐的 95% 会优先低档，本次两项均选择 64。详见[测试报告](tcgdex-benchmark-results/report.md)。
 - [TCGdex FAQ](https://tcgdex.dev/faq#are-there-rate-limits) 未公布硬性请求限额，并建议缓存查询结果。PTCG 查询使用独立 API 缓存与冷却，不改变 Scryfall 的 0.6 秒 API 间隔；图片下载共用成熟的完整性校验、Retry-After、降并发保护。
-- 命令行 `--game mtg/ptcg-zh/ptcg-en` 选择数据源；万智牌 `--workers` 默认 4（1–16），`--download-workers` 默认 8（1–32）；宝可梦两参数默认 64（1–64）。
-- API 请求间隔仍为 0.6 秒；图片默认无固定启动间隔，可用 `--image-interval` 调整；遵守 Retry-After，并在受限时降并发和停止持续失败的请求。
+- 命令行 `--game mtg/ptcg-zh/ptcg-en/ygo` 选择数据源；万智牌与游戏王 `--workers` 默认 4（1–16），`--download-workers` 默认 8（1–32）；宝可梦两参数默认 64（1–64）。
+- 万智牌 API 请求间隔仍为 0.6 秒；万智牌/宝可梦图片默认无固定启动间隔，可用 `--image-interval` 调整；遵守 Retry-After，并在受限时降并发和停止持续失败的请求。游戏王使用下节独立来源策略。
 - 自动检查主卡与所选打印的关联 token / 徽记，按身份去重下载，默认每种身份在主卡之后追加一份到 PDF。
 - 图片目录：万智牌 `卡图输出/mtg-pics`；宝可梦中文 `卡图输出/ptcg-pics/zh-tw`；宝可梦英文 `卡图输出/ptcg-pics/en`。宝可梦索引按语言、系列及编号存储，不以同名合并。
 - 图片缺失或损坏时使用保存的 URL 补下载；PNG 分块 CRC 检查。
@@ -21,7 +21,7 @@
 
 ## 运行
 
-需要 Python 3.10 或更新版本，以及 Tkinter/Tcl/Tk。不需要安装第三方 Python 包。网络访问需要能够连接 Scryfall。
+需要 Python 3.10 或更新版本，以及 Tkinter/Tcl/Tk。源码运行先执行 `python -m pip install -r requirements.txt` 安装 Pillow（需要 WebP 解码支持）。EXE 已打包 Pillow 与 Tcl/Tk，使用者不必另装 Python。网络访问需要能够连接所选游戏的来源网站。
 
 Windows 用户可以双击 `启动GUI.cmd`，也可以运行：
 
@@ -51,7 +51,7 @@ python scryfall_cards_threaded.py deck.txt --image-interval 0.1
 
 ## 宝可梦牌表
 
-两种宝可梦语言分别使用本语言发行的系列与卡号，不相互转换。每个有效行必须是 `数量 卡名 系列代码 编号`；任意数字开头行缺少版本信息，整个任务拒绝运行并提示格式。万智牌与宝可梦都跳过首个非空字符不是数字的行，支持直接粘贴分类标题与总数；万智牌也必须写数量。游戏王占位不使用这条过滤规则。
+两种宝可梦语言分别使用本语言发行的系列与卡号，不相互转换。每个有效行必须是 `数量 卡名 系列代码 编号`；任意数字开头行缺少版本信息，整个任务拒绝运行并提示格式。万智牌与宝可梦都跳过首个非空字符不是数字的行，支持直接粘贴分类标题与总数；万智牌也必须写数量。游戏王使用下节的 YDK 密码格式。
 
 ```text
 Pokémon:4
@@ -74,6 +74,41 @@ CLI 默认目录随游戏决定；`--pics` 可显式指定缓存目录，程序�
 
 已有图片优先于新的语言偏好；需要换版本时，在 GUI 勾选“重新选图并下载（忽略图片缓存）”，或使用 `--force`。
 
+## 游戏王 YDK 牌表
+
+游戏选择合并为“游戏王”，CLI 使用 `--game ygo`。每行一个 1–8 位 ASCII 数字正整数密码，允许省略前导零；重复密码累计数量并保持第一次出现顺序。非密码行全部跳过，包括分类标题、`#main`、`#extra`、`!side`、名称行、数量名称行、Unicode 数字、零及九位先行模拟器 ID。所有分区均下载并按重复数量进入 PDF。
+
+```text
+#main
+89631139
+89631139
+46986414
+#extra
+16178681
+!side
+83764718
+```
+
+```powershell
+python scryfall_cards_threaded.py deck.ydk --game ygo --out results
+```
+
+卡图保存为 `卡图输出/ygo-pics/密码.png`，文件名和游戏选项不加语种后缀。百鸽按 `sc`→`jp`→`en` 尝试，图片下载、解码或校验失败才尝试下一候选，最后使用 YGOPRODeck 英文图。资料查询失败不会直接跳过百鸽卡图。Pillow 完整解码 WebP/JPEG 并转为 RGB PNG；损坏图片不能进入成功缓存。完整缓存下次运行不查询或下载，缺图按保存 URL 修复，修复失败再重新执行来源链；`--force` 从百鸽简中重新选图。
+
+游戏王 API 缓存与来源限速独立；API 请求启动间隔0.1秒（YGOPRODeck低于官方20次/秒上限），图片启动间隔至少0.15秒（保守客户端策略，非站方公布上限）。403/429停止对应来源本次后续请求，不让百鸽受限阻断 YGOPRODeck。`Retry-After` 与服务错误冷却按来源共享。查询与下载在同一卡片任务内执行，并发取两个线程参数较小值；不改变MTG/PTCG网络策略。`--dry-run` 用 HEAD 验证图片类型，不下载图片、不生成PDF、不把探测结果写入成功图片缓存。
+
+来源：[百鸽 API](https://ygocdb.com/api)、[YGOPRODeck API](https://ygoprodeck.com/api-guide/)。站方要求合理使用与缓存；简中图并非覆盖所有游戏王卡牌。当前 PDF 沿用本工具63×88mm排版，未改动卡片尺寸。
+
+## EXE 打包
+
+```powershell
+python -m pip install -r requirements-build.txt
+python build_exe.py --check
+python build_exe.py
+```
+
+输出 `dist/CardDownloader.exe`，单文件图形程序，包含 Pillow 的 WebP/PNG/JPEG 编解码组件及 Tcl/Tk。构建前自动重建合并GUI。构建产物留在当前工作树，不改其他工作树的安装文件。
+
 ## 关联 token 与缓存兼容
 
 程序合并解析对象和实际所选打印的 `all_parts`，只收 `component=token`，通过具体卡牌 ID 查询，不按通用名称猜图，也不递归反向关联。可靠 oracle ID 用于寻找同一身份的语言打印，缺失时保持具体打印；实际语种写入清单。同名不同规格保留独立身份与文件。双面 token 下载所有有效面，PDF 按面顺序追加一份，不根据主卡数量推算生成数量。
@@ -88,6 +123,8 @@ JSON 保留主卡 `cards` / `summary`，新增 `tokens` / `token_summary`；主�
 
 - `scryfall_cards_threaded.py`：万智牌引擎、通用下载/PDF与游戏 CLI 路由。
 - `ptcg_engine.py`：TCGdex 精确系列编号查询、独立语言缓存与任务输出。
+- `ygo_engine.py`：YDK 密码解析、百鸽优先及 YGOPRODeck 回退、WebP 转 PNG。
+- `build_exe.py`：打包包含 Pillow/Tcl/Tk 的单文件 Windows EXE。
 - `gui_layer.py`：GUI 源码。
 - `build_gui.py`：将引擎与 GUI 合并为可独立运行的 `scryfall_cards_gui.pyw`。
 - `GUI使用说明.txt`：完整选项与输出说明。
@@ -122,4 +159,4 @@ Scryfall API 的具体限额可能变化，请参考 [官方速率限制说明](
 
 ## 许可证
 
-程序源码采用 MIT 许可证，见 [LICENSE](LICENSE)。卡图来自 Scryfall；MIT 许可证仅适用于本仓库的程序代码，卡牌图像和相关内容仍归各自权利人所有。仓库不包含卡图或用户运行数据。
+程序源码采用 MIT 许可证，见 [LICENSE](LICENSE)。卡图来自 Scryfall、TCGdex、百鸽或 YGOPRODeck；MIT 许可证仅适用于本仓库的程序代码，卡牌图像和相关内容仍归各自权利人所有。仓库不包含卡图或用户运行数据。

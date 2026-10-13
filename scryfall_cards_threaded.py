@@ -1624,8 +1624,8 @@ def _main(argv=None):
                         help="牌表路径；- 表示从标准输入读取")
     parser.add_argument("--out", default="scryfall-cards",
                         help="输出目录（默认 ./scryfall-cards）")
-    parser.add_argument("--game", choices=("mtg", "ptcg-zh", "ptcg-en"), default="mtg",
-                        help="游戏：万智牌/宝可梦繁体中文/宝可梦英文")
+    parser.add_argument("--game", choices=("mtg", "ptcg-zh", "ptcg-en", "ygo"), default="mtg",
+                        help="游戏：万智牌/宝可梦繁体中文/宝可梦英文/游戏王（YDK密码）")
     parser.add_argument("--pics", default=None,
                         help="图片目录；默认万智牌 mtg-pics，宝可梦 ptcg-pics/zh-tw 或 en")
     parser.add_argument("--langs", default="zhs,zht,en",
@@ -1645,7 +1645,7 @@ def _main(argv=None):
     args = parser.parse_args(argv)
     if not math.isfinite(args.image_interval) or args.image_interval < 0:
         parser.error("--image-interval 必须是非负有限数")
-    ptcg = args.game != "mtg"
+    ptcg = args.game in ('ptcg-zh', 'ptcg-en')
     query_max = 64 if ptcg else MAX_WORKERS
     image_max = 64 if ptcg else MAX_DOWNLOAD_WORKERS
     if args.workers is None:
@@ -1675,6 +1675,11 @@ def _main(argv=None):
         with open(args.decklist, "r", encoding="utf-8-sig") as fh:
             text = fh.read()
 
+    if args.game == 'ygo':
+        if 'run_ygo' in globals():
+            return run_ygo(args, text, sys.modules[__name__])
+        from ygo_engine import run_ygo as ygo_runner
+        return ygo_runner(args, text, sys.modules[__name__])
     if ptcg:
         if "run_ptcg" in globals():
             return run_ptcg(args, text, sys.modules[__name__])

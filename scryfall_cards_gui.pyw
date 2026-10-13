@@ -1624,8 +1624,8 @@ def _main(argv=None):
                         help="牌表路径；- 表示从标准输入读取")
     parser.add_argument("--out", default="scryfall-cards",
                         help="输出目录（默认 ./scryfall-cards）")
-    parser.add_argument("--game", choices=("mtg", "ptcg-zh", "ptcg-en"), default="mtg",
-                        help="游戏：万智牌/宝可梦繁体中文/宝可梦英文")
+    parser.add_argument("--game", choices=("mtg", "ptcg-zh", "ptcg-en", "ygo"), default="mtg",
+                        help="游戏：万智牌/宝可梦繁体中文/宝可梦英文/游戏王（YDK密码）")
     parser.add_argument("--pics", default=None,
                         help="图片目录；默认万智牌 mtg-pics，宝可梦 ptcg-pics/zh-tw 或 en")
     parser.add_argument("--langs", default="zhs,zht,en",
@@ -1645,7 +1645,7 @@ def _main(argv=None):
     args = parser.parse_args(argv)
     if not math.isfinite(args.image_interval) or args.image_interval < 0:
         parser.error("--image-interval 必须是非负有限数")
-    ptcg = args.game != "mtg"
+    ptcg = args.game in ('ptcg-zh', 'ptcg-en')
     query_max = 64 if ptcg else MAX_WORKERS
     image_max = 64 if ptcg else MAX_DOWNLOAD_WORKERS
     if args.workers is None:
@@ -1675,6 +1675,11 @@ def _main(argv=None):
         with open(args.decklist, "r", encoding="utf-8-sig") as fh:
             text = fh.read()
 
+    if args.game == 'ygo':
+        if 'run_ygo' in globals():
+            return run_ygo(args, text, sys.modules[__name__])
+        from ygo_engine import run_ygo as ygo_runner
+        return ygo_runner(args, text, sys.modules[__name__])
     if ptcg:
         if "run_ptcg" in globals():
             return run_ptcg(args, text, sys.modules[__name__])
@@ -2256,6 +2261,382 @@ def run_ptcg(args, text, core):
     return 1 if failed else 0
 
 
+"""Yu-Gi-Oh YDK engine: Baige sc/jp/en, then YGOPRODeck English.
+
+WebP/JPEG inputs are fully decoded with Pillow and stored as RGB PNG so the
+existing cache validation and PDF engine can be reused. Network budgets are
+source-local: a rejected Baige service must not disable the fallback host.
+"""
+import concurrent.futures
+import copy
+import hashlib
+import io
+import json
+import os
+import re
+import tempfile
+import threading
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+
+YGO_BAIGE_API = 'https://ygocdb.com/api/v0/card/'
+YGO_BAIGE_IMAGES = 'https://cdn.233.momobako.com/ygoimg'
+YGO_DECK_API = 'https://db.ygoprodeck.com/api/v7/cardinfo.php'
+YGO_LANGUAGES = ('sc', 'jp', 'en')
+YGO_LANGUAGE_NAMES = {'sc': '简体中文', 'jp': '日文', 'en': '英文'}
+
+
+def parse_ygo_decklist(text):
+    """YDK passwords only; section markers are ignored, duplicates count copies.
+
+    Passwords may omit leading zeroes. Nine-digit provisional simulator IDs,
+    zero, Unicode digits and quantity/name rows are not card passwords.
+    """
+    counts = {}
+    for raw in text.lstrip('\ufeff').splitlines():
+        line = raw.strip()
+        if re.fullmatch(r'[0-9]{1,8}', line) and int(line) > 0:
+            card_id = str(int(line))
+            counts[card_id] = counts.get(card_id, 0) + 1
+    return [(qty, card_id) for card_id, qty in counts.items()]
+
+
+class YGOError(RuntimeError):
+    pass
+
+
+class YGOBudget:
+    """Shared admission clock, cooldown and stop flag for ONE endpoint group."""
+    def __init__(self, interval):
+        self.interval = interval
+        self.next_call = 0.0
+        self.cooldown = 0.0
+        self.stopped = None
+        self.lock = threading.Lock()
+
+    def admit(self):
+        while True:
+            with self.lock:
+                if self.stopped:
+                    raise YGOError(self.stopped)
+                now = time.monotonic()
+                delay = max(self.next_call, self.cooldown) - now
+                if delay <= 0:
+                    self.next_call = now + self.interval
+                    return
+            time.sleep(min(delay, 0.25))
+
+    def reject(self, code, delay):
+        with self.lock:
+            self.cooldown = max(self.cooldown, time.monotonic() + delay)
+            if code in (403, 429):
+                # No repeated requests to a rejecting host during this task.
+                # Another source is independent and may still be used.
+                self.stopped = 'HTTP %d：该来源已停止本次后续请求' % code
+
+
+class YGOClient:
+    def __init__(self, cache_dir, core, force=False, image_interval=0):
+        self.core = core
+        self.force = force
+        self.cache_dir = os.path.join(cache_dir, 'yugioh')
+        # Conservative client policies, NOT claimed server limits.
+        self.budgets = {
+            'baige-api': YGOBudget(0.1),
+            'deck-api': YGOBudget(0.1),  # <=10 starts/sec, official max20/sec
+            'baige-image': YGOBudget(max(0.15, image_interval)),
+            'deck-image': YGOBudget(max(0.15, image_interval)),
+        }
+
+    def request(self, url, source, method='GET'):
+        budget = self.budgets[source]
+        last = None
+        for attempt in range(3):
+            budget.admit()
+            req = urllib.request.Request(url, method=method, headers={
+                'User-Agent': self.core.UA, 'Accept': '*/*'})
+            try:
+                with self.core.opener().open(req, timeout=30 if source.endswith('api') or method == 'HEAD' else 120) as response:
+                    if method == 'HEAD':
+                        return response.headers.get('Content-Type', '').split(';')[0].lower()
+                    return response.read()
+            except urllib.error.HTTPError as exc:
+                code = exc.code
+                delay = self.core.retry_after_seconds(exc.headers)
+                exc.close()
+                if code in (403, 429):
+                    budget.reject(code, max(delay, 1))
+                    raise YGOError('HTTP %d：%s' % (code, url))
+                if code in (404, 400, 410):
+                    raise YGOError('HTTP %d：%s' % (code, url))
+                if 500 <= code < 600:
+                    last = 'HTTP %d' % code
+                    budget.reject(code, max(delay, attempt + 1))
+                    continue
+                raise YGOError('HTTP %d：%s' % (code, url))
+            except (OSError, TimeoutError) as exc:
+                last = str(exc)
+                if attempt < 2:
+                    time.sleep(0.5 * (attempt + 1))
+        raise YGOError('请求失败 %s | %s' % (url, last))
+
+    def json_get(self, url, source, validator):
+        filename = os.path.join(self.cache_dir, hashlib.sha256(url.encode()).hexdigest() + '.json')
+        if not self.force:
+            try:
+                with open(filename, encoding='utf-8') as stream:
+                    saved = json.load(stream)
+                if 0 <= time.time() - saved['saved_at'] < self.core.API_CACHE_TTL and validator(saved['data']):
+                    return saved['data']
+            except (OSError, ValueError, KeyError, TypeError):
+                pass
+        try:
+            data = json.loads(self.request(url, source).decode('utf-8'))
+        except (ValueError, UnicodeError) as exc:
+            raise YGOError('API 返回非有效 JSON：%s' % exc) from exc
+        if not validator(data):
+            raise YGOError('API 返回卡片身份不一致或缺少有效资料：%s' % url)
+        os.makedirs(self.cache_dir, exist_ok=True)
+        self.core.atomic_json(filename, {'saved_at': time.time(), 'data': data})
+        return data
+
+    def baige_card(self, card_id):
+        return self.json_get(YGO_BAIGE_API + card_id, 'baige-api',
+            lambda d: isinstance(d, dict) and str(d.get('id')) == card_id and isinstance(d.get('text'), dict))
+
+    def deck_card(self, card_id):
+        def valid(data):
+            if not isinstance(data, dict) or not isinstance(data.get('data'), list):
+                return False
+            if len(data['data']) != 1 or not isinstance(data['data'][0], dict) or str(data['data'][0].get('id')) != card_id:
+                return False
+            images = data['data'][0].get('card_images')
+            if not isinstance(images, list):
+                return False
+            expected = 'https://images.ygoprodeck.com/images/cards/%s.jpg' % card_id
+            return any(isinstance(image, dict) and str(image.get('id')) == card_id and image.get('image_url') == expected for image in images)
+        data = self.json_get(YGO_DECK_API + '?' + urllib.parse.urlencode({'id': card_id}), 'deck-api', valid)
+        card = data['data'][0]
+        for image in card.get('card_images', []):
+            if isinstance(image, dict) and str(image.get('id')) == card_id:
+                url = image.get('image_url')
+                if isinstance(url, str):
+                    parsed = urllib.parse.urlparse(url)
+                    if parsed.scheme == 'https' and parsed.hostname == 'images.ygoprodeck.com' and parsed.path == '/images/cards/%s.jpg' % card_id:
+                        return card, url
+        raise YGOError('YGOPRODeck 没有与卡片密码一致的完整卡图')
+
+    @staticmethod
+    def png_bytes(blob):
+        from PIL import Image
+        with Image.open(io.BytesIO(blob)) as image:
+            if image.format not in ('WEBP', 'JPEG', 'PNG'):
+                raise YGOError('不是受支持的卡图格式')
+            if image.width <= 0 or image.height <= 0 or image.width * image.height > 40000000:
+                raise YGOError('卡图尺寸无效或过大')
+            image.load()  # decode the ENTIRE source; reject truncated/corrupt images
+            output = io.BytesIO()
+            image.convert('RGB').save(output, format='PNG')
+            return output.getvalue()
+
+    def fetch_image(self, url, source, path, dry_run=False):
+        if dry_run:
+            kind = self.request(url, source, method='HEAD')
+            if kind not in ('image/webp', 'image/jpeg', 'image/png'):
+                raise YGOError('图片端点未返回有效图片类型：%s' % kind)
+            return None
+        data = self.png_bytes(self.request(url, source))
+        directory = os.path.dirname(path)
+        temp = None
+        try:
+            with tempfile.NamedTemporaryFile(dir=directory, suffix='.part', delete=False) as stream:
+                temp = stream.name
+                stream.write(data)
+            if not self.core.complete_image(temp):
+                raise YGOError('转换后的 PNG 完整性校验失败')
+            os.replace(temp, path)
+            temp = None
+        finally:
+            if temp is not None:
+                os.unlink(temp)
+        return len(data)
+
+    def select(self, card_id, path, dry_run=False, previous=None):
+        attempts = []
+        metadata = None
+        # A saved image URL is authoritative for repair, not a new language pick.
+        # Only permit our exact known card endpoints; never load arbitrary index URLs.
+        if previous and previous.get('files'):
+            record = previous['files'][0]
+            source = previous.get('source')
+            language = previous.get('lang_code')
+            url = record.get('url')
+            expected = '%s/%s/%s.webp' % (YGO_BAIGE_IMAGES, language, card_id)
+            valid = source == 'baige' and language in YGO_LANGUAGES and url == expected
+            valid |= source == 'ygoprodeck' and language == 'en' and url == 'https://images.ygoprodeck.com/images/cards/%s.jpg' % card_id
+            if valid:
+                try:
+                    size = self.fetch_image(url, 'deck-image' if source == 'ygoprodeck' else 'baige-image', path, dry_run)
+                    result = copy.deepcopy(previous)
+                    result.update(status='dry-run' if dry_run else 'ok', attempts=attempts)
+                    result.pop('error', None)
+                    result['files'] = [self.record(path, url, size, dry_run)]
+                    return result
+                except Exception as exc:
+                    attempts.append({'source': source, 'lang_code': language, 'stage': 'cache-repair', 'error': str(exc)})
+        try:
+            metadata = self.baige_card(card_id)
+        except Exception as exc:
+            attempts.append({'source': 'baige', 'stage': 'metadata', 'error': str(exc)})
+        # Query metadata failure MUST NOT skip otherwise downloadable Baige images.
+        for language in YGO_LANGUAGES:
+            url = '%s/%s/%s.webp' % (YGO_BAIGE_IMAGES, language, card_id)
+            try:
+                size = self.fetch_image(url, 'baige-image', path, dry_run)
+                text = metadata.get('text', {}) if metadata else {}
+                name = text.get({'sc': 'sc_name', 'jp': 'jp_name', 'en': 'en_name'}[language]) or text.get('name') or card_id
+                return self.entry(card_id, name, language, 'baige', path, url, size, dry_run, attempts)
+            except Exception as exc:
+                attempts.append({'source': 'baige', 'lang_code': language, 'stage': 'image', 'error': str(exc)})
+        try:
+            card, url = self.deck_card(card_id)
+            size = self.fetch_image(url, 'deck-image', path, dry_run)
+            return self.entry(card_id, card.get('name') or card_id, 'en', 'ygoprodeck', path, url, size, dry_run, attempts)
+        except Exception as exc:
+            attempts.append({'source': 'ygoprodeck', 'lang_code': 'en', 'error': str(exc)})
+        return {'game': 'ygo', 'input': card_id, 'selected_id': card_id, 'display_name': card_id,
+                'files': [], 'status': 'error', 'error': '百鸽三语种及 YGOPRODeck 均失败', 'attempts': attempts}
+
+    @staticmethod
+    def record(path, url, size, dry_run):
+        result = {'file': path, 'url': url, 'format': 'png', 'label': None,
+                  'status': 'dry-run' if dry_run else 'ok'}
+        if size is not None:
+            result['bytes'] = size
+        return result
+
+    def entry(self, card_id, name, language, source, path, url, size, dry_run, attempts):
+        return {'game': 'ygo', 'input': card_id, 'selected_id': card_id,
+                'display_name': name, 'lang_code': language, 'lang': YGO_LANGUAGE_NAMES[language],
+                'source': source, 'files': [self.record(path, url, size, dry_run)],
+                'status': 'dry-run' if dry_run else 'ok', 'attempts': attempts}
+
+
+class YGOPictureCache:
+    """Password-keyed independent game cache; no name or foreign-game lookup."""
+    def __init__(self, directory, core):
+        self.core = core
+        self.directory = os.path.abspath(directory)
+        self.paths = core.PictureCache(self.directory)
+        self.filename = os.path.join(self.directory, 'ygo-index.json')
+        self.cards = {}
+        try:
+            with open(self.filename, encoding='utf-8') as stream:
+                stored = json.load(stream)
+            if stored.get('version') == 1 and stored.get('game') == 'ygo' and isinstance(stored.get('cards'), dict):
+                self.cards = stored['cards']
+        except (OSError, ValueError, TypeError, AttributeError):
+            pass
+
+    def lookup(self, card_id):
+        entry = self.cards.get(card_id)
+        if not entry or entry.get('game') != 'ygo' or str(entry.get('selected_id')) != card_id:
+            return None
+        return self.paths.restore(entry)
+
+    def store(self, entry):
+        if entry.get('status') not in ('ok', 'exists') or not entry.get('files'):
+            return  # dry-run and failed choices never become success cache
+        stored = copy.deepcopy(entry)
+        stored.pop('qty', None)
+        stored.pop('cache_hit', None)
+        for record in stored['files']:
+            filename = os.path.basename(record['file'])
+            self.paths.remember_image(filename, record.get('url'), record.get('bytes'))
+            record['file'] = filename
+        self.cards[str(entry['selected_id'])] = stored
+
+    def save(self):
+        self.paths.save()
+        self.core.atomic_json(self.filename, {'version': 1, 'game': 'ygo', 'cards': self.cards})
+
+
+def run_ygo(args, text, core):
+    rows = parse_ygo_decklist(text)
+    if not rows:
+        print('游戏王牌表为空：每行填写一个卡片密码，其他行自动跳过。')
+        return 2
+    from PIL import features
+    if not features.check('webp'):
+        raise YGOError('Pillow 缺少 WebP 解码支持，请重新安装官方 Pillow 或使用完整 EXE。')
+    if not args.pics:
+        args.pics = os.path.join(os.path.dirname(core.program_cache_directory()), '卡图输出', 'ygo-pics')
+    os.makedirs(args.out, exist_ok=True)
+    cache = YGOPictureCache(args.pics, core)
+    client = YGOClient(core.program_cache_directory(), core, force=args.force, image_interval=args.image_interval)
+    entries = {}
+    pending = []
+    for qty, card_id in rows:
+        saved = None if args.force else cache.lookup(card_id)
+        if saved and all(record['status'] == 'exists' for record in saved['files']):
+            saved.update(status='dry-run' if args.dry_run else 'exists', cache_hit=True)
+            saved.pop('error', None)
+            if args.dry_run:
+                for record in saved['files']:
+                    record['status'] = 'dry-run'
+            entries[card_id] = saved
+        else:
+            pending.append((card_id, saved))
+    print('游戏王 | 百鸽 简中→日文→英文 → YGOPRODeck英文 | 缓存 %d/%d' % (len(entries), len(rows)), flush=True)
+    # Each worker selects AND downloads one unique card. Never start the fallback
+    # before all higher-priority Baige image candidates have failed validation.
+    with concurrent.futures.ThreadPoolExecutor(max_workers=min(args.workers, args.download_workers), thread_name_prefix='ygo-card') as pool:
+        jobs = {pool.submit(client.select, card_id, cache.paths.image_path(card_id + '.png'), args.dry_run, saved): card_id
+                for card_id, saved in pending}
+        for done, future in enumerate(concurrent.futures.as_completed(jobs), 1):
+            card_id = jobs[future]
+            try:
+                entry = future.result()
+            except Exception as exc:
+                entry = {'game': 'ygo', 'input': card_id, 'selected_id': card_id, 'status': 'error', 'error': str(exc), 'files': []}
+            entries[card_id] = entry
+            cache.store(entry)
+            cache.save()  # completed cards survive interrupted tasks
+            print('[游戏王 %d/%d] %s | %s | %s | %s' % (done, len(pending), card_id, entry.get('lang', ''), entry.get('source', ''), entry['status']), flush=True)
+    results = []
+    pdf_paths = []
+    for qty, card_id in rows:
+        entry = entries[card_id]
+        entry['qty'] = qty
+        if not args.dry_run and entry['status'] in ('ok', 'exists'):
+            if all(core.complete_image(r['file'], r.get('bytes')) for r in entry['files']):
+                pdf_paths.extend([r['file'] for r in entry['files']] * qty)
+            else:
+                entry.update(status='error', error='PNG 完整性校验失败')
+        results.append(entry)
+    cache.save()
+    ok = sum(e['status'] in ('ok', 'exists', 'dry-run') for e in results)
+    failed = len(results) - ok
+    manifest = {'game': 'ygo', 'language_order': list(YGO_LANGUAGES), 'source_order': ['baige', 'ygoprodeck'],
+                'out_dir': cache.directory, 'cards': results, 'tokens': [],
+                'summary': {'processed': len(results), 'ok': ok, 'failed': failed}}
+    core.atomic_json(os.path.join(args.out, 'manifest.json'), manifest)
+    with open(os.path.join(args.out, 'manifest.txt'), 'w', encoding='utf-8') as stream:
+        for entry in results:
+            stream.write('%d %s | %s | %s | %s%s\n' % (entry['qty'], entry['input'], entry.get('lang', ''), entry.get('source', ''), entry['status'], ' | ' + entry['error'] if entry.get('error') else ''))
+            for attempt in entry.get('attempts', []):
+                stream.write('    %s\n' % json.dumps(attempt, ensure_ascii=False))
+    print('完成：成功 %d / 失败 %d' % (ok, failed), flush=True)
+    if pdf_paths and not args.no_pdf and not args.dry_run:
+        info = core.make_pdf(pdf_paths, args.paper, os.path.join(args.out, 'cards.pdf'), cut_marks=not args.no_cut_marks)
+        if not info or info['cards'] != len(pdf_paths):
+            print('部分图片未能进入 PDF', flush=True)
+            return 1
+    return 1 if failed else 0
+
+
 # GUI layer appended to the existing standalone download engine.
 import queue
 import subprocess
@@ -2271,23 +2652,20 @@ GAME_PRESETS = {
     "万智牌": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
     "宝可梦TCG（中文）": (64, 64),
     "宝可梦TCG（英文）": (64, 64),
-    "游戏王（简中）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
-    "游戏王（日文）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
-    "游戏王（TCG）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
+    "游戏王": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
 }
-GAME_CODES = dict(zip(GAME_PRESETS, ("mtg", "ptcg-zh", "ptcg-en", "ygo-zh", "ygo-ja", "ygo-tcg")))
+GAME_CODES = dict(zip(GAME_PRESETS, ("mtg", "ptcg-zh", "ptcg-en", "ygo")))
 GAME_PICTURE_DIRECTORIES = {
     "万智牌": "mtg-pics",
     "宝可梦TCG（中文）": "ptcg-pics/zh-tw",
     "宝可梦TCG（英文）": "ptcg-pics/en",
+    "游戏王": "ygo-pics",
 }
 PTCG_LANGUAGES = {"ptcg-zh": "zh-tw", "ptcg-en": "en"}
 FIXED_LANGUAGE_LABELS = {
     "ptcg-zh": "繁体中文（zh-tw，固定，不回退）",
     "ptcg-en": "英文（en，固定，不回退）",
-    "ygo-zh": "简体中文（占位）",
-    "ygo-ja": "日文（占位）",
-    "ygo-tcg": "TCG（占位）",
+    "ygo": "简中→日文→英文（固定；百鸽全部失败后YGOPRODeck英文回退）",
 }
 
 LANG_PRESETS = {
@@ -2323,7 +2701,7 @@ def create_task_directory(output_root):
 
 def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, force,
                    download_workers=DEFAULT_DOWNLOAD_WORKERS, game='mtg'):
-    if game not in ('mtg', 'ptcg-zh', 'ptcg-en'):
+    if game not in ('mtg', 'ptcg-zh', 'ptcg-en', 'ygo'):
         raise ValueError("该游戏尚未接入下载接口。")
     if getattr(sys, "frozen", False):
         command = [sys.executable, "--engine"]
@@ -2332,7 +2710,7 @@ def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, for
         if executable.name.lower() == "pythonw.exe" and executable.with_name("python.exe").exists():
             executable = executable.with_name("python.exe")
         command = [str(executable), "-u", str(Path(__file__).resolve()), "--engine"]
-    pics = Path(output).parent / ("mtg-pics" if game == 'mtg' else "ptcg-pics")
+    pics = Path(output).parent / ('mtg-pics' if game == 'mtg' else 'ygo-pics' if game == 'ygo' else 'ptcg-pics')
     if game in PTCG_LANGUAGES:
         pics /= PTCG_LANGUAGES[game]
     command += [str(deck), "--out", str(output), "--pics", str(pics),
@@ -2388,7 +2766,7 @@ class CardDownloaderGUI:
         self.cut_marks = tk.BooleanVar(value=True)
         self.dry_run = tk.BooleanVar(value=False)
         self.force = tk.BooleanVar(value=False)
-        self.status = tk.StringVar(value="就绪：粘贴牌表，或导入 TXT 文件。")
+        self.status = tk.StringVar(value="就绪：粘贴牌表，或导入 TXT / YDK 文件。")
         self.count = tk.StringVar(value="0 种牌 · 0 张")
         self.detail = tk.StringVar(value="自动处理网络请求，受限时等待并重试。")
         self.output_label = tk.StringVar(value=str(self.output_root / "yymmdd-hhmmss"))
@@ -2455,7 +2833,7 @@ class CardDownloaderGUI:
         ttk.Label(left, text="牌表粘贴框", style="Section.TLabel").pack(anchor="w")
         tools = ttk.Frame(left, style="Card.TFrame")
         tools.pack(fill="x", pady=(10, 10))
-        for label, action in [("导入 TXT", self.import_deck), ("粘贴", self.paste_deck), ("示例", self.example), ("清空", self.clear_deck)]:
+        for label, action in [("导入 TXT / YDK", self.import_deck), ("粘贴", self.paste_deck), ("示例", self.example), ("清空", self.clear_deck)]:
             self._editable(ttk.Button(tools, text=label, command=action)).pack(side="left", padx=(0, 5))
         text_frame = ttk.Frame(left, style="Card.TFrame")
         text_frame.pack(fill="both", expand=True)
@@ -2468,7 +2846,7 @@ class CardDownloaderGUI:
         self.deck_text.pack(side="left", fill="both", expand=True)
         self.deck_text.bind("<<Modified>>", self._on_modified)
         ttk.Label(left, textvariable=self.count, style="Card.TLabel").pack(anchor="w", pady=(8, 3))
-        ttk.Label(left, text="MTG：数量 卡名；PTCG：数量 卡名 系列代码 编号。\n游戏王占位支持纯名称行；数量用于 PDF 排版。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
+        ttk.Label(left, text="MTG：数量 卡名；PTCG：数量 卡名 系列代码 编号。\n游戏王：YDK 每行一个密码，重复密码累计数量。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
 
         ttk.Label(right, text="卡牌游戏", style="Section.TLabel").pack(anchor="w")
         self.game_box = self._editable(ttk.Combobox(
@@ -2484,7 +2862,7 @@ class CardDownloaderGUI:
         ttk.Label(right, text="语言 / MTG 优先顺序", style="Card.TLabel").pack(anchor="w")
         self.language_box = self._editable(ttk.Combobox(right, textvariable=self.language, values=tuple(LANG_PRESETS)))
         self.language_box.pack(fill="x", pady=(4, 3))
-        ttk.Label(right, text="MTG 按语言顺序选图；PTCG 语种固定，不回退。\n已有缓存直接复用；换版本时勾选“重新选图”。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
+        ttk.Label(right, text="MTG 按语言顺序选图；PTCG 语种固定，不回退。\n游戏王固定简中→日文→英文；百鸽全部失败后YGOPRODeck英文回退。\n已有缓存直接复用；换版本时勾选“重新选图”。", style="Card.TLabel", wraplength=300, font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
         ttk.Label(right, text="自动处理网络请求，受限时等待并重试。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
         self.pdf_check = self._editable(ttk.Checkbutton(right, text="生成可打印 PDF 卡册", variable=self.pdf, command=self.sync_options))
         self.pdf_check.pack(anchor="w", pady=2)
@@ -2543,15 +2921,7 @@ class CardDownloaderGUI:
             return parse_ptcg_decklist(text)
         if game == 'mtg':
             return parse_decklist(text)
-        # 游戏王支持纯名称行；不能套用 MTG/PTCG 的数字行过滤。
-        rows = []
-        for raw in text.splitlines():
-            line = raw.strip()
-            if not line or line.startswith(("#", "//", ";")):
-                continue
-            match = re.fullmatch(r"(\d+)\s+(.+)", line)
-            rows.append((int(match.group(1)), match.group(2)) if match else (1, line))
-        return rows
+        return parse_ygo_decklist(text)
 
     def update_count(self):
         try:
@@ -2571,7 +2941,7 @@ class CardDownloaderGUI:
         self._on_modified()
 
     def import_deck(self):
-        path = filedialog.askopenfilename(parent=self.root, title="导入牌表", filetypes=[("牌表文本", "*.txt"), ("所有文件", "*.*")])
+        path = filedialog.askopenfilename(parent=self.root, title="导入牌表", filetypes=[("牌表文本", "*.txt *.ydk"), ("YDK 牌表", "*.ydk"), ("所有文件", "*.*")])
         if not path:
             return
         try:
@@ -2597,9 +2967,7 @@ class CardDownloaderGUI:
             'mtg': "# 示例牌表，可替换为你的牌表\n4 Lightning Bolt\n4 Counterspell\n8 Forest\n1 碎骨巨人\n",
             'ptcg-zh': "寶可夢\n2 爆炸頭水牛 SV8a 133\n1 傑尼龜 SV2a 007\n訓練家\n1 招式學習器 演進 SV8a 160\n",
             'ptcg-en': "Pokémon\n2 Shaymin DRI 10\n1 Froslass PR-SV 117\n1 Tatsugiri PR-SV 118\n",
-            'ygo-zh': "青眼白龙\n黑魔术师\n死者苏生\n",
-            'ygo-ja': "青眼の白龍\nブラック・マジシャン\n死者蘇生\n",
-            'ygo-tcg': "Blue-Eyes White Dragon\nDark Magician\nMonster Reborn\n",
+            'ygo': "#created by YGOPRO\n#main\n89631139\n89631139\n46986414\n#extra\n23995346\n!side\n83764718\n89631139\n",
         }
         self.set_deck(examples[self.game_code()])
 
@@ -2627,9 +2995,7 @@ class CardDownloaderGUI:
             self.sync_options()
 
     def picture_directory(self):
-        game = self.game_code()
-        if game.startswith('ygo-'):
-            raise ValueError("游戏王尚未接入，暂无图片目录。")
+        self.game_code()
         return self.output_root / GAME_PICTURE_DIRECTORIES[self.game.get()]
 
     def concurrency(self):
@@ -2654,13 +3020,13 @@ class CardDownloaderGUI:
             return
         game = self.game_code()
         if hasattr(self, "pics_label"):
-            self.pics_label.set("尚未接入，暂无图片目录" if game.startswith('ygo-') else str(self.picture_directory()))
+            self.pics_label.set(str(self.picture_directory()))
         query_workers, download_workers = self.concurrency()
         text = "查询并发 %d · 下载并发 %d" % (query_workers, download_workers)
         if game in PTCG_LANGUAGES:
             text += "\n本机实测择优，TCGdex 未公布硬性限额。"
-        elif game.startswith('ygo-'):
-            text = "游戏王占位：下载接口尚未接入；可识别纯名称牌表。"
+        elif game == 'ygo':
+            text += "\n简中→日文→英文；百鸽全部失败后YGOPRODeck英文回退。"
         self.network_policy.set(text)
         if hasattr(self, 'language_box'):
             self.sync_language()
@@ -2670,8 +3036,6 @@ class CardDownloaderGUI:
     def configuration(self):
         text = self.deck_text.get("1.0", "end-1c").strip()
         game = self.game_code()
-        if game.startswith('ygo-'):
-            raise ValueError("游戏王下载接口尚未接入。")
         rows = self.deck_rows(text)
         if not rows:
             raise ValueError("请先粘贴或导入牌表，每行填写一种牌。")
@@ -2680,6 +3044,8 @@ class CardDownloaderGUI:
         workers, _ = self.concurrency()
         if game in PTCG_LANGUAGES:
             codes = [PTCG_LANGUAGES[game]]
+        elif game == 'ygo':
+            codes = ['sc', 'jp', 'en']
         else:
             lang_text = self.language.get().strip()
             langs = LANG_PRESETS.get(lang_text, lang_text).replace("，", ",")
@@ -2769,6 +3135,12 @@ class CardDownloaderGUI:
         self.log_text.configure(state="disabled")
 
     def interpret_log(self, text):
+        ygo_progress = re.search(r"\[游戏王 (\d+)/(\d+)\] (.*)", text)
+        if ygo_progress:
+            self.progress.stop()
+            self.progress.configure(mode="determinate", maximum=max(1, int(ygo_progress.group(2))), value=int(ygo_progress.group(1)))
+            self.status.set("游戏王 %s/%s：%s" % ygo_progress.groups())
+            self.detail.set("百鸽简中→日文→英文，失败后自动回退 YGOPRODeck；实际语种与来源见日志。")
         token_summary = re.search(r"^Token 完成：成功 (\d+) / 失败 (\d+) / 关联检查失败 (\d+)\s*$", text.strip())
         if token_summary:
             self.token_summary = tuple(map(int, token_summary.groups()))
@@ -2941,6 +3313,56 @@ class CardDownloaderGUI:
         self.root.destroy()
 
 
+def ensure_engine_standard_streams():
+    """Restore only missing streams in pythonw/PyInstaller windowed engines.
+
+    Duplicate inherited Windows handles: closing our wrappers must never close
+    the GUI parent's pipes or an already valid Python stream. With no console
+    or inherited pipe, use devnull (stdin EOF, silent output).
+    """
+    import io
+    for name, number, mode in (('stdin', 0, 'r'), ('stdout', 1, 'w'), ('stderr', 2, 'w')):
+        if getattr(sys, name) is not None:
+            continue
+        descriptor = None
+        if os.name == 'nt':
+            import ctypes
+            import msvcrt
+            from ctypes import wintypes
+            kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+            kernel.GetStdHandle.argtypes = [wintypes.DWORD]
+            kernel.GetStdHandle.restype = wintypes.HANDLE
+            kernel.GetCurrentProcess.restype = wintypes.HANDLE
+            kernel.DuplicateHandle.argtypes = [wintypes.HANDLE, wintypes.HANDLE,
+                wintypes.HANDLE, ctypes.POINTER(wintypes.HANDLE), wintypes.DWORD,
+                wintypes.BOOL, wintypes.DWORD]
+            kernel.DuplicateHandle.restype = wintypes.BOOL
+            kernel.CloseHandle.argtypes = [wintypes.HANDLE]
+            handle = kernel.GetStdHandle((-10 - number) & 0xffffffff)
+            if handle and handle != ctypes.c_void_p(-1).value:
+                duplicate = wintypes.HANDLE()
+                process = kernel.GetCurrentProcess()
+                if kernel.DuplicateHandle(process, handle, process,
+                                          ctypes.byref(duplicate), 0, False, 2):
+                    try:
+                        descriptor = msvcrt.open_osfhandle(duplicate.value,
+                            (os.O_RDONLY if mode == 'r' else os.O_WRONLY) | os.O_BINARY)
+                    except OSError:
+                        kernel.CloseHandle(duplicate)
+        else:
+            try:
+                descriptor = os.dup(number)
+            except OSError:
+                pass
+        if descriptor is None:
+            stream = open(os.devnull, mode, encoding='utf-8', errors='replace')
+        else:
+            stream = io.TextIOWrapper(os.fdopen(descriptor, mode + 'b', buffering=0),
+                                      encoding='utf-8', errors='replace',
+                                      line_buffering=(mode == 'w'))
+        setattr(sys, name, stream)
+
+
 def launch_gui():
     if os.name == "nt":
         try:
@@ -2955,6 +3377,12 @@ def launch_gui():
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--engine":
+        ensure_engine_standard_streams()
+        # Windowed bootloaders may create valid locale-encoded streams even
+        # when PYTHONIOENCODING is set. The GUI pipe reader expects UTF-8.
+        for stream in (sys.stdin, sys.stdout, sys.stderr):
+            if hasattr(stream, 'reconfigure'):
+                stream.reconfigure(encoding='utf-8', errors='replace')
         try:
             sys.exit(main(sys.argv[2:]))
         except KeyboardInterrupt:

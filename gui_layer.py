@@ -13,23 +13,20 @@ GAME_PRESETS = {
     "万智牌": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
     "宝可梦TCG（中文）": (64, 64),
     "宝可梦TCG（英文）": (64, 64),
-    "游戏王（简中）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
-    "游戏王（日文）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
-    "游戏王（TCG）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
+    "游戏王": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
 }
-GAME_CODES = dict(zip(GAME_PRESETS, ("mtg", "ptcg-zh", "ptcg-en", "ygo-zh", "ygo-ja", "ygo-tcg")))
+GAME_CODES = dict(zip(GAME_PRESETS, ("mtg", "ptcg-zh", "ptcg-en", "ygo")))
 GAME_PICTURE_DIRECTORIES = {
     "万智牌": "mtg-pics",
     "宝可梦TCG（中文）": "ptcg-pics/zh-tw",
     "宝可梦TCG（英文）": "ptcg-pics/en",
+    "游戏王": "ygo-pics",
 }
 PTCG_LANGUAGES = {"ptcg-zh": "zh-tw", "ptcg-en": "en"}
 FIXED_LANGUAGE_LABELS = {
     "ptcg-zh": "繁体中文（zh-tw，固定，不回退）",
     "ptcg-en": "英文（en，固定，不回退）",
-    "ygo-zh": "简体中文（占位）",
-    "ygo-ja": "日文（占位）",
-    "ygo-tcg": "TCG（占位）",
+    "ygo": "简中→日文→英文（固定；百鸽全部失败后YGOPRODeck英文回退）",
 }
 
 LANG_PRESETS = {
@@ -65,7 +62,7 @@ def create_task_directory(output_root):
 
 def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, force,
                    download_workers=DEFAULT_DOWNLOAD_WORKERS, game='mtg'):
-    if game not in ('mtg', 'ptcg-zh', 'ptcg-en'):
+    if game not in ('mtg', 'ptcg-zh', 'ptcg-en', 'ygo'):
         raise ValueError("该游戏尚未接入下载接口。")
     if getattr(sys, "frozen", False):
         command = [sys.executable, "--engine"]
@@ -74,7 +71,7 @@ def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, for
         if executable.name.lower() == "pythonw.exe" and executable.with_name("python.exe").exists():
             executable = executable.with_name("python.exe")
         command = [str(executable), "-u", str(Path(__file__).resolve()), "--engine"]
-    pics = Path(output).parent / ("mtg-pics" if game == 'mtg' else "ptcg-pics")
+    pics = Path(output).parent / ('mtg-pics' if game == 'mtg' else 'ygo-pics' if game == 'ygo' else 'ptcg-pics')
     if game in PTCG_LANGUAGES:
         pics /= PTCG_LANGUAGES[game]
     command += [str(deck), "--out", str(output), "--pics", str(pics),
@@ -130,7 +127,7 @@ class CardDownloaderGUI:
         self.cut_marks = tk.BooleanVar(value=True)
         self.dry_run = tk.BooleanVar(value=False)
         self.force = tk.BooleanVar(value=False)
-        self.status = tk.StringVar(value="就绪：粘贴牌表，或导入 TXT 文件。")
+        self.status = tk.StringVar(value="就绪：粘贴牌表，或导入 TXT / YDK 文件。")
         self.count = tk.StringVar(value="0 种牌 · 0 张")
         self.detail = tk.StringVar(value="自动处理网络请求，受限时等待并重试。")
         self.output_label = tk.StringVar(value=str(self.output_root / "yymmdd-hhmmss"))
@@ -197,7 +194,7 @@ class CardDownloaderGUI:
         ttk.Label(left, text="牌表粘贴框", style="Section.TLabel").pack(anchor="w")
         tools = ttk.Frame(left, style="Card.TFrame")
         tools.pack(fill="x", pady=(10, 10))
-        for label, action in [("导入 TXT", self.import_deck), ("粘贴", self.paste_deck), ("示例", self.example), ("清空", self.clear_deck)]:
+        for label, action in [("导入 TXT / YDK", self.import_deck), ("粘贴", self.paste_deck), ("示例", self.example), ("清空", self.clear_deck)]:
             self._editable(ttk.Button(tools, text=label, command=action)).pack(side="left", padx=(0, 5))
         text_frame = ttk.Frame(left, style="Card.TFrame")
         text_frame.pack(fill="both", expand=True)
@@ -210,7 +207,7 @@ class CardDownloaderGUI:
         self.deck_text.pack(side="left", fill="both", expand=True)
         self.deck_text.bind("<<Modified>>", self._on_modified)
         ttk.Label(left, textvariable=self.count, style="Card.TLabel").pack(anchor="w", pady=(8, 3))
-        ttk.Label(left, text="MTG：数量 卡名；PTCG：数量 卡名 系列代码 编号。\n游戏王占位支持纯名称行；数量用于 PDF 排版。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
+        ttk.Label(left, text="MTG：数量 卡名；PTCG：数量 卡名 系列代码 编号。\n游戏王：YDK 每行一个密码，重复密码累计数量。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
 
         ttk.Label(right, text="卡牌游戏", style="Section.TLabel").pack(anchor="w")
         self.game_box = self._editable(ttk.Combobox(
@@ -226,7 +223,7 @@ class CardDownloaderGUI:
         ttk.Label(right, text="语言 / MTG 优先顺序", style="Card.TLabel").pack(anchor="w")
         self.language_box = self._editable(ttk.Combobox(right, textvariable=self.language, values=tuple(LANG_PRESETS)))
         self.language_box.pack(fill="x", pady=(4, 3))
-        ttk.Label(right, text="MTG 按语言顺序选图；PTCG 语种固定，不回退。\n已有缓存直接复用；换版本时勾选“重新选图”。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
+        ttk.Label(right, text="MTG 按语言顺序选图；PTCG 语种固定，不回退。\n游戏王固定简中→日文→英文；百鸽全部失败后YGOPRODeck英文回退。\n已有缓存直接复用；换版本时勾选“重新选图”。", style="Card.TLabel", wraplength=300, font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
         ttk.Label(right, text="自动处理网络请求，受限时等待并重试。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
         self.pdf_check = self._editable(ttk.Checkbutton(right, text="生成可打印 PDF 卡册", variable=self.pdf, command=self.sync_options))
         self.pdf_check.pack(anchor="w", pady=2)
@@ -285,15 +282,7 @@ class CardDownloaderGUI:
             return parse_ptcg_decklist(text)
         if game == 'mtg':
             return parse_decklist(text)
-        # 游戏王支持纯名称行；不能套用 MTG/PTCG 的数字行过滤。
-        rows = []
-        for raw in text.splitlines():
-            line = raw.strip()
-            if not line or line.startswith(("#", "//", ";")):
-                continue
-            match = re.fullmatch(r"(\d+)\s+(.+)", line)
-            rows.append((int(match.group(1)), match.group(2)) if match else (1, line))
-        return rows
+        return parse_ygo_decklist(text)
 
     def update_count(self):
         try:
@@ -313,7 +302,7 @@ class CardDownloaderGUI:
         self._on_modified()
 
     def import_deck(self):
-        path = filedialog.askopenfilename(parent=self.root, title="导入牌表", filetypes=[("牌表文本", "*.txt"), ("所有文件", "*.*")])
+        path = filedialog.askopenfilename(parent=self.root, title="导入牌表", filetypes=[("牌表文本", "*.txt *.ydk"), ("YDK 牌表", "*.ydk"), ("所有文件", "*.*")])
         if not path:
             return
         try:
@@ -339,9 +328,7 @@ class CardDownloaderGUI:
             'mtg': "# 示例牌表，可替换为你的牌表\n4 Lightning Bolt\n4 Counterspell\n8 Forest\n1 碎骨巨人\n",
             'ptcg-zh': "寶可夢\n2 爆炸頭水牛 SV8a 133\n1 傑尼龜 SV2a 007\n訓練家\n1 招式學習器 演進 SV8a 160\n",
             'ptcg-en': "Pokémon\n2 Shaymin DRI 10\n1 Froslass PR-SV 117\n1 Tatsugiri PR-SV 118\n",
-            'ygo-zh': "青眼白龙\n黑魔术师\n死者苏生\n",
-            'ygo-ja': "青眼の白龍\nブラック・マジシャン\n死者蘇生\n",
-            'ygo-tcg': "Blue-Eyes White Dragon\nDark Magician\nMonster Reborn\n",
+            'ygo': "#created by YGOPRO\n#main\n89631139\n89631139\n46986414\n#extra\n23995346\n!side\n83764718\n89631139\n",
         }
         self.set_deck(examples[self.game_code()])
 
@@ -369,9 +356,7 @@ class CardDownloaderGUI:
             self.sync_options()
 
     def picture_directory(self):
-        game = self.game_code()
-        if game.startswith('ygo-'):
-            raise ValueError("游戏王尚未接入，暂无图片目录。")
+        self.game_code()
         return self.output_root / GAME_PICTURE_DIRECTORIES[self.game.get()]
 
     def concurrency(self):
@@ -396,13 +381,13 @@ class CardDownloaderGUI:
             return
         game = self.game_code()
         if hasattr(self, "pics_label"):
-            self.pics_label.set("尚未接入，暂无图片目录" if game.startswith('ygo-') else str(self.picture_directory()))
+            self.pics_label.set(str(self.picture_directory()))
         query_workers, download_workers = self.concurrency()
         text = "查询并发 %d · 下载并发 %d" % (query_workers, download_workers)
         if game in PTCG_LANGUAGES:
             text += "\n本机实测择优，TCGdex 未公布硬性限额。"
-        elif game.startswith('ygo-'):
-            text = "游戏王占位：下载接口尚未接入；可识别纯名称牌表。"
+        elif game == 'ygo':
+            text += "\n简中→日文→英文；百鸽全部失败后YGOPRODeck英文回退。"
         self.network_policy.set(text)
         if hasattr(self, 'language_box'):
             self.sync_language()
@@ -412,8 +397,6 @@ class CardDownloaderGUI:
     def configuration(self):
         text = self.deck_text.get("1.0", "end-1c").strip()
         game = self.game_code()
-        if game.startswith('ygo-'):
-            raise ValueError("游戏王下载接口尚未接入。")
         rows = self.deck_rows(text)
         if not rows:
             raise ValueError("请先粘贴或导入牌表，每行填写一种牌。")
@@ -422,6 +405,8 @@ class CardDownloaderGUI:
         workers, _ = self.concurrency()
         if game in PTCG_LANGUAGES:
             codes = [PTCG_LANGUAGES[game]]
+        elif game == 'ygo':
+            codes = ['sc', 'jp', 'en']
         else:
             lang_text = self.language.get().strip()
             langs = LANG_PRESETS.get(lang_text, lang_text).replace("，", ",")
@@ -511,6 +496,12 @@ class CardDownloaderGUI:
         self.log_text.configure(state="disabled")
 
     def interpret_log(self, text):
+        ygo_progress = re.search(r"\[游戏王 (\d+)/(\d+)\] (.*)", text)
+        if ygo_progress:
+            self.progress.stop()
+            self.progress.configure(mode="determinate", maximum=max(1, int(ygo_progress.group(2))), value=int(ygo_progress.group(1)))
+            self.status.set("游戏王 %s/%s：%s" % ygo_progress.groups())
+            self.detail.set("百鸽简中→日文→英文，失败后自动回退 YGOPRODeck；实际语种与来源见日志。")
         token_summary = re.search(r"^Token 完成：成功 (\d+) / 失败 (\d+) / 关联检查失败 (\d+)\s*$", text.strip())
         if token_summary:
             self.token_summary = tuple(map(int, token_summary.groups()))
@@ -683,6 +674,56 @@ class CardDownloaderGUI:
         self.root.destroy()
 
 
+def ensure_engine_standard_streams():
+    """Restore only missing streams in pythonw/PyInstaller windowed engines.
+
+    Duplicate inherited Windows handles: closing our wrappers must never close
+    the GUI parent's pipes or an already valid Python stream. With no console
+    or inherited pipe, use devnull (stdin EOF, silent output).
+    """
+    import io
+    for name, number, mode in (('stdin', 0, 'r'), ('stdout', 1, 'w'), ('stderr', 2, 'w')):
+        if getattr(sys, name) is not None:
+            continue
+        descriptor = None
+        if os.name == 'nt':
+            import ctypes
+            import msvcrt
+            from ctypes import wintypes
+            kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+            kernel.GetStdHandle.argtypes = [wintypes.DWORD]
+            kernel.GetStdHandle.restype = wintypes.HANDLE
+            kernel.GetCurrentProcess.restype = wintypes.HANDLE
+            kernel.DuplicateHandle.argtypes = [wintypes.HANDLE, wintypes.HANDLE,
+                wintypes.HANDLE, ctypes.POINTER(wintypes.HANDLE), wintypes.DWORD,
+                wintypes.BOOL, wintypes.DWORD]
+            kernel.DuplicateHandle.restype = wintypes.BOOL
+            kernel.CloseHandle.argtypes = [wintypes.HANDLE]
+            handle = kernel.GetStdHandle((-10 - number) & 0xffffffff)
+            if handle and handle != ctypes.c_void_p(-1).value:
+                duplicate = wintypes.HANDLE()
+                process = kernel.GetCurrentProcess()
+                if kernel.DuplicateHandle(process, handle, process,
+                                          ctypes.byref(duplicate), 0, False, 2):
+                    try:
+                        descriptor = msvcrt.open_osfhandle(duplicate.value,
+                            (os.O_RDONLY if mode == 'r' else os.O_WRONLY) | os.O_BINARY)
+                    except OSError:
+                        kernel.CloseHandle(duplicate)
+        else:
+            try:
+                descriptor = os.dup(number)
+            except OSError:
+                pass
+        if descriptor is None:
+            stream = open(os.devnull, mode, encoding='utf-8', errors='replace')
+        else:
+            stream = io.TextIOWrapper(os.fdopen(descriptor, mode + 'b', buffering=0),
+                                      encoding='utf-8', errors='replace',
+                                      line_buffering=(mode == 'w'))
+        setattr(sys, name, stream)
+
+
 def launch_gui():
     if os.name == "nt":
         try:
@@ -697,6 +738,12 @@ def launch_gui():
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--engine":
+        ensure_engine_standard_streams()
+        # Windowed bootloaders may create valid locale-encoded streams even
+        # when PYTHONIOENCODING is set. The GUI pipe reader expects UTF-8.
+        for stream in (sys.stdin, sys.stdout, sys.stderr):
+            if hasattr(stream, 'reconfigure'):
+                stream.reconfigure(encoding='utf-8', errors='replace')
         try:
             sys.exit(main(sys.argv[2:]))
         except KeyboardInterrupt:

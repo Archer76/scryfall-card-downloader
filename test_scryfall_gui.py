@@ -24,8 +24,12 @@ ptcg_path = base / 'ptcg_engine.py'
 if not ptcg_path.exists():
     raise RuntimeError('GUI integration tests require ptcg_engine.py; integrate the PTCG engine first.')
 ptcg = ptcg_path.read_text(encoding='utf-8')
+ygo_path = base / 'ygo_engine.py'
+if not ygo_path.exists():
+    raise RuntimeError('GUI integration tests require ygo_engine.py; integrate the YGO engine first.')
+ygo = ygo_path.read_text(encoding='utf-8')
 layer = (base / 'gui_layer.py').read_text(encoding='utf-8')
-exec(compile(core + '\n' + ptcg + '\n' + layer, app.__file__, 'exec'), app.__dict__)
+exec(compile(core + '\n' + ptcg + '\n' + ygo + '\n' + layer, app.__file__, 'exec'), app.__dict__)
 
 class GUITests(unittest.TestCase):
     def setUp(self):
@@ -82,9 +86,9 @@ class GUITests(unittest.TestCase):
         self.gui.language.set('英文 nonsense')
         with self.assertRaises(ValueError): self.gui.configuration()
 
-    def test_six_games_concurrency_language_and_examples(self):
+    def test_four_games_concurrency_language_and_examples(self):
         games = ('万智牌', '宝可梦TCG（中文）', '宝可梦TCG（英文）',
-                 '游戏王（简中）', '游戏王（日文）', '游戏王（TCG）')
+                 '游戏王')
         self.assertEqual(tuple(self.gui.game_box['values']), games)
         self.assertEqual(str(self.gui.game_box['state']), 'readonly')
         for game in games:
@@ -93,14 +97,14 @@ class GUITests(unittest.TestCase):
                 self.gui.example()
                 self.assertNotIn('格式错误', self.gui.count.get())
                 code = self.gui.game_code()
-                if code.startswith('ygo-'):
-                    self.assertEqual(self.gui.count.get(), '3 种牌 · 3 张')
-                    self.assertIn('占位', self.gui.network_policy.get())
-                    continue
+                if code == 'ygo':
+                    self.assertEqual(self.gui.count.get(), '4 种牌 · 6 张')
+                    self.assertIn('简中→日文→英文', self.gui.network_policy.get())
+                    self.assertIn('百鸽全部失败后YGOPRODeck英文回退', self.gui.network_policy.get())
                 text, workers, paper, langs = self.gui.configuration()
                 self.assertEqual(len(self.gui.configuration()), 4)
-                self.assertEqual(self.gui.concurrency(), (4, 8) if code == 'mtg' else (64, 64))
-                self.assertEqual(langs, {'mtg': 'zhs,zht,en', 'ptcg-zh': 'zh-tw', 'ptcg-en': 'en'}[code])
+                self.assertEqual(self.gui.concurrency(), (4, 8) if code in ('mtg', 'ygo') else (64, 64))
+                self.assertEqual(langs, {'mtg': 'zhs,zht,en', 'ptcg-zh': 'zh-tw', 'ptcg-en': 'en', 'ygo': 'sc,jp,en'}[code])
                 if code != 'mtg':
                     self.assertEqual(str(self.gui.language_box['state']), 'disabled')
                     self.assertNotIn('待接入', self.gui.network_policy.get())
@@ -114,13 +118,13 @@ class GUITests(unittest.TestCase):
 
     def test_game_command_routes_paths_and_language(self):
         task = self.gui.output_root / 'task'
-        for code, folder in [('mtg', 'mtg-pics'), ('ptcg-zh', 'ptcg-pics/zh-tw'), ('ptcg-en', 'ptcg-pics/en')]:
+        for code, folder in [('mtg', 'mtg-pics'), ('ptcg-zh', 'ptcg-pics/zh-tw'), ('ptcg-en', 'ptcg-pics/en'), ('ygo', 'ygo-pics')]:
             command = app.engine_command('deck.txt', task, 64, 'A4', 'zhs,zht,en',
                                          True, True, False, False, 64, code)
             self.assertEqual(command[command.index('--game') + 1], code)
             self.assertEqual(command[command.index('--pics') + 1], str(self.gui.output_root / folder))
             self.assertEqual('--langs' in command, code == 'mtg')
-        for code in ('ygo-zh', 'ygo-ja', 'ygo-tcg'):
+        for code in ('ygo-zh', 'ygo-ja', 'ygo-tcg', 'unknown'):
             with self.assertRaises(ValueError):
                 app.engine_command('deck.txt', task, 4, 'A4', 'en', True, True, False, False, game=code)
 
@@ -140,22 +144,72 @@ class GUITests(unittest.TestCase):
                     self.assertFalse(self.gui.output_root.exists())
                     self.assertFalse(self.gui.running)
 
-    def test_yugioh_placeholder_names_no_download_or_directory(self):
-        for game in ('游戏王（简中）', '游戏王（日文）', '游戏王（TCG）'):
-            self.gui.game.set(game)
-            self.gui.set_deck('Blue-Eyes White Dragon\n2 Dark Magician\n# comment')
-            self.assertEqual(self.gui.count.get(), '2 种牌 · 3 张')
-            self.assertEqual(self.gui.pics_label.get(), '尚未接入，暂无图片目录')
-            with patch.object(app.messagebox, 'showerror') as error, \
-                 patch.object(app, 'engine_command') as engine, \
-                 patch.object(app.subprocess, 'Popen') as process:
-                self.gui.start()
-                self.gui.open_pics()
-            self.assertEqual(error.call_count, 2)
-            self.assertIn('尚未接入', error.call_args_list[0].args[1])
-            engine.assert_not_called()
-            process.assert_not_called()
-            self.assertFalse(self.gui.output_root.exists())
+    def test_yugioh_password_filtering_duplicates_and_configuration(self):
+        self.gui.game.set('游戏王')
+        text = ('#created by YGOPRO\n#main\n89631139\n89631139\n'
+                '#extra\n23995346\n!side\n89631139\n83764718\n'
+                'Blue-Eyes White Dragon\n2 Dark Magician\n１２３４５６７８\n'
+                '١٢٣٤٥٦٧٨\n89631139 extra\n+89631139\n2 89631139\n')
+        self.gui.set_deck(text)
+        self.assertEqual(self.gui.deck_rows(text), [(3, '89631139'), (1, '23995346'), (1, '83764718')])
+        self.assertEqual(self.gui.count.get(), '3 种牌 · 5 张')
+        self.assertEqual(self.gui.configuration(), (text.strip(), 4, 'A4', 'sc,jp,en'))
+        self.assertEqual(str(self.gui.language_box['state']), 'disabled')
+        self.gui.language.set('invalid custom language')
+        self.assertEqual(self.gui.configuration()[3], 'sc,jp,en')
+        with patch.object(app, 'parse_ygo_decklist', return_value=[(2, '12345678')]) as parser:
+            self.assertEqual(self.gui.deck_rows('12345678'), [(2, '12345678')])
+        parser.assert_called_once_with('12345678')
+
+    def test_yugioh_progress_updates_determinate_status(self):
+        self.gui.progress.configure(mode='indeterminate')
+        self.gui.progress.start(12)
+        self.gui.interpret_log('[游戏王 2/4] 89631139 | 简体中文 | baige | ok\n')
+        self.assertEqual(str(self.gui.progress['mode']), 'determinate')
+        self.assertEqual(float(self.gui.progress['maximum']), 4)
+        self.assertEqual(float(self.gui.progress['value']), 2)
+        self.assertEqual(self.gui.status.get(), '游戏王 2/4：89631139 | 简体中文 | baige | ok')
+        self.assertIn('YGOPRODeck', self.gui.detail.get())
+
+    def test_yugioh_non_password_input_never_creates_task(self):
+        self.gui.game.set('游戏王')
+        self.gui.set_deck('#main\n!side\n青眼白龙\n2 Dark Magician\n１２３４５６７８')
+        self.assertEqual(self.gui.count.get(), '0 种牌 · 0 张')
+        with patch.object(app.messagebox, 'showerror') as error, \
+             patch.object(app, 'engine_command') as engine, \
+             patch.object(app.subprocess, 'Popen') as process:
+            self.gui.start()
+        error.assert_called_once()
+        engine.assert_not_called()
+        process.assert_not_called()
+        self.assertFalse(self.gui.output_root.exists())
+
+    def test_yugioh_start_routes_real_parser_without_network(self):
+        self.gui.game.set('游戏王')
+        self.gui.example()
+        text = self.gui.deck_text.get('1.0', 'end-1c')
+        for section in ('#main', '#extra', '!side'):
+            self.assertIn(section, text)
+        self.assertEqual(text.count('89631139'), 3)
+        with patch.object(app, 'engine_command', return_value=['unused']) as engine, \
+             patch.object(app.threading, 'Thread') as thread:
+            self.gui.start()
+        self.assertTrue(self.gui.running)
+        self.assertEqual(engine.call_args.kwargs, {'download_workers': 8, 'game': 'ygo'})
+        self.assertEqual(engine.call_args.args[2:5], (4, 'A4', 'sc,jp,en'))
+        self.assertEqual((self.gui.output_dir / '本次牌表.txt').read_text(encoding='utf-8'), text.strip() + '\n')
+        thread.return_value.start.assert_called_once()
+        self.gui.progress.stop()
+        self.gui.set_running(False)
+
+    def test_import_ydk_supports_bom_and_filters(self):
+        self.gui.game.set('游戏王')
+        deck = Path(self.temp.name) / 'deck.ydk'
+        deck.write_text('#main\n89631139\n89631139\n!side\n83764718\n', encoding='utf-8-sig')
+        with patch.object(app.filedialog, 'askopenfilename', return_value=str(deck)) as dialog:
+            self.gui.import_deck()
+        self.assertIn(('YDK 牌表', '*.ydk'), dialog.call_args.kwargs['filetypes'])
+        self.assertEqual(self.gui.count.get(), '2 种牌 · 3 张')
 
     def test_titles_skipped_and_ptcg_prints_counted(self):
         self.gui.set_deck('Main Deck\n  4 Lightning Bolt\nSideboard\n1 Forest')
@@ -297,7 +351,7 @@ class GUITests(unittest.TestCase):
 
     def test_game_picture_directories_labels_and_open_are_isolated(self):
         root = self.gui.output_root
-        for game, folder in [('万智牌', 'mtg-pics'), ('宝可梦TCG（中文）', 'ptcg-pics/zh-tw'), ('宝可梦TCG（英文）', 'ptcg-pics/en')]:
+        for game, folder in [('万智牌', 'mtg-pics'), ('宝可梦TCG（中文）', 'ptcg-pics/zh-tw'), ('宝可梦TCG（英文）', 'ptcg-pics/en'), ('游戏王', 'ygo-pics')]:
             self.gui.game.set(game)
             target = root / folder
             self.assertEqual(self.gui.picture_directory(), target)
@@ -306,7 +360,7 @@ class GUITests(unittest.TestCase):
                 self.gui.open_pics()
             opened.assert_called_once_with(target)
             (target / 'same-name.png').write_bytes(folder.encode())
-        for folder in ('mtg-pics', 'ptcg-pics/zh-tw', 'ptcg-pics/en'):
+        for folder in ('mtg-pics', 'ptcg-pics/zh-tw', 'ptcg-pics/en', 'ygo-pics'):
             self.assertEqual((root / folder / 'same-name.png').read_bytes(), folder.encode())
         self.assertFalse((root / 'pics').exists())
 
@@ -367,6 +421,7 @@ class GUITests(unittest.TestCase):
         self.assertIn('--no-cut-marks', output.getvalue())
         self.assertIn('--game', output.getvalue())
         self.assertIn('ptcg-zh', output.getvalue())
+        self.assertIn('ygo', output.getvalue())
         self.assertNotIn('ygo-', output.getvalue())
 
 if __name__ == '__main__':
