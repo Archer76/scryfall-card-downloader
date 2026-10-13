@@ -207,7 +207,7 @@ class CardDownloaderGUI:
         self.deck_text.pack(side="left", fill="both", expand=True)
         self.deck_text.bind("<<Modified>>", self._on_modified)
         ttk.Label(left, textvariable=self.count, style="Card.TLabel").pack(anchor="w", pady=(8, 3))
-        ttk.Label(left, text="MTG：数量 卡名；PTCG：数量 卡名 系列代码 编号。\n游戏王：YDK 每行一个密码，重复密码累计数量。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
+        ttk.Label(left, text="MTG：数量 卡名，可加系列代码 编号锁定版本。\nPTCG：数量 卡名 系列代码 编号（必填）。\n游戏王：YDK 每行一个密码，重复密码累计数量。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
 
         ttk.Label(right, text="卡牌游戏", style="Section.TLabel").pack(anchor="w")
         self.game_box = self._editable(ttk.Combobox(
@@ -325,7 +325,7 @@ class CardDownloaderGUI:
 
     def example(self):
         examples = {
-            'mtg': "# 示例牌表，可替换为你的牌表\n4 Lightning Bolt\n4 Counterspell\n8 Forest\n1 碎骨巨人\n",
+            'mtg': "# 自动行与指定版可混用\n4 Lightning Bolt\n1 Lightning Bolt M11 146\n1 Lightning Bolt (M11) 146\n4 Counterspell\n8 Forest\n1 碎骨巨人\n",
             'ptcg-zh': "寶可夢\n2 爆炸頭水牛 SV8a 133\n1 傑尼龜 SV2a 007\n訓練家\n1 招式學習器 演進 SV8a 160\n",
             'ptcg-en': "Pokémon\n2 Shaymin DRI 10\n1 Froslass PR-SV 117\n1 Tatsugiri PR-SV 118\n",
             'ygo': "#created by YGOPRO\n#main\n89631139\n89631139\n46986414\n#extra\n23995346\n!side\n83764718\n89631139\n",

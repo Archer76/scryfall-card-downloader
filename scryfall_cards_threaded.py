@@ -117,6 +117,7 @@ _image_abort_reason = [None]
 _image_rate_limit_events = [0]
 _api_disk_cache_dir = None
 _query_log_lock = threading.Lock()
+_exact_print_refresh = False
 _print_cache = {}
 _print_cache_lock = threading.Lock()
 
@@ -266,7 +267,7 @@ def _write_api_cache(url, data):
                 pass
 
 
-def api_get(path, params=None, retries=4, cache_missing=True):
+def api_get(path, params=None, retries=4, cache_missing=True, refresh=False):
     """API 请求缓存 24h；限流全局退避，持续受限时停止排队网络请求。
 
     cache_missing=False 用于关联 token 的按 ID 查询：404 不写负缓存，已有负缓存也不采信，
@@ -274,7 +275,7 @@ def api_get(path, params=None, retries=4, cache_missing=True):
     url = API_BASE + path
     if params:
         url += "?" + urllib.parse.urlencode(params)
-    hit, data = _read_api_cache(url)
+    hit, data = (False, None) if refresh else _read_api_cache(url)
     if hit and (data is not None or cache_missing):
         _query_log("  API 缓存命中: %s" % url)
         return data
@@ -518,14 +519,76 @@ def prints_for(oracle_id, suffix="", max_pages=3):
     return future.result()
 
 
+FICTIONAL_LANGS = frozenset({"ph", "qya", "dw", "tlh"})
+
+
+def printing_identity(spec):
+    name, code, collector = spec
+    return "mtg-print:%s:%s:%s" % (code, collector, cache_name(name))
+
+
+def select_exact_print(spec, resolved):
+    """Never substitute another set/collector, even for the same oracle."""
+    name, code, collector = spec
+    oracle = resolved.get("oracle_id")
+
+    def usable(card):
+        return bool(card and str(card.get("set", "")).lower() == code
+                    and str(card.get("collector_number", "")) == collector
+                    and card.get("oracle_id") == oracle and is_usable_image(card)
+                    and bool(image_jobs(card))
+                    and all(any(uris.get(key) for key in ("png", "large", "normal", "small", "border_crop"))
+                            for _, uris in image_jobs(card))
+                    and (bool(card.get("image_uris")) or len(image_jobs(card)) == len(card.get("card_faces") or [])))
+
+    def quality(card):
+        return (bool(card.get("highres_image")),
+                {"highres_scan": 3, "full": 2, "lowres": 1}.get(card.get("image_status"), 0))
+
+    root = "/cards/%s/%s/" % (urllib.parse.quote(code, safe=""), urllib.parse.quote(collector, safe=""))
+    for lang in ("zhs", "zht", "en"):
+        card = api_get(root + lang, cache_missing=False, refresh=_exact_print_refresh)
+        if usable(card) and card.get("lang") == lang:
+            return card, lang
+    fictional = []
+    for lang in sorted(FICTIONAL_LANGS):
+        card = api_get(root + lang, cache_missing=False, refresh=_exact_print_refresh)
+        if usable(card) and card.get("lang") == lang:
+            fictional.append(card)
+    if fictional:
+        card = max(fictional, key=quality)
+        return card, card.get("lang")
+    found = []
+    page = 1
+    while True:
+        listing = api_get("/cards/search", {
+            "q": 'set:%s cn:"%s" lang:any' % (code, collector), "unique": "prints",
+            "include_multilingual": "true", "include_extras": "true", "page": page,
+        }, cache_missing=False, refresh=_exact_print_refresh)
+        if not listing:
+            break
+        found.extend(c for c in listing.get("data", []) if usable(c))
+        if not listing.get("has_more"):
+            break
+        page += 1
+    if not found:
+        return None, None
+    rank = lambda c: {"zhs": 0, "zht": 1, "en": 2}.get(
+        c.get("lang"), 3 if c.get("lang") in FICTIONAL_LANGS else 4)
+    best_rank = min(map(rank, found))
+    card = max((c for c in found if rank(c) == best_rank), key=quality)
+    return card, card.get("lang")
+
+
 def query_card(name, langs):
     """查询线程只返回元数据；文件命名和清单由主线程按牌表顺序处理。"""
-    resolved = resolve_card(name)
+    spec = parse_print_spec(name)
+    resolved = resolve_card(spec[0] if spec else name)
     result = {"resolved": resolved}
     if not resolved:
         return result
     oracle = resolved["oracle_id"]
-    selected, used_lang = select_print(oracle, langs, is_basic_land(resolved))
+    selected, used_lang = select_exact_print(spec, resolved) if spec else select_print(oracle, langs, is_basic_land(resolved))
     result.update(selected=selected, used_lang=used_lang)
     result["token_check"] = inspect_token_parts(resolved, selected)
     if not selected:
@@ -533,7 +596,7 @@ def query_card(name, langs):
     jobs = image_jobs(selected)
     result["jobs"] = jobs
     if jobs:
-        result["display"], result["name_source"] = resolve_display_names(oracle, selected)
+        result["display"], result["name_source"] = (face_names(selected), selected.get("set")) if spec else resolve_display_names(oracle, selected)
     return result
 
 
@@ -730,7 +793,27 @@ def safe_name(text):
 # =========================================================================== 牌表
 
 QTY_RE = re.compile(r"^\s*(\d+)\s*[xX]?\s+(.*\S)\s*$")
-SET_RE = re.compile(r"\s*[\(\[]([A-Za-z0-9]{2,6})[\)\]](\s+[\w\-\u2605]+)?\s*$")
+PRINT_SPEC_RE = re.compile(r"^(.+?)\s+(?:\(([A-Za-z0-9]{2,6})\)|([A-Z0-9]{2,6}))\s+([A-Za-z0-9★*†-]*\d[A-Za-z0-9★*†-]*)$")
+
+
+def parse_print_spec(name):
+    """Only an explicit set code plus collector number is a printing request."""
+    match = PRINT_SPEC_RE.fullmatch(str(name or "").strip())
+    if not match:
+        return None
+    card_name, parenthesized, bare, collector = match.groups()
+    code = parenthesized or bare
+    if not any(c.isalpha() for c in code):
+        return None
+    return card_name.strip(), code.lower(), collector
+
+
+def canonical_print_input(spec):
+    name, code, collector = spec
+    return "%s (%s) %s" % (name, code.upper(), collector)
+
+
+SET_RE = re.compile(r"\s*[\(\[]([A-Za-z0-9]{2,6})[\)\]]\s*$")
 SKIP_WORDS = {
     "deck", "decks", "sideboard", "mainboard", "commander", "companion",
     "maybeboard", "creatures", "lands", "instants", "sorceries", "enchantments",
@@ -753,7 +836,8 @@ def parse_decklist(text):
         line = match.group(2).strip()
         if line.lower() in SKIP_WORDS:
             continue
-        name = SET_RE.sub("", line).strip()
+        spec = parse_print_spec(line)
+        name = canonical_print_input(spec) if spec else SET_RE.sub("", line).strip()
         if name:
             rows.append((qty, name))
     return rows
@@ -844,6 +928,9 @@ class PictureCache:
 
     @staticmethod
     def key(entry):
+        spec = parse_print_spec(entry.get("input"))
+        if spec:
+            return printing_identity(spec)
         return cache_name(entry.get("english_name") or entry.get("display_name") or entry.get("input"))
 
     @staticmethod
@@ -901,6 +988,8 @@ class PictureCache:
             return
         key = self.key(stored)
         self.data["cards"][key] = stored
+        if parse_print_spec(stored.get("input")):
+            return
         names = [stored.get("input"), stored.get("english_name"), stored.get("display_name")]
         names.extend(stored.get("aliases") or [])
         if "//" in str(stored.get("english_name", "")):
@@ -920,6 +1009,10 @@ class PictureCache:
                 aliases[alias] = None  # 真正重名的别名需要正常解析，避免取错牌。
 
     def lookup(self, name):
+        spec = parse_print_spec(name)
+        if spec:
+            entry = self.data["cards"].get(printing_identity(spec))
+            return self.restore(entry) if entry else None
         alias = cache_name(name)
         key = self.data["aliases"].get(alias)
         if key is None and alias in self.data["aliases"]:
@@ -929,6 +1022,8 @@ class PictureCache:
             # 用户直接放入当前缓存目录 的完整图片，也可按文件名使用。
             token_files = {record["file"] for token in self.data["tokens"].values()
                            for record in token.get("files", [])}
+            token_files.update(record["file"] for key, card in self.data["cards"].items()
+                               if key.startswith("mtg-print:") for record in card.get("files", []))
             names = {cache_name(os.path.splitext(filename)[0]): filename
                      for filename in os.listdir(self.directory)
                      if filename not in token_files and filename.lower().endswith((".png", ".jpg", ".jpeg"))}
@@ -1660,7 +1755,8 @@ def _main(argv=None):
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(line_buffering=True, errors="replace")
 
-    global _api_disk_cache_dir, _image_interval
+    global _api_disk_cache_dir, _image_interval, _exact_print_refresh
+    _exact_print_refresh = args.force
     _reset_network_state()
     _image_interval = args.image_interval
     with _print_cache_lock:
@@ -1716,6 +1812,10 @@ def _main(argv=None):
 
     for index, (qty, name) in enumerate(rows, 1):
         entry = {"input": name, "qty": qty}
+        spec = parse_print_spec(name)
+        if spec:
+            entry.update(printing_spec={"name": spec[0], "set": spec[1], "collector_number": spec[2]},
+                         cache_identity=printing_identity(spec), set_code=spec[1], collector_number=spec[2])
         try:
             if name in cached:
                 entry = copy.deepcopy(cached[name])
@@ -1786,7 +1886,7 @@ def _main(argv=None):
             )
 
             for label, uris in jobs:
-                url = uris.get("png") or uris.get("large") or uris.get("normal")
+                url = uris.get("png") or uris.get("large") or uris.get("normal") or (uris.get("small") or uris.get("border_crop") if spec else None)
                 if not url:
                     raise RuntimeError("该面没有可用的图片 URL")
                 fmt = "png" if uris.get("png") else "jpg"
