@@ -742,13 +742,15 @@ def parse_decklist(text):
     rows = []
     for raw in text.splitlines():
         line = raw.strip()
-        if not line or line.startswith(("#", "//", ";")):
+        if not line or not line[0].isdigit():
             continue
-        qty = 1
         match = QTY_RE.match(line)
-        if match:
-            qty = int(match.group(1))
-            line = match.group(2).strip()
+        if not match:
+            raise ValueError("数字开头的牌表行需要数量与卡名，例如 4 Lightning Bolt：%s" % line)
+        qty = int(match.group(1))
+        if qty <= 0:
+            raise ValueError("牌表数量必须大于 0：%s" % line)
+        line = match.group(2).strip()
         if line.lower() in SKIP_WORDS:
             continue
         name = SET_RE.sub("", line).strip()
@@ -1622,8 +1624,10 @@ def _main(argv=None):
                         help="牌表路径；- 表示从标准输入读取")
     parser.add_argument("--out", default="scryfall-cards",
                         help="输出目录（默认 ./scryfall-cards）")
-    parser.add_argument("--pics", default=os.path.join(os.path.dirname(program_cache_directory()), "卡图输出", "mtg-pics"),
-                        help="共享图片缓存目录（默认程序旁的卡图输出/mtg-pics）")
+    parser.add_argument("--game", choices=("mtg", "ptcg-zh", "ptcg-en"), default="mtg",
+                        help="游戏：万智牌/宝可梦繁体中文/宝可梦英文")
+    parser.add_argument("--pics", default=None,
+                        help="图片目录；默认万智牌 mtg-pics，宝可梦 ptcg-pics/zh-tw 或 en")
     parser.add_argument("--langs", default="zhs,zht,en",
                         help="语言优先级，逗号分隔（默认 zhs,zht,en）")
     parser.add_argument("--paper", default="A4", choices=sorted(PAPERS),
@@ -1632,19 +1636,26 @@ def _main(argv=None):
     parser.add_argument("--no-cut-marks", action="store_true", help="不在卡册上画裁切框")
     parser.add_argument("--dry-run", action="store_true", help="只解析与选图，不下载")
     parser.add_argument("--force", action="store_true", help="已存在的图片也重新下载")
-    parser.add_argument("--workers", type=int, default=DEFAULT_WORKERS,
-                        help="查询线程数（默认 %d，1–%d；API 请求间隔 0.6 秒）" % (DEFAULT_WORKERS, MAX_WORKERS))
-    parser.add_argument("--download-workers", type=int, default=DEFAULT_DOWNLOAD_WORKERS,
-                        help="图片下载线程数（默认 %d，1–%d；受限时自动减半）" % (DEFAULT_DOWNLOAD_WORKERS, MAX_DOWNLOAD_WORKERS))
+    parser.add_argument("--workers", type=int, default=None,
+                        help="查询线程数（万智牌默认4，范围1–16；宝可梦默认64，范围1–64）")
+    parser.add_argument("--download-workers", type=int, default=None,
+                        help="下载线程数（万智牌默认8，范围1–32；宝可梦默认64，范围1–64）")
     parser.add_argument("--image-interval", type=float, default=MIN_IMAGE_INTERVAL,
                         help="图片请求启动间隔秒数（默认 %g；0 取消固定间隔，不取消服务端冷却）" % MIN_IMAGE_INTERVAL)
     args = parser.parse_args(argv)
     if not math.isfinite(args.image_interval) or args.image_interval < 0:
         parser.error("--image-interval 必须是非负有限数")
-    if not 1 <= args.workers <= MAX_WORKERS:
-        parser.error("--workers 必须在 1 到 %d 之间" % MAX_WORKERS)
-    if not 1 <= args.download_workers <= MAX_DOWNLOAD_WORKERS:
-        parser.error("--download-workers 必须在 1 到 %d 之间" % MAX_DOWNLOAD_WORKERS)
+    ptcg = args.game != "mtg"
+    query_max = 64 if ptcg else MAX_WORKERS
+    image_max = 64 if ptcg else MAX_DOWNLOAD_WORKERS
+    if args.workers is None:
+        args.workers = 64 if ptcg else DEFAULT_WORKERS
+    if args.download_workers is None:
+        args.download_workers = 64 if ptcg else DEFAULT_DOWNLOAD_WORKERS
+    if not 1 <= args.workers <= query_max:
+        parser.error("--workers 必须在 1 到 %d 之间" % query_max)
+    if not 1 <= args.download_workers <= image_max:
+        parser.error("--download-workers 必须在 1 到 %d 之间" % image_max)
     for stream in (sys.stdout, sys.stderr):
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(line_buffering=True, errors="replace")
@@ -1664,6 +1675,13 @@ def _main(argv=None):
         with open(args.decklist, "r", encoding="utf-8-sig") as fh:
             text = fh.read()
 
+    if ptcg:
+        if "run_ptcg" in globals():
+            return run_ptcg(args, text, sys.modules[__name__])
+        from ptcg_engine import run_ptcg as ptcg_runner
+        return ptcg_runner(args, text, sys.modules[__name__])
+    if args.pics is None:
+        args.pics = os.path.join(os.path.dirname(program_cache_directory()), "卡图输出", "mtg-pics")
     rows = parse_decklist(text)
     if not rows:
         print("牌表为空，未解析到任何卡名。")
@@ -1894,6 +1912,350 @@ def _main(argv=None):
 
 
 
+"""PTCG exact-print engine. Embedded by build_gui.py; no cross-language matching."""
+import concurrent.futures
+import copy
+import hashlib
+import json
+import os
+import re
+import sys
+import threading
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+
+PTCG_API_BASE = 'https://api.tcgdex.net/v2'
+PTCG_WORKERS = 64
+# Verified official set codes; PR-SV is an explicitly supported export alias.
+PTCG_EN_SETS = {
+    'DRI': 'sv10', 'PR-SV': 'svp', 'SVP': 'svp', 'SVE': 'sve',
+    'ASC': 'me02.5', 'TWM': 'sv06', 'PAR': 'sv04', 'RCL': 'swsh2',
+    'PAL': 'sv02', 'OBF': 'sv03', 'SUM': 'sm1', '30C': '30th',
+    'CIN': 'sm4', 'SSH': 'swsh1', 'PBL': 'me05', 'PRE': 'sv08.5',
+}
+PTCG_ROW = re.compile(r'^([0-9]+)\s+(.+?)\s+([A-Za-z0-9][A-Za-z0-9.\-]*)\s+([A-Za-z]*[0-9]+[A-Za-z]?(?:/[A-Za-z]*[0-9]+)?)$')
+
+
+def parse_ptcg_decklist(text):
+    rows = []
+    errors = []
+    for number, raw in enumerate(text.splitlines(), 1):
+        line = raw.strip()
+        if not line or not line[0].isdigit():
+            continue
+        match = PTCG_ROW.fullmatch(line)
+        if not match or int(match.group(1)) <= 0:
+            errors.append('第 %d 行：%s' % (number, line))
+            continue
+        qty, name, code, local_id = match.groups()
+        rows.append((int(qty), name.strip(), code, local_id))
+    if errors:
+        raise ValueError('宝可梦牌表必须使用“数量 卡名 系列代码 编号”，例如 1 Shaymin DRI 10；不接受无编号牌表。\n' + '\n'.join(errors))
+    return rows
+
+
+def _ptcg_number(value):
+    value = str(value)
+    # Numerator-only exports such as 10/182 still specify local card number.
+    value = value.split('/', 1)[0]
+    return str(int(value)) if value.isascii() and value.isdigit() else value
+
+
+class PTCGError(RuntimeError):
+    def __init__(self, status, message):
+        super().__init__(message)
+        self.status = status
+
+
+class PTCGClient:
+    """Own API cooldown/cache, never alters Scryfall API timing or route."""
+    def __init__(self, language, cache_dir, core):
+        if language not in ('en', 'zh-tw'):
+            raise ValueError('不支持的宝可梦语言')
+        self.language = language
+        self.cache_dir = os.path.join(cache_dir, 'tcgdex', language)
+        self.core = core
+        self.lock = threading.Lock()
+        self.cooldown = 0.0
+        self.abort = None
+        self.limited = 0
+        self.set_lock = threading.Lock()
+        self.sets = {}
+
+    def admit(self):
+        while True:
+            with self.lock:
+                if self.abort:
+                    raise PTCGError('request_error', self.abort)
+                delay = self.cooldown - time.monotonic()
+            if delay <= 0:
+                return
+            time.sleep(min(delay, 0.5))
+
+    def get(self, path):
+        url = PTCG_API_BASE + '/' + self.language + path
+        filename = os.path.join(self.cache_dir, hashlib.sha256(url.encode()).hexdigest() + '.json')
+        try:
+            with open(filename, encoding='utf-8') as fh:
+                saved = json.load(fh)
+            data = saved['data']
+            if 0 <= time.time() - saved['saved_at'] < self.core.API_CACHE_TTL and isinstance(data, (dict, list)) and not (isinstance(data, dict) and 'error' in data):
+                return data
+        except (OSError, ValueError, TypeError, KeyError):
+            pass
+        last = None
+        for attempt in range(4):
+            self.admit()
+            req = urllib.request.Request(url, headers={'User-Agent': self.core.UA, 'Accept': 'application/json'})
+            try:
+                with self.core.opener().open(req, timeout=30) as response:
+                    data = json.loads(response.read().decode('utf-8'))
+                if not isinstance(data, (dict, list)) or isinstance(data, dict) and 'error' in data:
+                    raise ValueError('TCGdex 响应格式不正确')
+                os.makedirs(self.cache_dir, exist_ok=True)
+                self.core.atomic_json(filename, {'saved_at': time.time(), 'data': data})
+                return data
+            except urllib.error.HTTPError as exc:
+                code = exc.code
+                retry = self.core.retry_after_seconds(exc.headers)
+                exc.close()
+                if code == 404:
+                    return None  # no failure/404 cache; retry next task
+                if code == 403:
+                    with self.lock:
+                        self.abort = 'TCGdex HTTP 403：已停止后续查询'
+                    raise PTCGError('request_error', self.abort)
+                if code == 429 or 500 <= code < 600:
+                    last = 'HTTP %d' % code
+                    delay = self.core.blocked_delay(code, attempt + 1, retry) if code in (429, 503) else max(retry, attempt + 1)
+                    with self.lock:
+                        now = time.monotonic()
+                        if code == 429 and now >= self.cooldown:
+                            self.limited += 1
+                            if self.limited >= 4:
+                                self.abort = 'TCGdex 多次限流：已停止后续查询'
+                        self.cooldown = max(self.cooldown, now + delay)
+                    continue
+                raise PTCGError('request_error', 'TCGdex HTTP %d' % code)
+            except PTCGError:
+                raise
+            except (OSError, ValueError) as exc:
+                last = str(exc)
+                if attempt < 3:
+                    time.sleep(0.8 * (attempt + 1))
+        raise PTCGError('request_error', 'TCGdex 查询失败：%s' % last)
+
+    def set_for(self, code):
+        # Singleflight by supplied set code; no per-card bulk directory traversal.
+        with self.set_lock:
+            if code in self.sets:
+                return self.sets[code]
+            set_id = PTCG_EN_SETS.get(code.upper(), code) if self.language == 'en' else code
+            data = self.get('/sets/' + urllib.parse.quote(set_id, safe=''))
+            if not data and self.language == 'en' and code.upper() not in PTCG_EN_SETS:
+                ids = set()
+                for field in ('abbreviation.official', 'tcgOnline'):
+                    found = self.get('/sets?' + urllib.parse.urlencode({field: 'eq:' + code.upper()}))
+                    if isinstance(found, list):
+                        ids.update(s['id'] for s in found if isinstance(s, dict) and isinstance(s.get('id'), str))
+                if len(ids) > 1:
+                    raise PTCGError('ambiguous_set', '系列代码 %s 对应多个系列，需提供具体 set ID' % code)
+                if len(ids) == 1:
+                    set_id = next(iter(ids))
+                    data = self.get('/sets/' + urllib.parse.quote(set_id, safe=''))
+                    aliases = (data or {}).get('abbreviation', {})
+                    official = aliases.get('official') if isinstance(aliases, dict) else None
+                    if code.upper() not in (str(official).upper(), str((data or {}).get('tcgOnline')).upper()):
+                        raise PTCGError('identity_mismatch', '返回系列不具有指定官方缩写：%s' % code)
+            if not data:
+                raise PTCGError('missing_set', '未找到 %s 系列 %s；请使用该语言卡库的系列代码或 TCGdex set ID' % (self.language, code))
+            if not isinstance(data, dict) or data.get('id') != set_id or not isinstance(data.get('cards'), list):
+                raise PTCGError('identity_mismatch', '系列身份不匹配：请求 %s，返回 %s' % (set_id, data.get('id') if isinstance(data, dict) else '非对象'))
+            self.sets[code] = data
+            return data
+
+    def resolve(self, name, code, number):
+        data = self.set_for(code)
+        matches = [c for c in data['cards'] if _ptcg_number(c.get('localId', '')) == _ptcg_number(number)]
+        if not matches:
+            raise PTCGError('missing_card', '系列 %s 中没有编号 %s' % (code, number))
+        if len(matches) != 1:
+            raise PTCGError('ambiguous_card', '系列 %s 编号 %s 不唯一' % (code, number))
+        brief = matches[0]
+        card_id = brief.get('id')
+        if not isinstance(card_id, str):
+            raise PTCGError('identity_mismatch', '卡牌缺少真实 ID')
+        card = self.get('/cards/' + urllib.parse.quote(card_id, safe=''))
+        if not card:
+            raise PTCGError('missing_card', '卡牌详情不存在：%s' % card_id)
+        if not isinstance(card, dict) or card.get('id') != card_id or card.get('set', {}).get('id') != data['id'] or _ptcg_number(card.get('localId', '')) != _ptcg_number(number):
+            raise PTCGError('identity_mismatch', '卡牌详情身份与指定系列、编号不一致：%s' % card_id)
+        actual_name = str(card.get('name') or '')
+        norm = lambda s: re.sub(r'\s+', ' ', s).strip().replace('’', "'").casefold()
+        allowed = {norm(actual_name)}
+        if self.language == 'en' and card.get('category') == 'Energy' and card.get('set', {}).get('id') == 'sve':
+            allowed.add(norm('Basic ' + actual_name))
+        if norm(name) not in allowed:
+            raise PTCGError('name_mismatch', '指定 %s %s 的名称为“%s”，不是“%s”' % (code, number, actual_name, name))
+        image = card.get('image')
+        if not isinstance(image, str) or not image:
+            raise PTCGError('missing_image', '卡牌 %s 有资料但尚无图片；不会替换成其他版本' % card_id)
+        parsed = urllib.parse.urlparse(image)
+        if parsed.scheme != 'https' or parsed.hostname != 'assets.tcgdex.net' or parsed.path.split('/')[1:2] != [self.language]:
+            raise PTCGError('invalid_image', 'TCGdex 图片地址无效或语言不一致')
+        return card, image.rstrip('/') + '/high.png'
+
+
+class PTCGPictureCache:
+    """Independent exact-print index: names never serve as lookup keys."""
+    def __init__(self, directory, language, core):
+        self.directory = os.path.abspath(directory)
+        self.language = language
+        self.core = core
+        self.paths = core.PictureCache(self.directory)  # reuse safe allocation/CRC only
+        self.file = os.path.join(self.directory, 'ptcg-index.json')
+        self.entries = {}
+        try:
+            with open(self.file, encoding='utf-8') as fh:
+                stored = json.load(fh)
+            if stored.get('version') == 1 and stored.get('language') == language and isinstance(stored.get('cards'), dict):
+                self.entries = stored['cards']
+        except (OSError, ValueError, TypeError, AttributeError):
+            pass
+
+    def key(self, code, number):
+        # No cross-language lowercase identity folding.
+        return self.language + ':' + code + ':' + _ptcg_number(number)
+
+    def lookup(self, name, code, number):
+        stored = self.entries.get(self.key(code, number))
+        if not stored or stored.get('input_name') != name:
+            return None
+        return self.paths.restore(stored)
+
+    def store(self, entry):
+        if not entry.get('files'):
+            return
+        stored = copy.deepcopy(entry)
+        stored.pop('qty', None)
+        stored.pop('cache_hit', None)
+        for record in stored['files']:
+            filename = os.path.basename(record['file'])
+            record['file'] = filename
+            self.paths.remember_image(filename, record.get('url'), record.get('bytes'))
+        self.entries[self.key(entry['set_code'], entry['collector_number'])] = stored
+
+    def save(self):
+        self.paths.save()
+        self.core.atomic_json(self.file, {'version': 1, 'language': self.language, 'cards': self.entries})
+
+
+def run_ptcg(args, text, core):
+    language = 'zh-tw' if args.game == 'ptcg-zh' else 'en'
+    rows = parse_ptcg_decklist(text)  # reject entire malformed task before creating dirs/API
+    if not rows:
+        print('牌表为空：需要数字开头的“数量 卡名 系列代码 编号”行。')
+        return 2
+    if not args.pics:
+        args.pics = os.path.join(os.path.dirname(core.program_cache_directory()), '卡图输出', 'ptcg-pics', language)
+    os.makedirs(args.out, exist_ok=True)
+    core._reset_network_state()
+    core._image_interval = args.image_interval
+    client = PTCGClient(language, core.program_cache_directory(), core)
+    cache = PTCGPictureCache(args.pics, language, core)
+    unique = list(dict.fromkeys((name, code, number) for qty, name, code, number in rows))
+    hits = {} if args.force else {row: cache.lookup(*row) for row in unique}
+    pending = [row for row in unique if not hits.get(row)]
+    resolved = {}
+    print('宝可梦TCG %s | 查询 %d 线程 | 下载 %d 线程 | 图片间隔 %g 秒' % (language, args.workers, args.download_workers, args.image_interval), flush=True)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers, thread_name_prefix='ptcg-query') as pool:
+        futures = {pool.submit(client.resolve, *row): row for row in pending}
+        finished = 0
+        for future in concurrent.futures.as_completed(futures):
+            row = futures[future]
+            finished += 1
+            try:
+                resolved[row] = future.result()
+            except Exception as exc:
+                resolved[row] = exc
+            print('[查询 %d/%d] %s %s %s' % (finished, len(pending), *row), flush=True)
+    results = []
+    for index, (qty, name, code, number) in enumerate(rows, 1):
+        row = (name, code, number)
+        entry = {'input': '%s %s %s' % row, 'input_name': name, 'qty': qty,
+                 'game': args.game, 'lang_code': language, 'set_code': code, 'collector_number': number}
+        if hits.get(row):
+            entry = copy.deepcopy(hits[row])
+            entry.update(qty=qty, cache_hit=True)
+            print('[缓存 %d/%d] %s -> %s' % (index, len(rows), entry['input'], entry['display_name']), flush=True)
+        else:
+            value = resolved[row]
+            if isinstance(value, Exception):
+                entry.update(status=getattr(value, 'status', 'request_error'), error=str(value), files=[])
+                print('  查询失败：%s | %s' % (entry['input'], value), flush=True)
+                results.append(entry)
+                continue
+            card, url = value
+            entry.update(selected_id=card['id'], tcgdex_set_id=card['set']['id'],
+                         display_name=card['name'], english_name=card['name'] if language == 'en' else '',
+                         lang='繁体中文' if language == 'zh-tw' else '英文', set_name=card['set'].get('name', ''),
+                         chinese_name=language == 'zh-tw', status='pending')
+            base = core.safe_name('%s_%s_%s' % (card['name'], card['set']['id'], card['localId']))
+            filename = cache.paths.allocate(base, 'png', url)
+            path = cache.paths.image_path(filename)
+            record = {'file': path, 'format': 'png', 'label': None, 'url': url, 'status': 'pending'}
+            if not args.force and core.complete_image(path):
+                record.update(status='exists', bytes=os.path.getsize(path))
+            entry['files'] = [record]
+        if args.dry_run:
+            entry['status'] = 'dry-run'
+            for record in entry['files']:
+                record['status'] = 'dry-run'
+        cache.store(entry)
+        results.append(entry)
+    cache.save()  # persist URLs before downloads so interrupted tasks are recoverable
+    if not args.dry_run:
+        core.download_all(results, args.download_workers)
+    pdf_paths = []
+    for entry in results:
+        if not entry.get('files'):
+            continue
+        if args.dry_run:
+            entry.pop('error', None)
+            entry['status'] = 'dry-run'
+        elif all(r['status'] in ('ok', 'exists') and core.complete_image(r['file'], r.get('bytes')) for r in entry['files']):
+            entry.pop('error', None)
+            entry['status'] = 'exists' if all(r['status'] == 'exists' for r in entry['files']) else 'ok'
+            pdf_paths.extend([r['file'] for r in entry['files']] * entry['qty'])
+        else:
+            entry.update(status='error', error='图片下载失败或校验未通过')
+            for record in entry['files']:
+                if record['status'] in ('ok', 'exists') and not core.complete_image(record['file'], record.get('bytes')):
+                    record.update(status='error', error='图片完整性校验失败')
+        cache.store(entry)
+    cache.save()
+    ok = sum(e['status'] in ('ok', 'exists', 'dry-run') for e in results)
+    failed = len(results) - ok
+    manifest = {'game': args.game, 'language': language, 'out_dir': cache.directory,
+                'cards': results, 'tokens': [], 'summary': {'processed': len(results), 'ok': ok, 'failed': failed}}
+    core.atomic_json(os.path.join(args.out, 'manifest.json'), manifest)
+    lines = ['宝可梦TCG %s | 成功 %d / 失败 %d' % (language, ok, failed)]
+    for entry in results:
+        lines.append('%d %s | %s | %s%s' % (entry['qty'], entry['input'], entry.get('lang', language), entry['status'], ' | ' + entry['error'] if entry.get('error') else ''))
+        lines.extend('    %s [%s]' % (os.path.basename(r['file']), r['status']) for r in entry.get('files', []))
+    with open(os.path.join(args.out, 'manifest.txt'), 'w', encoding='utf-8') as fh:
+        fh.write('\n'.join(lines) + '\n')
+    print('完成：成功 %d / 失败 %d' % (ok, failed), flush=True)
+    if pdf_paths and not args.no_pdf and not args.dry_run:
+        info = core.make_pdf(pdf_paths, args.paper, os.path.join(args.out, 'cards.pdf'), cut_marks=not args.no_cut_marks)
+        if not info or info['cards'] != len(pdf_paths):
+            print('部分图片未能进入 PDF', flush=True)
+            return 1
+    return 1 if failed else 0
+
+
 # GUI layer appended to the existing standalone download engine.
 import queue
 import subprocess
@@ -1907,10 +2269,26 @@ from tkinter import ttk, filedialog, messagebox
 # https://tcgdex.dev/faq#are-there-rate-limits
 GAME_PRESETS = {
     "万智牌": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
-    "PTCG": (64, 64),
+    "宝可梦TCG（中文）": (64, 64),
+    "宝可梦TCG（英文）": (64, 64),
+    "游戏王（简中）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
+    "游戏王（日文）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
+    "游戏王（TCG）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
 }
-
-GAME_PICTURE_DIRECTORIES = {"万智牌": "mtg-pics", "PTCG": "ptcg-pics"}
+GAME_CODES = dict(zip(GAME_PRESETS, ("mtg", "ptcg-zh", "ptcg-en", "ygo-zh", "ygo-ja", "ygo-tcg")))
+GAME_PICTURE_DIRECTORIES = {
+    "万智牌": "mtg-pics",
+    "宝可梦TCG（中文）": "ptcg-pics/zh-tw",
+    "宝可梦TCG（英文）": "ptcg-pics/en",
+}
+PTCG_LANGUAGES = {"ptcg-zh": "zh-tw", "ptcg-en": "en"}
+FIXED_LANGUAGE_LABELS = {
+    "ptcg-zh": "繁体中文（zh-tw，固定，不回退）",
+    "ptcg-en": "英文（en，固定，不回退）",
+    "ygo-zh": "简体中文（占位）",
+    "ygo-ja": "日文（占位）",
+    "ygo-tcg": "TCG（占位）",
+}
 
 LANG_PRESETS = {
     "简体 → 繁体 → 英文（默认）": "zhs,zht,en",
@@ -1944,7 +2322,9 @@ def create_task_directory(output_root):
 
 
 def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, force,
-                   download_workers=DEFAULT_DOWNLOAD_WORKERS):
+                   download_workers=DEFAULT_DOWNLOAD_WORKERS, game='mtg'):
+    if game not in ('mtg', 'ptcg-zh', 'ptcg-en'):
+        raise ValueError("该游戏尚未接入下载接口。")
     if getattr(sys, "frozen", False):
         command = [sys.executable, "--engine"]
     else:
@@ -1952,9 +2332,14 @@ def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, for
         if executable.name.lower() == "pythonw.exe" and executable.with_name("python.exe").exists():
             executable = executable.with_name("python.exe")
         command = [str(executable), "-u", str(Path(__file__).resolve()), "--engine"]
-    command += [str(deck), "--out", str(output), "--pics", str(Path(output).parent / "mtg-pics"),
-                "--workers", str(workers), "--download-workers", str(download_workers),
-                "--paper", paper, "--langs", langs]
+    pics = Path(output).parent / ("mtg-pics" if game == 'mtg' else "ptcg-pics")
+    if game in PTCG_LANGUAGES:
+        pics /= PTCG_LANGUAGES[game]
+    command += [str(deck), "--out", str(output), "--pics", str(pics),
+                "--game", game, "--workers", str(workers),
+                "--download-workers", str(download_workers), "--paper", paper]
+    if game == 'mtg':
+        command += ["--langs", langs]
     if not pdf:
         command.append("--no-pdf")
     if not marks:
@@ -2083,7 +2468,7 @@ class CardDownloaderGUI:
         self.deck_text.pack(side="left", fill="both", expand=True)
         self.deck_text.bind("<<Modified>>", self._on_modified)
         ttk.Label(left, textvariable=self.count, style="Card.TLabel").pack(anchor="w", pady=(8, 3))
-        ttk.Label(left, text="每行一种牌，例如 4 Lightning Bolt 或 4 闪电击。\n数量用于 PDF 排版，重复图片只下载一次。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
+        ttk.Label(left, text="MTG：数量 卡名；PTCG：数量 卡名 系列代码 编号。\n游戏王占位支持纯名称行；数量用于 PDF 排版。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
 
         ttk.Label(right, text="卡牌游戏", style="Section.TLabel").pack(anchor="w")
         self.game_box = self._editable(ttk.Combobox(
@@ -2096,10 +2481,10 @@ class CardDownloaderGUI:
         self.paper_box = self._editable(ttk.Combobox(right, textvariable=self.paper, state="readonly",
                               values=("A4 · 竖向 · 每页 9 张", "A3 · 横向 · 每页 18 张")), "readonly")
         self.paper_box.pack(fill="x", pady=(4, 10))
-        ttk.Label(right, text="语言优先顺序", style="Card.TLabel").pack(anchor="w")
+        ttk.Label(right, text="语言 / MTG 优先顺序", style="Card.TLabel").pack(anchor="w")
         self.language_box = self._editable(ttk.Combobox(right, textvariable=self.language, values=tuple(LANG_PRESETS)))
         self.language_box.pack(fill="x", pady=(4, 3))
-        ttk.Label(right, text="语言用于新牌名；已有缓存直接复用。\n要换版本时勾选“重新选图”。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
+        ttk.Label(right, text="MTG 按语言顺序选图；PTCG 语种固定，不回退。\n已有缓存直接复用；换版本时勾选“重新选图”。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
         ttk.Label(right, text="自动处理网络请求，受限时等待并重试。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
         self.pdf_check = self._editable(ttk.Checkbutton(right, text="生成可打印 PDF 卡册", variable=self.pdf, command=self.sync_options))
         self.pdf_check.pack(anchor="w", pady=2)
@@ -2146,10 +2531,38 @@ class CardDownloaderGUI:
         self.log_text.pack(fill="both", expand=True)
         self.sync_options()
 
+    def game_code(self):
+        try:
+            return GAME_CODES[self.game.get()]
+        except KeyError:
+            raise ValueError("请选择列表中的卡牌游戏。") from None
+
+    def deck_rows(self, text):
+        game = self.game_code()
+        if game in PTCG_LANGUAGES:
+            return parse_ptcg_decklist(text)
+        if game == 'mtg':
+            return parse_decklist(text)
+        # 游戏王支持纯名称行；不能套用 MTG/PTCG 的数字行过滤。
+        rows = []
+        for raw in text.splitlines():
+            line = raw.strip()
+            if not line or line.startswith(("#", "//", ";")):
+                continue
+            match = re.fullmatch(r"(\d+)\s+(.+)", line)
+            rows.append((int(match.group(1)), match.group(2)) if match else (1, line))
+        return rows
+
+    def update_count(self):
+        try:
+            rows = self.deck_rows(self.deck_text.get("1.0", "end-1c"))
+            self.count.set("%d 种牌 · %d 张" % (len({tuple(row[1:]) for row in rows}), sum(row[0] for row in rows)))
+        except ValueError as exc:
+            self.count.set("牌表格式错误：%s" % exc)
+
     def _on_modified(self, event=None):
         if self.deck_text.edit_modified():
-            rows = parse_decklist(self.deck_text.get("1.0", "end-1c"))
-            self.count.set("%d 种牌 · %d 张" % (len({name for qty, name in rows}), sum(qty for qty, name in rows)))
+            self.update_count()
             self.deck_text.edit_modified(False)
 
     def set_deck(self, text):
@@ -2180,7 +2593,15 @@ class CardDownloaderGUI:
             self.status.set("剪贴板中没有可粘贴的文字。")
 
     def example(self):
-        self.set_deck("# 示例牌表，可替换为你的牌表\n4 Lightning Bolt\n4 Counterspell\n8 Forest\n1 碎骨巨人\n")
+        examples = {
+            'mtg': "# 示例牌表，可替换为你的牌表\n4 Lightning Bolt\n4 Counterspell\n8 Forest\n1 碎骨巨人\n",
+            'ptcg-zh': "寶可夢\n2 爆炸頭水牛 SV8a 133\n1 傑尼龜 SV2a 007\n訓練家\n1 招式學習器 演進 SV8a 160\n",
+            'ptcg-en': "Pokémon\n2 Shaymin DRI 10\n1 Froslass PR-SV 117\n1 Tatsugiri PR-SV 118\n",
+            'ygo-zh': "青眼白龙\n黑魔术师\n死者苏生\n",
+            'ygo-ja': "青眼の白龍\nブラック・マジシャン\n死者蘇生\n",
+            'ygo-tcg': "Blue-Eyes White Dragon\nDark Magician\nMonster Reborn\n",
+        }
+        self.set_deck(examples[self.game_code()])
 
     def clear_deck(self):
         self.set_deck("")
@@ -2188,6 +2609,7 @@ class CardDownloaderGUI:
     def sync_options(self):
         if self.running:
             return
+        self.sync_language()
         self.pdf_check.configure(state="disabled" if self.dry_run.get() else "normal")
         enabled = self.pdf.get() and not self.dry_run.get()
         self.paper_box.configure(state="readonly" if enabled else "disabled")
@@ -2205,41 +2627,65 @@ class CardDownloaderGUI:
             self.sync_options()
 
     def picture_directory(self):
-        try:
-            return self.output_root / GAME_PICTURE_DIRECTORIES[self.game.get()]
-        except KeyError:
-            raise ValueError("请选择万智牌或 PTCG。") from None
+        game = self.game_code()
+        if game.startswith('ygo-'):
+            raise ValueError("游戏王尚未接入，暂无图片目录。")
+        return self.output_root / GAME_PICTURE_DIRECTORIES[self.game.get()]
 
     def concurrency(self):
-        try:
-            return GAME_PRESETS[self.game.get()]
-        except KeyError:
-            raise ValueError("请选择万智牌或 PTCG。") from None
+        self.game_code()
+        return GAME_PRESETS[self.game.get()]
+
+    def sync_language(self):
+        game = self.game_code()
+        if game == 'mtg':
+            if self.language.get() in FIXED_LANGUAGE_LABELS.values():
+                self.language.set(getattr(self, '_mtg_language', next(iter(LANG_PRESETS))))
+            self.language_box.configure(state="disabled" if self.running else "normal")
+        else:
+            if self.language.get() not in FIXED_LANGUAGE_LABELS.values():
+                self._mtg_language = self.language.get()
+            self.language.set(FIXED_LANGUAGE_LABELS[game])
+            self.language_box.configure(state="disabled")
 
     def _on_game_changed(self, *args):
         if self.game.get() not in GAME_PRESETS:
-            self.network_policy.set("请选择万智牌或 PTCG。")
+            self.network_policy.set("请选择列表中的卡牌游戏。")
             return
+        game = self.game_code()
         if hasattr(self, "pics_label"):
-            self.pics_label.set(str(self.picture_directory()))
+            self.pics_label.set("尚未接入，暂无图片目录" if game.startswith('ygo-') else str(self.picture_directory()))
         query_workers, download_workers = self.concurrency()
         text = "查询并发 %d · 下载并发 %d" % (query_workers, download_workers)
-        if self.game.get() == "PTCG":
-            text += "\n本机实测择优，TCGdex 未公布硬性限额。\nPTCG 查询与下载接口待接入。"
+        if game in PTCG_LANGUAGES:
+            text += "\n本机实测择优，TCGdex 未公布硬性限额。"
+        elif game.startswith('ygo-'):
+            text = "游戏王占位：下载接口尚未接入；可识别纯名称牌表。"
         self.network_policy.set(text)
+        if hasattr(self, 'language_box'):
+            self.sync_language()
+        if hasattr(self, 'deck_text'):
+            self.update_count()
 
     def configuration(self):
         text = self.deck_text.get("1.0", "end-1c").strip()
-        if not parse_decklist(text):
+        game = self.game_code()
+        if game.startswith('ygo-'):
+            raise ValueError("游戏王下载接口尚未接入。")
+        rows = self.deck_rows(text)
+        if not rows:
             raise ValueError("请先粘贴或导入牌表，每行填写一种牌。")
-        if any(qty <= 0 for qty, name in parse_decklist(text)):
+        if any(row[0] <= 0 for row in rows):
             raise ValueError("牌表里的数量必须大于 0。")
         workers, _ = self.concurrency()
-        lang_text = self.language.get().strip()
-        langs = LANG_PRESETS.get(lang_text, lang_text).replace("，", ",")
-        codes = [c.strip().lower() for c in langs.split(",") if c.strip()]
-        if not codes or any(not re.fullmatch(r"[a-z]{2,3}", c) for c in codes):
-            raise ValueError("请选择语言顺序，或输入语言代码，例如 zhs,zht,en。")
+        if game in PTCG_LANGUAGES:
+            codes = [PTCG_LANGUAGES[game]]
+        else:
+            lang_text = self.language.get().strip()
+            langs = LANG_PRESETS.get(lang_text, lang_text).replace("，", ",")
+            codes = [c.strip().lower() for c in langs.split(",") if c.strip()]
+            if not codes or any(not re.fullmatch(r"[a-z]{2,3}", c) for c in codes):
+                raise ValueError("请选择语言顺序，或输入语言代码，例如 zhs,zht,en。")
         if not self.paper.get().startswith(("A3", "A4")):
             raise ValueError("请选择 A3 或 A4 纸张。")
         return text, workers, self.paper.get()[:2], ",".join(dict.fromkeys(codes))
@@ -2250,15 +2696,12 @@ class CardDownloaderGUI:
         try:
             text, workers, paper, langs = self.configuration()
             _, download_workers = self.concurrency()
-            if self.game.get() == "PTCG":
-                raise ValueError("PTCG 查询与下载接口尚未接入；当前已配置查询 %d、下载 %d 的并发预设。" %
-                                 (workers, download_workers))
             task_dir = create_task_directory(self.output_root)
             deck_path = task_dir / "本次牌表.txt"
             deck_path.write_text(text + "\n", encoding="utf-8")
             command = engine_command(deck_path, task_dir, workers, paper, langs,
                                      self.pdf.get(), self.cut_marks.get(), self.dry_run.get(), self.force.get(),
-                                     download_workers=download_workers)
+                                     download_workers=download_workers, game=self.game_code())
             self.output_dir = task_dir
             self.output_label.set(str(task_dir))
         except Exception as exc:

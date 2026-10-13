@@ -742,13 +742,15 @@ def parse_decklist(text):
     rows = []
     for raw in text.splitlines():
         line = raw.strip()
-        if not line or line.startswith(("#", "//", ";")):
+        if not line or not line[0].isdigit():
             continue
-        qty = 1
         match = QTY_RE.match(line)
-        if match:
-            qty = int(match.group(1))
-            line = match.group(2).strip()
+        if not match:
+            raise ValueError("数字开头的牌表行需要数量与卡名，例如 4 Lightning Bolt：%s" % line)
+        qty = int(match.group(1))
+        if qty <= 0:
+            raise ValueError("牌表数量必须大于 0：%s" % line)
+        line = match.group(2).strip()
         if line.lower() in SKIP_WORDS:
             continue
         name = SET_RE.sub("", line).strip()
@@ -1622,8 +1624,10 @@ def _main(argv=None):
                         help="牌表路径；- 表示从标准输入读取")
     parser.add_argument("--out", default="scryfall-cards",
                         help="输出目录（默认 ./scryfall-cards）")
-    parser.add_argument("--pics", default=os.path.join(os.path.dirname(program_cache_directory()), "卡图输出", "mtg-pics"),
-                        help="共享图片缓存目录（默认程序旁的卡图输出/mtg-pics）")
+    parser.add_argument("--game", choices=("mtg", "ptcg-zh", "ptcg-en"), default="mtg",
+                        help="游戏：万智牌/宝可梦繁体中文/宝可梦英文")
+    parser.add_argument("--pics", default=None,
+                        help="图片目录；默认万智牌 mtg-pics，宝可梦 ptcg-pics/zh-tw 或 en")
     parser.add_argument("--langs", default="zhs,zht,en",
                         help="语言优先级，逗号分隔（默认 zhs,zht,en）")
     parser.add_argument("--paper", default="A4", choices=sorted(PAPERS),
@@ -1632,19 +1636,26 @@ def _main(argv=None):
     parser.add_argument("--no-cut-marks", action="store_true", help="不在卡册上画裁切框")
     parser.add_argument("--dry-run", action="store_true", help="只解析与选图，不下载")
     parser.add_argument("--force", action="store_true", help="已存在的图片也重新下载")
-    parser.add_argument("--workers", type=int, default=DEFAULT_WORKERS,
-                        help="查询线程数（默认 %d，1–%d；API 请求间隔 0.6 秒）" % (DEFAULT_WORKERS, MAX_WORKERS))
-    parser.add_argument("--download-workers", type=int, default=DEFAULT_DOWNLOAD_WORKERS,
-                        help="图片下载线程数（默认 %d，1–%d；受限时自动减半）" % (DEFAULT_DOWNLOAD_WORKERS, MAX_DOWNLOAD_WORKERS))
+    parser.add_argument("--workers", type=int, default=None,
+                        help="查询线程数（万智牌默认4，范围1–16；宝可梦默认64，范围1–64）")
+    parser.add_argument("--download-workers", type=int, default=None,
+                        help="下载线程数（万智牌默认8，范围1–32；宝可梦默认64，范围1–64）")
     parser.add_argument("--image-interval", type=float, default=MIN_IMAGE_INTERVAL,
                         help="图片请求启动间隔秒数（默认 %g；0 取消固定间隔，不取消服务端冷却）" % MIN_IMAGE_INTERVAL)
     args = parser.parse_args(argv)
     if not math.isfinite(args.image_interval) or args.image_interval < 0:
         parser.error("--image-interval 必须是非负有限数")
-    if not 1 <= args.workers <= MAX_WORKERS:
-        parser.error("--workers 必须在 1 到 %d 之间" % MAX_WORKERS)
-    if not 1 <= args.download_workers <= MAX_DOWNLOAD_WORKERS:
-        parser.error("--download-workers 必须在 1 到 %d 之间" % MAX_DOWNLOAD_WORKERS)
+    ptcg = args.game != "mtg"
+    query_max = 64 if ptcg else MAX_WORKERS
+    image_max = 64 if ptcg else MAX_DOWNLOAD_WORKERS
+    if args.workers is None:
+        args.workers = 64 if ptcg else DEFAULT_WORKERS
+    if args.download_workers is None:
+        args.download_workers = 64 if ptcg else DEFAULT_DOWNLOAD_WORKERS
+    if not 1 <= args.workers <= query_max:
+        parser.error("--workers 必须在 1 到 %d 之间" % query_max)
+    if not 1 <= args.download_workers <= image_max:
+        parser.error("--download-workers 必须在 1 到 %d 之间" % image_max)
     for stream in (sys.stdout, sys.stderr):
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(line_buffering=True, errors="replace")
@@ -1664,6 +1675,13 @@ def _main(argv=None):
         with open(args.decklist, "r", encoding="utf-8-sig") as fh:
             text = fh.read()
 
+    if ptcg:
+        if "run_ptcg" in globals():
+            return run_ptcg(args, text, sys.modules[__name__])
+        from ptcg_engine import run_ptcg as ptcg_runner
+        return ptcg_runner(args, text, sys.modules[__name__])
+    if args.pics is None:
+        args.pics = os.path.join(os.path.dirname(program_cache_directory()), "卡图输出", "mtg-pics")
     rows = parse_decklist(text)
     if not rows:
         print("牌表为空，未解析到任何卡名。")

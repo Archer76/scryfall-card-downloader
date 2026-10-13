@@ -6,13 +6,14 @@
 
 - Tkinter 图形界面和命令行下载引擎。
 - 简体、繁体、英文语言优先顺序；中文文件名和双面牌处理。
-- GUI 右侧“下载与排版”上方可选择万智牌或 PTCG，并显示对应的查询／下载并发。万智牌为 4／8，PTCG 为 64／64，切回万智牌恢复 4／8；任务运行期间禁止切换。
+- 游戏选择：万智牌、宝可梦TCG（中文）、宝可梦TCG（英文）、游戏王（简中）、游戏王（日文）、游戏王（TCG）。后三项仅占位，不启动下载。
+- 宝可梦中文仅访问 TCGdex `zh-tw`，英文仅访问 `en`；按指定系列和编号选图，不跨语言替换或同名重印替换。查询／下载默认 64／64，万智牌保持 4／8；任务运行期间禁止切换游戏。
 - PTCG 的 64／64 是本机实测择优预设，不是官方限额。2026-10-13 对相同样本比较 16／32／64：名称搜索与详情每档各 256 请求、30 秒 socket 超时，64 的综合耗时最低；同样 128 张高清 PNG（48.150 MB）、120 秒 socket 超时，三档分别耗时 83.469／81.328／68.703 秒，全部成功。若低档达到最高吞吐的 95% 会优先低档，本次两项均选择 64。详见[测试报告](tcgdex-benchmark-results/report.md)。
-- [TCGdex FAQ](https://tcgdex.dev/faq#are-there-rate-limits) 未公布硬性请求限额，也未给出查询与卡图下载的并发上限，并建议缓存批量查询结果。本阶段完成 UI 与并发配置，TCGdex 查询和下载接口尚未接入；选择 PTCG 后开始任务会提示待接入，不会向 Scryfall 请求。PTCG 的较高预设用于后续独立数据源接入，现有 Scryfall 命令行线程范围不变。
-- 命令行 `--workers` 仅控制查询（默认 4，1–16），`--download-workers` 控制下载（默认 8，1–32）。
+- [TCGdex FAQ](https://tcgdex.dev/faq#are-there-rate-limits) 未公布硬性请求限额，并建议缓存查询结果。PTCG 查询使用独立 API 缓存与冷却，不改变 Scryfall 的 0.6 秒 API 间隔；图片下载共用成熟的完整性校验、Retry-After、降并发保护。
+- 命令行 `--game mtg/ptcg-zh/ptcg-en` 选择数据源；万智牌 `--workers` 默认 4（1–16），`--download-workers` 默认 8（1–32）；宝可梦两参数默认 64（1–64）。
 - API 请求间隔仍为 0.6 秒；图片默认无固定启动间隔，可用 `--image-interval` 调整；遵守 Retry-After，并在受限时降并发和停止持续失败的请求。
 - 自动检查主卡与所选打印的关联 token / 徽记，按身份去重下载，默认每种身份在主卡之后追加一份到 PDF。
-- 按游戏隔离图片目录：万智牌任务共用 `卡图输出/mtg-pics`，PTCG 界面使用 `卡图输出/ptcg-pics`；已缓存的中英文牌名直接复用图片，跳过查询和下载。
+- 图片目录：万智牌 `卡图输出/mtg-pics`；宝可梦中文 `卡图输出/ptcg-pics/zh-tw`；宝可梦英文 `卡图输出/ptcg-pics/en`。宝可梦索引按语言、系列及编号存储，不以同名合并。
 - 图片缺失或损坏时使用保存的 URL 补下载；PNG 分块 CRC 检查。
 - 自动迁移真正旧任务的 `cards` 图片，按内容去重，保留同名不同版本；旧 `pics` 已弃用，不自动读取、迁移或回流其清单 URL，也不导入另一游戏图片目录。
 - 任务 PDF、牌表、清单和日志按 `yymmdd-hhmmss` 分目录保存。
@@ -28,7 +29,7 @@ Windows 用户可以双击 `启动GUI.cmd`，也可以运行：
 python scryfall_cards_gui.pyw
 ```
 
-每行使用一种牌名，可带数量：
+每行使用一种牌名，必须带数量：
 
 ```text
 4 Lightning Bolt
@@ -48,7 +49,28 @@ python scryfall_cards_threaded.py deck.txt --out results --pics ./卡图输出/m
 python scryfall_cards_threaded.py deck.txt --image-interval 0.1
 ```
 
-CLI 默认使用程序旁的 `卡图输出/mtg-pics`；`--pics` 可显式指定缓存目录，程序不会自动删除该目录。旧 `pics` 数据不自动清理。PTCG 接口仍未接入，切换游戏会同步目录标签和“打开当前游戏卡图”的目标。
+## 宝可梦牌表
+
+两种宝可梦语言分别使用本语言发行的系列与卡号，不相互转换。每个有效行必须是 `数量 卡名 系列代码 编号`；任意数字开头行缺少版本信息，整个任务拒绝运行并提示格式。万智牌与宝可梦都跳过首个非空字符不是数字的行，支持直接粘贴分类标题与总数；万智牌也必须写数量。游戏王占位不使用这条过滤规则。
+
+```text
+Pokémon:4
+2 Shaymin DRI 10
+1 Froslass PR-SV 117
+1 Tatsugiri PR-SV 118
+Total Cards:4
+```
+
+```powershell
+python scryfall_cards_threaded.py deck.txt --game ptcg-en --out results
+python scryfall_cards_threaded.py 中文牌表.txt --game ptcg-zh --out results
+```
+
+英文支持官方短代码（例如 DRI、TWM、ASC）以及 TCGdex set ID；`PR-SV` 是 `svp` 的显式导出兼容别名。中文使用本语言的 set ID，例如 `SV2a`。卡号从系列实际列表唯一匹配后获取真实 ID（10 可匹配 010），不猜补零。详情的卡名、系列和编号均需一致；同名不同招式/版本不互换。`Basic Darkness Energy` 等 SVE 能量导出名只在准确系列和卡号已锁定时兼容。
+
+缺集、缺卡、错名、身份冲突、缺图和请求失败分别写入清单；失败不缓存成成功，已有成果保留。已证实 `SVE 23` 有资料但缺图片，程序报告缺图，不猜 URL。PDF 按牌表顺序与数量排版，PTCG 不进行万智牌关联 token 查询。完整缓存再次运行零 API/图片请求，损坏或缺失图片按已保存 URL 补下载。仅查询不下载/PDF，强制刷新重新查询所指定版本。
+
+CLI 默认目录随游戏决定；`--pics` 可显式指定缓存目录，程序不会自动删除该目录。旧 `pics` 数据不自动清理，游戏切换同步目录标签和打开目标。
 
 已有图片优先于新的语言偏好；需要换版本时，在 GUI 勾选“重新选图并下载（忽略图片缓存）”，或使用 `--force`。
 
@@ -64,7 +86,8 @@ JSON 保留主卡 `cards` / `summary`，新增 `tokens` / `token_summary`；主�
 
 ## 文件与开发
 
-- `scryfall_cards_threaded.py`：下载、图片缓存和 PDF 引擎。
+- `scryfall_cards_threaded.py`：万智牌引擎、通用下载/PDF与游戏 CLI 路由。
+- `ptcg_engine.py`：TCGdex 精确系列编号查询、独立语言缓存与任务输出。
 - `gui_layer.py`：GUI 源码。
 - `build_gui.py`：将引擎与 GUI 合并为可独立运行的 `scryfall_cards_gui.pyw`。
 - `GUI使用说明.txt`：完整选项与输出说明。
@@ -78,7 +101,7 @@ python build_gui.py
 运行离线及本地 HTTP 测试（GUI 测试需要可用的桌面/Tk 环境）：
 
 ```powershell
-python -B -m unittest test_tokens test_shared_picture_cache test_scryfall_threaded test_scryfall_gui test_parallel_queries test_network_policy -v
+python -B -m unittest discover -v
 ```
 
 Windows 启动器测试：
