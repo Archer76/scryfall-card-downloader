@@ -12,10 +12,20 @@ import tkinter as tk
 import unittest
 from unittest.mock import patch
 
-loader = importlib.machinery.SourceFileLoader('gui_app', str(Path(__file__).with_name('scryfall_cards_gui.pyw')))
-spec = importlib.util.spec_from_loader(loader.name, loader)
-app = importlib.util.module_from_spec(spec)
-loader.exec_module(app)
+# Compose current sources in memory, as the standalone builder does. No generated
+# artifact needs to be modified to test gui_layer.py before integration.
+base = Path(__file__).resolve().parent
+app = importlib.util.module_from_spec(importlib.machinery.ModuleSpec('gui_app', loader=None))
+app.__file__ = str(base / 'scryfall_cards_gui.pyw')
+sys.modules[app.__name__] = app
+core = (base / 'scryfall_cards_threaded.py').read_text(encoding='utf-8')
+core = core.split('\nif __name__ == "__main__":')[0]
+ptcg_path = base / 'ptcg_engine.py'
+if not ptcg_path.exists():
+    raise RuntimeError('GUI integration tests require ptcg_engine.py; integrate the PTCG engine first.')
+ptcg = ptcg_path.read_text(encoding='utf-8')
+layer = (base / 'gui_layer.py').read_text(encoding='utf-8')
+exec(compile(core + '\n' + ptcg + '\n' + layer, app.__file__, 'exec'), app.__dict__)
 
 class GUITests(unittest.TestCase):
     def setUp(self):
@@ -72,41 +82,102 @@ class GUITests(unittest.TestCase):
         self.gui.language.set('英文 nonsense')
         with self.assertRaises(ValueError): self.gui.configuration()
 
-    def test_game_selection_and_concurrency(self):
-        self.gui.set_deck('1 皮卡丘')
-        self.assertEqual(tuple(self.gui.game_box['values']), ('万智牌', 'PTCG'))
+    def test_six_games_concurrency_language_and_examples(self):
+        games = ('万智牌', '宝可梦TCG（中文）', '宝可梦TCG（英文）',
+                 '游戏王（简中）', '游戏王（日文）', '游戏王（TCG）')
+        self.assertEqual(tuple(self.gui.game_box['values']), games)
         self.assertEqual(str(self.gui.game_box['state']), 'readonly')
-        self.assertEqual(self.gui.concurrency(), (4, 8))
-        siblings = self.gui.game_box.master.winfo_children()
-        section = next(w for w in siblings if isinstance(w, app.ttk.Label)
-                       and w.cget('text') == '下载与排版')
-        self.assertLess(siblings.index(self.gui.game_box), siblings.index(section))
-        self.gui.game.set('PTCG')
-        self.assertEqual(self.gui.concurrency(), (64, 64))
-        self.assertEqual(self.gui.configuration()[1], 64)
-        self.assertIn('查询并发 64 · 下载并发 64', self.gui.network_policy.get())
-        self.assertIn('本机实测择优', self.gui.network_policy.get())
-        self.assertIn('未公布硬性限额', self.gui.network_policy.get())
-        command = app.engine_command('deck.txt', self.gui.output_dir, 64, 'A4', 'zht,en',
-                                     True, True, False, False,
-                                     download_workers=self.gui.concurrency()[1])
-        self.assertEqual(command[command.index('--workers') + 1], '64')
-        self.assertEqual(command[command.index('--download-workers') + 1], '64')
-        with patch.object(app.messagebox, 'showerror') as error, \
-             patch.object(app, 'engine_command') as engine:
-            self.gui.start()
-        error.assert_called_once()
-        self.assertIn('查询 64、下载 64', error.call_args.args[1])
-        engine.assert_not_called()
-        self.assertFalse(self.gui.running)
-        self.assertFalse(self.gui.output_root.exists())
+        for game in games:
+            with self.subTest(game=game):
+                self.gui.game.set(game)
+                self.gui.example()
+                self.assertNotIn('格式错误', self.gui.count.get())
+                code = self.gui.game_code()
+                if code.startswith('ygo-'):
+                    self.assertEqual(self.gui.count.get(), '3 种牌 · 3 张')
+                    self.assertIn('占位', self.gui.network_policy.get())
+                    continue
+                text, workers, paper, langs = self.gui.configuration()
+                self.assertEqual(len(self.gui.configuration()), 4)
+                self.assertEqual(self.gui.concurrency(), (4, 8) if code == 'mtg' else (64, 64))
+                self.assertEqual(langs, {'mtg': 'zhs,zht,en', 'ptcg-zh': 'zh-tw', 'ptcg-en': 'en'}[code])
+                if code != 'mtg':
+                    self.assertEqual(str(self.gui.language_box['state']), 'disabled')
+                    self.assertNotIn('待接入', self.gui.network_policy.get())
+                    self.gui.language.set('zhs,en')
+                    self.assertEqual(self.gui.configuration()[3], langs)
+                    self.gui.set_running(True)
+                    self.gui.set_running(False)
+                    self.assertEqual(str(self.gui.language_box['state']), 'disabled')
         self.gui.game.set('万智牌')
-        self.assertEqual(self.gui.concurrency(), (4, 8))
-        self.assertEqual(self.gui.configuration()[1], 4)
-        self.gui.set_running(True)
-        self.assertEqual(str(self.gui.game_box['state']), 'disabled')
-        self.gui.set_running(False)
-        self.assertEqual(str(self.gui.game_box['state']), 'readonly')
+        self.assertEqual(str(self.gui.language_box['state']), 'normal')
+
+    def test_game_command_routes_paths_and_language(self):
+        task = self.gui.output_root / 'task'
+        for code, folder in [('mtg', 'mtg-pics'), ('ptcg-zh', 'ptcg-pics/zh-tw'), ('ptcg-en', 'ptcg-pics/en')]:
+            command = app.engine_command('deck.txt', task, 64, 'A4', 'zhs,zht,en',
+                                         True, True, False, False, 64, code)
+            self.assertEqual(command[command.index('--game') + 1], code)
+            self.assertEqual(command[command.index('--pics') + 1], str(self.gui.output_root / folder))
+            self.assertEqual('--langs' in command, code == 'mtg')
+        for code in ('ygo-zh', 'ygo-ja', 'ygo-tcg'):
+            with self.assertRaises(ValueError):
+                app.engine_command('deck.txt', task, 4, 'A4', 'en', True, True, False, False, game=code)
+
+    def test_ptcg_invalid_decks_never_create_tasks(self):
+        for game in ('宝可梦TCG（中文）', '宝可梦TCG（英文）'):
+            self.gui.game.set(game)
+            for text in ('4 Pikachu', '4 Pikachu sv1', '0 Pikachu sv1 062', 'Pokémon\nTrainer'):
+                with self.subTest(game=game, text=text):
+                    self.gui.set_deck(text)
+                    with patch.object(app.messagebox, 'showerror') as error, \
+                         patch.object(app, 'engine_command') as engine, \
+                         patch.object(app.subprocess, 'Popen') as process:
+                        self.gui.start()
+                    error.assert_called_once()
+                    engine.assert_not_called()
+                    process.assert_not_called()
+                    self.assertFalse(self.gui.output_root.exists())
+                    self.assertFalse(self.gui.running)
+
+    def test_yugioh_placeholder_names_no_download_or_directory(self):
+        for game in ('游戏王（简中）', '游戏王（日文）', '游戏王（TCG）'):
+            self.gui.game.set(game)
+            self.gui.set_deck('Blue-Eyes White Dragon\n2 Dark Magician\n# comment')
+            self.assertEqual(self.gui.count.get(), '2 种牌 · 3 张')
+            self.assertEqual(self.gui.pics_label.get(), '尚未接入，暂无图片目录')
+            with patch.object(app.messagebox, 'showerror') as error, \
+                 patch.object(app, 'engine_command') as engine, \
+                 patch.object(app.subprocess, 'Popen') as process:
+                self.gui.start()
+                self.gui.open_pics()
+            self.assertEqual(error.call_count, 2)
+            self.assertIn('尚未接入', error.call_args_list[0].args[1])
+            engine.assert_not_called()
+            process.assert_not_called()
+            self.assertFalse(self.gui.output_root.exists())
+
+    def test_titles_skipped_and_ptcg_prints_counted(self):
+        self.gui.set_deck('Main Deck\n  4 Lightning Bolt\nSideboard\n1 Forest')
+        self.assertEqual(self.gui.count.get(), '2 种牌 · 5 张')
+        self.gui.game.set('宝可梦TCG（英文）')
+        self.gui.set_deck('Pokémon\n4 Pikachu sv1 062\nTrainer\n2 Pikachu sv2 025')
+        self.assertEqual(self.gui.count.get(), '2 种牌 · 6 张')
+
+    def test_ptcg_start_routes_real_parser_without_network(self):
+        for game, code in [('宝可梦TCG（中文）', 'ptcg-zh'), ('宝可梦TCG（英文）', 'ptcg-en')]:
+            self.gui.game.set(game)
+            self.gui.example()
+            with patch.object(app, 'engine_command', return_value=['unused']) as engine, \
+                 patch.object(app.threading, 'Thread') as thread:
+                self.gui.start()
+            self.assertTrue(self.gui.running)
+            self.assertEqual(engine.call_args.kwargs, {'download_workers': 64, 'game': code})
+            self.assertEqual(engine.call_args.args[2], 64)
+            self.assertTrue((self.gui.output_dir / '本次牌表.txt').exists())
+            thread.return_value.start.assert_called_once()
+            self.gui.progress.stop()
+            self.gui.set_running(False)
 
     def test_all_flags_forwarded(self):
         command = app.engine_command('deck.txt', self.gui.output_dir, 32, 'A3', 'zht,zhs,en', False, False, True, True)
@@ -226,7 +297,7 @@ class GUITests(unittest.TestCase):
 
     def test_game_picture_directories_labels_and_open_are_isolated(self):
         root = self.gui.output_root
-        for game, folder in [('万智牌', 'mtg-pics'), ('PTCG', 'ptcg-pics'), ('万智牌', 'mtg-pics')]:
+        for game, folder in [('万智牌', 'mtg-pics'), ('宝可梦TCG（中文）', 'ptcg-pics/zh-tw'), ('宝可梦TCG（英文）', 'ptcg-pics/en')]:
             self.gui.game.set(game)
             target = root / folder
             self.assertEqual(self.gui.picture_directory(), target)
@@ -235,8 +306,8 @@ class GUITests(unittest.TestCase):
                 self.gui.open_pics()
             opened.assert_called_once_with(target)
             (target / 'same-name.png').write_bytes(folder.encode())
-        self.assertEqual((root / 'mtg-pics' / 'same-name.png').read_bytes(), b'mtg-pics')
-        self.assertEqual((root / 'ptcg-pics' / 'same-name.png').read_bytes(), b'ptcg-pics')
+        for folder in ('mtg-pics', 'ptcg-pics/zh-tw', 'ptcg-pics/en'):
+            self.assertEqual((root / folder / 'same-name.png').read_bytes(), folder.encode())
         self.assertFalse((root / 'pics').exists())
 
     def test_token_progress_and_separate_summary(self):
@@ -288,10 +359,15 @@ class GUITests(unittest.TestCase):
         self.assertNotIn('Token', self.gui.detail.get())
 
     def test_engine_help(self):
-        completed = subprocess.run([sys.executable, str(Path(app.__file__)), '--engine', '--help'], capture_output=True, encoding='utf-8', errors='replace', env={**app.os.environ, 'PYTHONIOENCODING': 'utf-8'}, timeout=10)
-        self.assertEqual(completed.returncode, 0)
-        self.assertIn('--workers', completed.stdout)
-        self.assertIn('--no-cut-marks', completed.stdout)
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output), self.assertRaises(SystemExit) as exit_info:
+            app.main(['--help'])
+        self.assertEqual(exit_info.exception.code, 0)
+        self.assertIn('--workers', output.getvalue())
+        self.assertIn('--no-cut-marks', output.getvalue())
+        self.assertIn('--game', output.getvalue())
+        self.assertIn('ptcg-zh', output.getvalue())
+        self.assertNotIn('ygo-', output.getvalue())
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

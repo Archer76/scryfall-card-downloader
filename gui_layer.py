@@ -11,10 +11,26 @@ from tkinter import ttk, filedialog, messagebox
 # https://tcgdex.dev/faq#are-there-rate-limits
 GAME_PRESETS = {
     "万智牌": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
-    "PTCG": (64, 64),
+    "宝可梦TCG（中文）": (64, 64),
+    "宝可梦TCG（英文）": (64, 64),
+    "游戏王（简中）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
+    "游戏王（日文）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
+    "游戏王（TCG）": (DEFAULT_WORKERS, DEFAULT_DOWNLOAD_WORKERS),
 }
-
-GAME_PICTURE_DIRECTORIES = {"万智牌": "mtg-pics", "PTCG": "ptcg-pics"}
+GAME_CODES = dict(zip(GAME_PRESETS, ("mtg", "ptcg-zh", "ptcg-en", "ygo-zh", "ygo-ja", "ygo-tcg")))
+GAME_PICTURE_DIRECTORIES = {
+    "万智牌": "mtg-pics",
+    "宝可梦TCG（中文）": "ptcg-pics/zh-tw",
+    "宝可梦TCG（英文）": "ptcg-pics/en",
+}
+PTCG_LANGUAGES = {"ptcg-zh": "zh-tw", "ptcg-en": "en"}
+FIXED_LANGUAGE_LABELS = {
+    "ptcg-zh": "繁体中文（zh-tw，固定，不回退）",
+    "ptcg-en": "英文（en，固定，不回退）",
+    "ygo-zh": "简体中文（占位）",
+    "ygo-ja": "日文（占位）",
+    "ygo-tcg": "TCG（占位）",
+}
 
 LANG_PRESETS = {
     "简体 → 繁体 → 英文（默认）": "zhs,zht,en",
@@ -48,7 +64,9 @@ def create_task_directory(output_root):
 
 
 def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, force,
-                   download_workers=DEFAULT_DOWNLOAD_WORKERS):
+                   download_workers=DEFAULT_DOWNLOAD_WORKERS, game='mtg'):
+    if game not in ('mtg', 'ptcg-zh', 'ptcg-en'):
+        raise ValueError("该游戏尚未接入下载接口。")
     if getattr(sys, "frozen", False):
         command = [sys.executable, "--engine"]
     else:
@@ -56,9 +74,14 @@ def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, for
         if executable.name.lower() == "pythonw.exe" and executable.with_name("python.exe").exists():
             executable = executable.with_name("python.exe")
         command = [str(executable), "-u", str(Path(__file__).resolve()), "--engine"]
-    command += [str(deck), "--out", str(output), "--pics", str(Path(output).parent / "mtg-pics"),
-                "--workers", str(workers), "--download-workers", str(download_workers),
-                "--paper", paper, "--langs", langs]
+    pics = Path(output).parent / ("mtg-pics" if game == 'mtg' else "ptcg-pics")
+    if game in PTCG_LANGUAGES:
+        pics /= PTCG_LANGUAGES[game]
+    command += [str(deck), "--out", str(output), "--pics", str(pics),
+                "--game", game, "--workers", str(workers),
+                "--download-workers", str(download_workers), "--paper", paper]
+    if game == 'mtg':
+        command += ["--langs", langs]
     if not pdf:
         command.append("--no-pdf")
     if not marks:
@@ -187,7 +210,7 @@ class CardDownloaderGUI:
         self.deck_text.pack(side="left", fill="both", expand=True)
         self.deck_text.bind("<<Modified>>", self._on_modified)
         ttk.Label(left, textvariable=self.count, style="Card.TLabel").pack(anchor="w", pady=(8, 3))
-        ttk.Label(left, text="每行一种牌，例如 4 Lightning Bolt 或 4 闪电击。\n数量用于 PDF 排版，重复图片只下载一次。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
+        ttk.Label(left, text="MTG：数量 卡名；PTCG：数量 卡名 系列代码 编号。\n游戏王占位支持纯名称行；数量用于 PDF 排版。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w")
 
         ttk.Label(right, text="卡牌游戏", style="Section.TLabel").pack(anchor="w")
         self.game_box = self._editable(ttk.Combobox(
@@ -200,10 +223,10 @@ class CardDownloaderGUI:
         self.paper_box = self._editable(ttk.Combobox(right, textvariable=self.paper, state="readonly",
                               values=("A4 · 竖向 · 每页 9 张", "A3 · 横向 · 每页 18 张")), "readonly")
         self.paper_box.pack(fill="x", pady=(4, 10))
-        ttk.Label(right, text="语言优先顺序", style="Card.TLabel").pack(anchor="w")
+        ttk.Label(right, text="语言 / MTG 优先顺序", style="Card.TLabel").pack(anchor="w")
         self.language_box = self._editable(ttk.Combobox(right, textvariable=self.language, values=tuple(LANG_PRESETS)))
         self.language_box.pack(fill="x", pady=(4, 3))
-        ttk.Label(right, text="语言用于新牌名；已有缓存直接复用。\n要换版本时勾选“重新选图”。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
+        ttk.Label(right, text="MTG 按语言顺序选图；PTCG 语种固定，不回退。\n已有缓存直接复用；换版本时勾选“重新选图”。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
         ttk.Label(right, text="自动处理网络请求，受限时等待并重试。", style="Card.TLabel", font=("Microsoft YaHei UI", 9)).pack(anchor="w", pady=(0, 10))
         self.pdf_check = self._editable(ttk.Checkbutton(right, text="生成可打印 PDF 卡册", variable=self.pdf, command=self.sync_options))
         self.pdf_check.pack(anchor="w", pady=2)
@@ -250,10 +273,38 @@ class CardDownloaderGUI:
         self.log_text.pack(fill="both", expand=True)
         self.sync_options()
 
+    def game_code(self):
+        try:
+            return GAME_CODES[self.game.get()]
+        except KeyError:
+            raise ValueError("请选择列表中的卡牌游戏。") from None
+
+    def deck_rows(self, text):
+        game = self.game_code()
+        if game in PTCG_LANGUAGES:
+            return parse_ptcg_decklist(text)
+        if game == 'mtg':
+            return parse_decklist(text)
+        # 游戏王支持纯名称行；不能套用 MTG/PTCG 的数字行过滤。
+        rows = []
+        for raw in text.splitlines():
+            line = raw.strip()
+            if not line or line.startswith(("#", "//", ";")):
+                continue
+            match = re.fullmatch(r"(\d+)\s+(.+)", line)
+            rows.append((int(match.group(1)), match.group(2)) if match else (1, line))
+        return rows
+
+    def update_count(self):
+        try:
+            rows = self.deck_rows(self.deck_text.get("1.0", "end-1c"))
+            self.count.set("%d 种牌 · %d 张" % (len({tuple(row[1:]) for row in rows}), sum(row[0] for row in rows)))
+        except ValueError as exc:
+            self.count.set("牌表格式错误：%s" % exc)
+
     def _on_modified(self, event=None):
         if self.deck_text.edit_modified():
-            rows = parse_decklist(self.deck_text.get("1.0", "end-1c"))
-            self.count.set("%d 种牌 · %d 张" % (len({name for qty, name in rows}), sum(qty for qty, name in rows)))
+            self.update_count()
             self.deck_text.edit_modified(False)
 
     def set_deck(self, text):
@@ -284,7 +335,15 @@ class CardDownloaderGUI:
             self.status.set("剪贴板中没有可粘贴的文字。")
 
     def example(self):
-        self.set_deck("# 示例牌表，可替换为你的牌表\n4 Lightning Bolt\n4 Counterspell\n8 Forest\n1 碎骨巨人\n")
+        examples = {
+            'mtg': "# 示例牌表，可替换为你的牌表\n4 Lightning Bolt\n4 Counterspell\n8 Forest\n1 碎骨巨人\n",
+            'ptcg-zh': "寶可夢\n2 爆炸頭水牛 SV8a 133\n1 傑尼龜 SV2a 007\n訓練家\n1 招式學習器 演進 SV8a 160\n",
+            'ptcg-en': "Pokémon\n2 Shaymin DRI 10\n1 Froslass PR-SV 117\n1 Tatsugiri PR-SV 118\n",
+            'ygo-zh': "青眼白龙\n黑魔术师\n死者苏生\n",
+            'ygo-ja': "青眼の白龍\nブラック・マジシャン\n死者蘇生\n",
+            'ygo-tcg': "Blue-Eyes White Dragon\nDark Magician\nMonster Reborn\n",
+        }
+        self.set_deck(examples[self.game_code()])
 
     def clear_deck(self):
         self.set_deck("")
@@ -292,6 +351,7 @@ class CardDownloaderGUI:
     def sync_options(self):
         if self.running:
             return
+        self.sync_language()
         self.pdf_check.configure(state="disabled" if self.dry_run.get() else "normal")
         enabled = self.pdf.get() and not self.dry_run.get()
         self.paper_box.configure(state="readonly" if enabled else "disabled")
@@ -309,41 +369,65 @@ class CardDownloaderGUI:
             self.sync_options()
 
     def picture_directory(self):
-        try:
-            return self.output_root / GAME_PICTURE_DIRECTORIES[self.game.get()]
-        except KeyError:
-            raise ValueError("请选择万智牌或 PTCG。") from None
+        game = self.game_code()
+        if game.startswith('ygo-'):
+            raise ValueError("游戏王尚未接入，暂无图片目录。")
+        return self.output_root / GAME_PICTURE_DIRECTORIES[self.game.get()]
 
     def concurrency(self):
-        try:
-            return GAME_PRESETS[self.game.get()]
-        except KeyError:
-            raise ValueError("请选择万智牌或 PTCG。") from None
+        self.game_code()
+        return GAME_PRESETS[self.game.get()]
+
+    def sync_language(self):
+        game = self.game_code()
+        if game == 'mtg':
+            if self.language.get() in FIXED_LANGUAGE_LABELS.values():
+                self.language.set(getattr(self, '_mtg_language', next(iter(LANG_PRESETS))))
+            self.language_box.configure(state="disabled" if self.running else "normal")
+        else:
+            if self.language.get() not in FIXED_LANGUAGE_LABELS.values():
+                self._mtg_language = self.language.get()
+            self.language.set(FIXED_LANGUAGE_LABELS[game])
+            self.language_box.configure(state="disabled")
 
     def _on_game_changed(self, *args):
         if self.game.get() not in GAME_PRESETS:
-            self.network_policy.set("请选择万智牌或 PTCG。")
+            self.network_policy.set("请选择列表中的卡牌游戏。")
             return
+        game = self.game_code()
         if hasattr(self, "pics_label"):
-            self.pics_label.set(str(self.picture_directory()))
+            self.pics_label.set("尚未接入，暂无图片目录" if game.startswith('ygo-') else str(self.picture_directory()))
         query_workers, download_workers = self.concurrency()
         text = "查询并发 %d · 下载并发 %d" % (query_workers, download_workers)
-        if self.game.get() == "PTCG":
-            text += "\n本机实测择优，TCGdex 未公布硬性限额。\nPTCG 查询与下载接口待接入。"
+        if game in PTCG_LANGUAGES:
+            text += "\n本机实测择优，TCGdex 未公布硬性限额。"
+        elif game.startswith('ygo-'):
+            text = "游戏王占位：下载接口尚未接入；可识别纯名称牌表。"
         self.network_policy.set(text)
+        if hasattr(self, 'language_box'):
+            self.sync_language()
+        if hasattr(self, 'deck_text'):
+            self.update_count()
 
     def configuration(self):
         text = self.deck_text.get("1.0", "end-1c").strip()
-        if not parse_decklist(text):
+        game = self.game_code()
+        if game.startswith('ygo-'):
+            raise ValueError("游戏王下载接口尚未接入。")
+        rows = self.deck_rows(text)
+        if not rows:
             raise ValueError("请先粘贴或导入牌表，每行填写一种牌。")
-        if any(qty <= 0 for qty, name in parse_decklist(text)):
+        if any(row[0] <= 0 for row in rows):
             raise ValueError("牌表里的数量必须大于 0。")
         workers, _ = self.concurrency()
-        lang_text = self.language.get().strip()
-        langs = LANG_PRESETS.get(lang_text, lang_text).replace("，", ",")
-        codes = [c.strip().lower() for c in langs.split(",") if c.strip()]
-        if not codes or any(not re.fullmatch(r"[a-z]{2,3}", c) for c in codes):
-            raise ValueError("请选择语言顺序，或输入语言代码，例如 zhs,zht,en。")
+        if game in PTCG_LANGUAGES:
+            codes = [PTCG_LANGUAGES[game]]
+        else:
+            lang_text = self.language.get().strip()
+            langs = LANG_PRESETS.get(lang_text, lang_text).replace("，", ",")
+            codes = [c.strip().lower() for c in langs.split(",") if c.strip()]
+            if not codes or any(not re.fullmatch(r"[a-z]{2,3}", c) for c in codes):
+                raise ValueError("请选择语言顺序，或输入语言代码，例如 zhs,zht,en。")
         if not self.paper.get().startswith(("A3", "A4")):
             raise ValueError("请选择 A3 或 A4 纸张。")
         return text, workers, self.paper.get()[:2], ",".join(dict.fromkeys(codes))
@@ -354,15 +438,12 @@ class CardDownloaderGUI:
         try:
             text, workers, paper, langs = self.configuration()
             _, download_workers = self.concurrency()
-            if self.game.get() == "PTCG":
-                raise ValueError("PTCG 查询与下载接口尚未接入；当前已配置查询 %d、下载 %d 的并发预设。" %
-                                 (workers, download_workers))
             task_dir = create_task_directory(self.output_root)
             deck_path = task_dir / "本次牌表.txt"
             deck_path.write_text(text + "\n", encoding="utf-8")
             command = engine_command(deck_path, task_dir, workers, paper, langs,
                                      self.pdf.get(), self.cut_marks.get(), self.dry_run.get(), self.force.get(),
-                                     download_workers=download_workers)
+                                     download_workers=download_workers, game=self.game_code())
             self.output_dir = task_dir
             self.output_label.set(str(task_dir))
         except Exception as exc:
