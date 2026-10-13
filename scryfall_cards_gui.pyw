@@ -37,8 +37,8 @@
     但卡册中会排入 8 张树林，方便直接打印代牌。
 
 产出:
-    卡图输出/pics/*.png   共享卡图，重复牌名直接复用；--pics 可指定缓存目录
-    卡图输出/pics/index.json  牌名别名与选图索引
+    卡图输出/mtg-pics/*.png   共享卡图，重复牌名直接复用；--pics 可指定缓存目录
+    卡图输出/mtg-pics/index.json  牌名别名与选图索引
     <out>/manifest.txt    人读清单
     <out>/manifest.json   结构化清单（含系列、编号、语言、原始 URL）
     <out>/cards.pdf       卡册：万智牌标准卡尺寸 63x88mm 排版，可直接打印
@@ -816,7 +816,7 @@ def atomic_json(path, data):
 
 
 class PictureCache:
-    """永久保存选图与牌名别名；索引内图片路径相对 pics，移动程序仍可复用。"""
+    """永久保存选图与牌名别名；索引内图片路径相对当前缓存目录，移动程序仍可复用。"""
     def __init__(self, directory):
         self.directory = os.path.abspath(directory)
         self.root = os.path.dirname(self.directory)
@@ -924,7 +924,7 @@ class PictureCache:
             return None
         entry = self.data["cards"].get(key)
         if entry is None:
-            # 用户直接放入 pics 的完整图片，也可按文件名使用。
+            # 用户直接放入当前缓存目录 的完整图片，也可按文件名使用。
             token_files = {record["file"] for token in self.data["tokens"].values()
                            for record in token.get("files", [])}
             names = {cache_name(os.path.splitext(filename)[0]): filename
@@ -977,6 +977,8 @@ class PictureCache:
 
     def _move_legacy_image(self, source):
         source = os.path.abspath(source)
+        if self.excluded_legacy_path(source):
+            return None
         if os.path.commonpath([os.path.realpath(self.root), os.path.realpath(source)]) != os.path.realpath(self.root):
             raise ValueError("旧图片不在当前输出目录中")
         if not complete_image(source):
@@ -1012,6 +1014,16 @@ class PictureCache:
                 os.remove(temporary)
         return filename
 
+    def excluded_legacy_path(self, path):
+        """不从已弃用 pics 或其他游戏目录导入文件、别名或下载 URL。"""
+        current = os.path.basename(self.directory).lower()
+        if current not in {"mtg-pics", "ptcg-pics"}:
+            return False
+        excluded = {"pics", "ptcg-pics", "mtg-pics"} - {current}
+        # 同时支持其他机器记录的 Windows 路径与当前机器路径。
+        parts = str(path or "").replace("\\", "/").lower().split("/")
+        return any(part in excluded for part in parts)
+
     def migrate_legacy(self):
         """先复制旧图片，再提交清单和索引，最后验证并清理源图片。"""
         manifests = []
@@ -1035,6 +1047,12 @@ class PictureCache:
             try:
                 with open(path, "r", encoding="utf-8") as stream:
                     manifest = json.load(stream)
+                if self.excluded_legacy_path(manifest.get("out_dir")) or any(
+                        self.excluded_legacy_path(record.get("file"))
+                        for entry in manifest.get("cards", []) for record in entry.get("files", [])):
+                    blocked_directories.add(directory)
+                    _query_log("跳过旧 pics 或另一游戏的历史清单（保留整个任务）：%s" % path)
+                    continue
                 changed = manifest.get("out_dir") != self.directory
                 for entry in manifest.get("cards", []):
                     if not entry.get("files"):
@@ -1122,7 +1140,7 @@ class PictureCache:
             if os.path.isdir(directory) and not os.path.islink(directory) and not os.listdir(directory):
                 os.rmdir(directory)
         if moved or imported:
-            _query_log("共享图片迁移：%d 个旧图片文件归入 pics，导入 %d 条牌名记录。" % (moved, imported))
+            _query_log("共享图片迁移：%d 个旧图片文件归入当前缓存目录，导入 %d 条牌名记录。" % (moved, imported))
         return {"moved": moved, "imported": imported, "images": len(self.data["images"]), "cards": len(self.data["cards"])}
 
 
@@ -1604,8 +1622,8 @@ def _main(argv=None):
                         help="牌表路径；- 表示从标准输入读取")
     parser.add_argument("--out", default="scryfall-cards",
                         help="输出目录（默认 ./scryfall-cards）")
-    parser.add_argument("--pics", default=os.path.join(os.path.dirname(program_cache_directory()), "卡图输出", "pics"),
-                        help="共享图片缓存目录（默认程序旁的卡图输出/pics）")
+    parser.add_argument("--pics", default=os.path.join(os.path.dirname(program_cache_directory()), "卡图输出", "mtg-pics"),
+                        help="共享图片缓存目录（默认程序旁的卡图输出/mtg-pics）")
     parser.add_argument("--langs", default="zhs,zht,en",
                         help="语言优先级，逗号分隔（默认 zhs,zht,en）")
     parser.add_argument("--paper", default="A4", choices=sorted(PAPERS),
@@ -1892,6 +1910,8 @@ GAME_PRESETS = {
     "PTCG": (64, 64),
 }
 
+GAME_PICTURE_DIRECTORIES = {"万智牌": "mtg-pics", "PTCG": "ptcg-pics"}
+
 LANG_PRESETS = {
     "简体 → 繁体 → 英文（默认）": "zhs,zht,en",
     "繁体 → 简体 → 英文": "zht,zhs,en",
@@ -1932,7 +1952,7 @@ def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, for
         if executable.name.lower() == "pythonw.exe" and executable.with_name("python.exe").exists():
             executable = executable.with_name("python.exe")
         command = [str(executable), "-u", str(Path(__file__).resolve()), "--engine"]
-    command += [str(deck), "--out", str(output), "--pics", str(Path(output).parent / "pics"),
+    command += [str(deck), "--out", str(output), "--pics", str(Path(output).parent / "mtg-pics"),
                 "--workers", str(workers), "--download-workers", str(download_workers),
                 "--paper", paper, "--langs", langs]
     if not pdf:
@@ -1987,7 +2007,7 @@ class CardDownloaderGUI:
         self.count = tk.StringVar(value="0 种牌 · 0 张")
         self.detail = tk.StringVar(value="自动处理网络请求，受限时等待并重试。")
         self.output_label = tk.StringVar(value=str(self.output_root / "yymmdd-hhmmss"))
-        self.pics_label = tk.StringVar(value=str(self.output_root / "pics"))
+        self.pics_label = tk.StringVar(value=str(self.picture_directory()))
         self._build()
         self.poll_id = root.after(80, self.poll_events)
 
@@ -2102,7 +2122,7 @@ class CardDownloaderGUI:
         self.cancel_button = ttk.Button(action_row, text="停止任务", command=self.cancel, state="disabled")
         self.cancel_button.pack(side="left", fill="x", expand=True, padx=(0, 5))
         ttk.Button(action_row, text="打开输出文件夹", command=self.open_output).pack(side="left", fill="x", expand=True)
-        ttk.Button(actions, text="打开共享卡图（pics）", command=self.open_pics).pack(fill="x", pady=(5, 0))
+        ttk.Button(actions, text="打开当前游戏卡图", command=self.open_pics).pack(fill="x", pady=(5, 0))
 
         progress_frame = ttk.Frame(outer)
         progress_frame.pack(fill="x", pady=(14, 8))
@@ -2184,6 +2204,12 @@ class CardDownloaderGUI:
         if not running:
             self.sync_options()
 
+    def picture_directory(self):
+        try:
+            return self.output_root / GAME_PICTURE_DIRECTORIES[self.game.get()]
+        except KeyError:
+            raise ValueError("请选择万智牌或 PTCG。") from None
+
     def concurrency(self):
         try:
             return GAME_PRESETS[self.game.get()]
@@ -2194,6 +2220,8 @@ class CardDownloaderGUI:
         if self.game.get() not in GAME_PRESETS:
             self.network_policy.set("请选择万智牌或 PTCG。")
             return
+        if hasattr(self, "pics_label"):
+            self.pics_label.set(str(self.picture_directory()))
         query_workers, download_workers = self.concurrency()
         text = "查询并发 %d · 下载并发 %d" % (query_workers, download_workers)
         if self.game.get() == "PTCG":
@@ -2388,7 +2416,7 @@ class CardDownloaderGUI:
         self.progress.configure(mode="determinate", maximum=100)
         if self.cancel_requested.is_set():
             self.status.set("任务已停止，已下载的图片保留。")
-            self.detail.set("图片保留在 pics；记录保留在 %s；下次优先复用缓存。" % self.output_dir.name)
+            self.detail.set("图片保留在 %s；记录保留在 %s；下次优先复用缓存。" % (self.picture_directory().name, self.output_dir.name))
         elif code == 0 or self.summary is not None or self.token_summary is not None:
             self.progress.configure(value=100)
             partial = code != 0 or (self.summary is not None and self.summary[1] > 0) or (self.token_summary is not None and any(self.token_summary[1:]))
@@ -2432,7 +2460,7 @@ class CardDownloaderGUI:
 
     def open_pics(self):
         try:
-            path = self.output_root / "pics"
+            path = self.picture_directory()
             path.mkdir(parents=True, exist_ok=True)
             self._open_path(path)
         except Exception as exc:

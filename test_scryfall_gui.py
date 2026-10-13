@@ -215,14 +215,29 @@ class GUITests(unittest.TestCase):
     def test_shared_pics_path_progress_and_open(self):
         task = self.gui.output_root / '261012-130000'
         command = app.engine_command('deck.txt', task, 4, 'A4', 'zhs,zht,en', True, True, False, False)
-        self.assertEqual(command[command.index('--pics') + 1], str(self.gui.output_root / 'pics'))
+        self.assertEqual(command[command.index('--pics') + 1], str(self.gui.output_root / 'mtg-pics'))
         self.gui.interpret_log('[缓存 1/2] Lightning Bolt -> 闪电击（1 张已有，0 张待补下载）')
         self.assertIn('本地缓存 1/2', self.gui.status.get())
         self.assertEqual(float(self.gui.progress['value']), 1)
         with patch.object(self.gui, '_open_path') as opened:
             self.gui.open_pics()
-        opened.assert_called_once_with(self.gui.output_root / 'pics')
-        self.assertTrue((self.gui.output_root / 'pics').is_dir())
+        opened.assert_called_once_with(self.gui.output_root / 'mtg-pics')
+        self.assertTrue((self.gui.output_root / 'mtg-pics').is_dir())
+
+    def test_game_picture_directories_labels_and_open_are_isolated(self):
+        root = self.gui.output_root
+        for game, folder in [('万智牌', 'mtg-pics'), ('PTCG', 'ptcg-pics'), ('万智牌', 'mtg-pics')]:
+            self.gui.game.set(game)
+            target = root / folder
+            self.assertEqual(self.gui.picture_directory(), target)
+            self.assertEqual(self.gui.pics_label.get(), str(target))
+            with patch.object(self.gui, '_open_path') as opened:
+                self.gui.open_pics()
+            opened.assert_called_once_with(target)
+            (target / 'same-name.png').write_bytes(folder.encode())
+        self.assertEqual((root / 'mtg-pics' / 'same-name.png').read_bytes(), b'mtg-pics')
+        self.assertEqual((root / 'ptcg-pics' / 'same-name.png').read_bytes(), b'ptcg-pics')
+        self.assertFalse((root / 'pics').exists())
 
     def test_token_progress_and_separate_summary(self):
         self.gui.interpret_log('完成：成功 4 / 失败 0\n')

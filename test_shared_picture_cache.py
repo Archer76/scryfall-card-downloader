@@ -29,7 +29,7 @@ class SharedPictureTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.base = Path(self.temp.name)
-        self.pics = self.base / '卡图输出' / 'pics'
+        self.pics = self.base / '卡图输出' / 'mtg-pics'
         self.pics.mkdir(parents=True)
         app._reset_network_state()
 
@@ -182,6 +182,74 @@ class SharedPictureTests(unittest.TestCase):
         hit = app.PictureCache(str(self.pics)).lookup('闪电击')
         self.assertEqual(Path(hit['files'][0]['file']).read_bytes(), png(128))
         self.assertEqual(hit['set_code'], 'new')
+
+    def test_old_pics_and_other_game_manifests_do_not_flow_back(self):
+        for n, folder in enumerate(('pics', 'ptcg-pics')):
+            old = self.pics.parent / folder
+            old.mkdir()
+            (old / '闪电击.png').write_bytes(png())
+            cache = app.PictureCache(str(old))
+            cache.store(entry(old))
+            cache.save()
+            task = self.pics.parent / ('261012-14000%d' % n)
+            task.mkdir()
+            manifest = task / 'manifest.json'
+            manifest.write_text(json.dumps({'out_dir': str(old), 'cards': [entry(old)]}), encoding='utf-8')
+            original = manifest.read_bytes()
+            with contextlib.redirect_stdout(io.StringIO()):
+                current = app.PictureCache(str(self.pics))
+                stats = current.migrate_legacy()
+            self.assertEqual(stats['imported'], 0)
+            self.assertIsNone(current.lookup('Lightning Bolt'))
+            self.assertEqual(manifest.read_bytes(), original)
+            self.assertEqual((old / '闪电击.png').read_bytes(), png())
+        self.assertEqual(list(self.pics.glob('*.png')), [])
+
+    def test_record_paths_excluded_even_without_out_dir_or_existing_images(self):
+        task = self.pics.parent / '261012-150000'
+        cards = task / 'cards'
+        cards.mkdir(parents=True)
+        excluded = entry(self.pics.parent / 'pics')
+        excluded['files'][0]['file'] = r'C:\previous\卡图输出\PTCG-PICS\闪电击.png'
+        (cards / '闪电击.png').write_bytes(png())
+        good = entry(cards, 'Forest', '树林')
+        (cards / '树林.png').write_bytes(png())
+        manifest = task / 'manifest.json'
+        manifest.write_text(json.dumps({'cards': [excluded, good]}), encoding='utf-8')
+        original = manifest.read_bytes()
+        (task / 'cards.pdf').write_bytes(b'keep PDF')
+        with contextlib.redirect_stdout(io.StringIO()):
+            cache = app.PictureCache(str(self.pics))
+            stats = cache.migrate_legacy()
+        self.assertEqual(stats['imported'], 0)
+        self.assertEqual(stats['moved'], 0)
+        self.assertEqual(manifest.read_bytes(), original)
+        self.assertEqual((task / 'cards.pdf').read_bytes(), b'keep PDF')
+        self.assertEqual((cards / '树林.png').read_bytes(), png())
+        self.assertIsNone(cache.lookup('Lightning Bolt'))
+        self.assertIsNone(cache.lookup('Forest'))
+        self.assertTrue((cards / '闪电击.png').exists())
+        self.assertFalse((self.pics / '闪电击.png').exists())
+
+    def test_cli_default_is_program_mtg_directory(self):
+        deck = self.base / 'deck.txt'
+        deck.write_text('1 Missing Card', encoding='utf-8')
+        with patch.object(app, 'program_cache_directory', return_value=str(self.base / '.scryfall-api-cache')), \
+             patch.object(app, 'query_all', return_value={'Missing Card': {'error': 'offline fixture'}}), \
+             contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(app.main([str(deck), '--out', str(self.base / 'records'), '--no-pdf']), 1)
+        self.assertTrue((self.pics / 'index.json').exists())
+        self.assertFalse((self.pics.parent / 'pics').exists())
+        self.assertFalse((self.pics.parent / 'ptcg-pics').exists())
+
+    def test_custom_pics_directory_is_not_deleted_or_implicitly_excluded(self):
+        custom = self.base / 'pics'
+        cache = app.PictureCache(str(custom))
+        (custom / 'keep.txt').write_text('keep', encoding='utf-8')
+        self.assertFalse(cache.excluded_legacy_path(custom / 'image.png'))
+        with contextlib.redirect_stdout(io.StringIO()):
+            cache.migrate_legacy()
+        self.assertEqual((custom / 'keep.txt').read_text(encoding='utf-8'), 'keep')
 
     def test_invalid_png_crc_is_not_cache_hit(self):
         damaged = bytearray(png())

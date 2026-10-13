@@ -14,6 +14,8 @@ GAME_PRESETS = {
     "PTCG": (64, 64),
 }
 
+GAME_PICTURE_DIRECTORIES = {"万智牌": "mtg-pics", "PTCG": "ptcg-pics"}
+
 LANG_PRESETS = {
     "简体 → 繁体 → 英文（默认）": "zhs,zht,en",
     "繁体 → 简体 → 英文": "zht,zhs,en",
@@ -54,7 +56,7 @@ def engine_command(deck, output, workers, paper, langs, pdf, marks, dry_run, for
         if executable.name.lower() == "pythonw.exe" and executable.with_name("python.exe").exists():
             executable = executable.with_name("python.exe")
         command = [str(executable), "-u", str(Path(__file__).resolve()), "--engine"]
-    command += [str(deck), "--out", str(output), "--pics", str(Path(output).parent / "pics"),
+    command += [str(deck), "--out", str(output), "--pics", str(Path(output).parent / "mtg-pics"),
                 "--workers", str(workers), "--download-workers", str(download_workers),
                 "--paper", paper, "--langs", langs]
     if not pdf:
@@ -109,7 +111,7 @@ class CardDownloaderGUI:
         self.count = tk.StringVar(value="0 种牌 · 0 张")
         self.detail = tk.StringVar(value="自动处理网络请求，受限时等待并重试。")
         self.output_label = tk.StringVar(value=str(self.output_root / "yymmdd-hhmmss"))
-        self.pics_label = tk.StringVar(value=str(self.output_root / "pics"))
+        self.pics_label = tk.StringVar(value=str(self.picture_directory()))
         self._build()
         self.poll_id = root.after(80, self.poll_events)
 
@@ -224,7 +226,7 @@ class CardDownloaderGUI:
         self.cancel_button = ttk.Button(action_row, text="停止任务", command=self.cancel, state="disabled")
         self.cancel_button.pack(side="left", fill="x", expand=True, padx=(0, 5))
         ttk.Button(action_row, text="打开输出文件夹", command=self.open_output).pack(side="left", fill="x", expand=True)
-        ttk.Button(actions, text="打开共享卡图（pics）", command=self.open_pics).pack(fill="x", pady=(5, 0))
+        ttk.Button(actions, text="打开当前游戏卡图", command=self.open_pics).pack(fill="x", pady=(5, 0))
 
         progress_frame = ttk.Frame(outer)
         progress_frame.pack(fill="x", pady=(14, 8))
@@ -306,6 +308,12 @@ class CardDownloaderGUI:
         if not running:
             self.sync_options()
 
+    def picture_directory(self):
+        try:
+            return self.output_root / GAME_PICTURE_DIRECTORIES[self.game.get()]
+        except KeyError:
+            raise ValueError("请选择万智牌或 PTCG。") from None
+
     def concurrency(self):
         try:
             return GAME_PRESETS[self.game.get()]
@@ -316,6 +324,8 @@ class CardDownloaderGUI:
         if self.game.get() not in GAME_PRESETS:
             self.network_policy.set("请选择万智牌或 PTCG。")
             return
+        if hasattr(self, "pics_label"):
+            self.pics_label.set(str(self.picture_directory()))
         query_workers, download_workers = self.concurrency()
         text = "查询并发 %d · 下载并发 %d" % (query_workers, download_workers)
         if self.game.get() == "PTCG":
@@ -510,7 +520,7 @@ class CardDownloaderGUI:
         self.progress.configure(mode="determinate", maximum=100)
         if self.cancel_requested.is_set():
             self.status.set("任务已停止，已下载的图片保留。")
-            self.detail.set("图片保留在 pics；记录保留在 %s；下次优先复用缓存。" % self.output_dir.name)
+            self.detail.set("图片保留在 %s；记录保留在 %s；下次优先复用缓存。" % (self.picture_directory().name, self.output_dir.name))
         elif code == 0 or self.summary is not None or self.token_summary is not None:
             self.progress.configure(value=100)
             partial = code != 0 or (self.summary is not None and self.summary[1] > 0) or (self.token_summary is not None and any(self.token_summary[1:]))
@@ -554,7 +564,7 @@ class CardDownloaderGUI:
 
     def open_pics(self):
         try:
-            path = self.output_root / "pics"
+            path = self.picture_directory()
             path.mkdir(parents=True, exist_ok=True)
             self._open_path(path)
         except Exception as exc:

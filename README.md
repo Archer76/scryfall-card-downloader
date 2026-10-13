@@ -12,9 +12,9 @@
 - 命令行 `--workers` 仅控制查询（默认 4，1–16），`--download-workers` 控制下载（默认 8，1–32）。
 - API 请求间隔仍为 0.6 秒；图片默认无固定启动间隔，可用 `--image-interval` 调整；遵守 Retry-After，并在受限时降并发和停止持续失败的请求。
 - 自动检查主卡与所选打印的关联 token / 徽记，按身份去重下载，默认每种身份在主卡之后追加一份到 PDF。
-- 所有任务共用 `卡图输出/pics`；已缓存的中英文牌名直接复用图片，跳过查询和下载。
+- 按游戏隔离图片目录：万智牌任务共用 `卡图输出/mtg-pics`，PTCG 界面使用 `卡图输出/ptcg-pics`；已缓存的中英文牌名直接复用图片，跳过查询和下载。
 - 图片缺失或损坏时使用保存的 URL 补下载；PNG 分块 CRC 检查。
-- 自动迁移旧任务的图片，按内容去重，保留同名不同版本。
+- 自动迁移真正旧任务的 `cards` 图片，按内容去重，保留同名不同版本；旧 `pics` 已弃用，不自动读取、迁移或回流其清单 URL，也不导入另一游戏图片目录。
 - 任务 PDF、牌表、清单和日志按 `yymmdd-hhmmss` 分目录保存。
 - A4 竖向每页 9 张，A3 横向每页 18 张；卡牌尺寸 63×88 mm，可选择裁切框。
 
@@ -44,9 +44,11 @@ python scryfall_cards_gui.pyw
 ```powershell
 python scryfall_cards_threaded.py deck.txt --out results --paper A4
 python scryfall_cards_threaded.py deck.txt --out results --no-pdf
-python scryfall_cards_threaded.py deck.txt --out results --pics ./卡图输出/pics --workers 4
+python scryfall_cards_threaded.py deck.txt --out results --pics ./卡图输出/mtg-pics --workers 4
 python scryfall_cards_threaded.py deck.txt --image-interval 0.1
 ```
+
+CLI 默认使用程序旁的 `卡图输出/mtg-pics`；`--pics` 可显式指定缓存目录，程序不会自动删除该目录。旧 `pics` 数据不自动清理。PTCG 接口仍未接入，切换游戏会同步目录标签和“打开当前游戏卡图”的目标。
 
 已有图片优先于新的语言偏好；需要换版本时，在 GUI 勾选“重新选图并下载（忽略图片缓存）”，或使用 `--force`。
 
@@ -56,7 +58,7 @@ python scryfall_cards_threaded.py deck.txt --image-interval 0.1
 
 JSON 保留主卡 `cards` / `summary`，新增 `tokens` / `token_summary`；主卡记录 `token_check` 与 `token_refs`。查询或下载 token 失败时仍输出主卡与已成功的 token，返回码为 1，GUI 显示部分失败。规则可能创建 token 却没有关联对象时明确提示，不生成推测的名称或图片。
 
-旧索引继续复用主图：有保存的打印 ID，或可靠 Scryfall 图片 URL 中的 ID 时首次补查一次；成功的无关联结果也缓存。无可靠 ID 的自制图标记无法自动检查，不猜关系。失败检查下次重试；完整 token 缓存无额外 API/下载，缺失或损坏的图片按已知 URL 补下载。`--force` 同步刷新主卡版本和关系。`--dry-run` 记录选图及关系，不下载也不生成 PDF。
+当前万智牌图片目录内的旧格式索引继续复用主图（不包括已弃用的 `pics` 索引）：有保存的打印 ID，或可靠 Scryfall 图片 URL 中的 ID 时首次补查一次；成功的无关联结果也缓存。无可靠 ID 的自制图标记无法自动检查，不猜关系。失败检查下次重试；完整 token 缓存无额外 API/下载，缺失或损坏的图片按已知 URL 补下载。`--force` 同步刷新主卡版本和关系。`--dry-run` 记录选图及关系，不下载也不生成 PDF。
 
 `--image-interval` 接受非负有限秒数，0 表示取消固定图片启动间隔，但线程上限、共享冷却及 Retry-After 仍生效；负数、NaN、无穷大被拒绝。它不改变 API 的独立限速。首次图片请求与普通网络错误重试使用同一个时钟。缩短间隔不代表服务端长期吞吐已验证，GUI 默认不变。
 

@@ -12,6 +12,8 @@ htmlcov/
 .scryfall-api-cache/
 scryfall-cards/
 pics/
+mtg-pics/
+ptcg-pics/
 results/
 manifest.json
 manifest.txt
